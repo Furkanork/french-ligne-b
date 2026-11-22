@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>French, Easy Mode</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;0,7..72,700;1,7..72,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* layout: the page is one métro line ("Ligne B", A2 → B2); each grammar block is a station in its own line colour */
+  --bg:#eef1f5;
+  --tile:#f6f7fa;
+  --grout:#e3e7ee;
+  --ink:#151a3b;
+  --muted:#555c7a;
+  --card:#ffffff;
+  --rule:#d3d8e3;
+  --plate:#1b2463;
+  --plate-ink:#ffffff;
+  --ok:#17784a;
+  --bad:#b42318;
+  --hi:#fff0a8;
+  --display:"Archivo","Arial Narrow",Arial,sans-serif;
+  --body:"Literata",Georgia,"Times New Roman",serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0c0f22;--tile:#10142b;--grout:#171c38;--ink:#e7e9f5;--muted:#a2a8c6;--card:#161b37;
+    --rule:#2a3157;--plate:#2b3a9e;--ok:#4cc38a;--bad:#ff8a7e;--hi:#544500;color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0c0f22;--tile:#10142b;--grout:#171c38;--ink:#e7e9f5;--muted:#a2a8c6;--card:#161b37;
+  --rule:#2a3157;--plate:#2b3a9e;--ok:#4cc38a;--bad:#ff8a7e;--hi:#544500;color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html{scroll-padding-top:84px}
+@media (prefers-reduced-motion: no-preference){html{scroll-behavior:smooth}}
+body{
+  margin:0;color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;
+  background-color:var(--tile);
+  background-image:linear-gradient(var(--grout) 1px,transparent 1px),linear-gradient(90deg,var(--grout) 1px,transparent 1px);
+  background-size:60px 30px;
+}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.1;margin:0}
+p{margin:0 0 .8em}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--plate);outline-offset:2px;border-radius:4px}
+.muted{color:var(--muted)}
+.small{font-size:.86rem}
+
+/* enamel plate */
+.plate{
+  display:inline-block;background:var(--plate);color:var(--plate-ink);
+  font-family:var(--display);font-stretch:72%;font-weight:700;text-transform:uppercase;letter-spacing:.03em;
+  padding:.28em .75em .3em;border-radius:7px;
+  box-shadow:inset 0 0 0 4px var(--plate),inset 0 0 0 6px var(--plate-ink),0 2px 0 rgba(0,0,0,.18);
+}
+h2.plate{font-size:clamp(1.7rem,4vw,2.5rem)}
+
+/* hero */
+.hero{padding:44px 20px 28px}
+.kicker{font-family:var(--display);font-stretch:85%;font-weight:600;letter-spacing:.12em;text-transform:uppercase;font-size:.82rem;color:var(--muted);margin-bottom:14px}
+.hero h1.plate{font-size:clamp(2.6rem,9vw,6.2rem);line-height:.95;padding:.22em .45em .26em;box-shadow:inset 0 0 0 8px var(--plate),inset 0 0 0 11px var(--plate-ink),0 4px 0 rgba(0,0,0,.2)}
+.hero h1 small{display:block;font-size:.36em;font-weight:500;letter-spacing:.2em;margin-top:.25em;opacity:.9}
+.lede{font-size:1.18rem;max-width:62ch;margin:26px 0 22px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:0 0 18px;padding:0;list-style:none}
+.facts li{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:14px 16px;font-size:.95rem}
+.facts b{display:block;font-family:var(--display);font-stretch:80%;font-size:2rem;line-height:1;margin-bottom:4px;font-variant-numeric:tabular-nums}
+.check{background:var(--card);border:1px dashed var(--muted);border-radius:10px;padding:12px 16px;font-size:.93rem;margin-bottom:22px}
+.check b{font-family:var(--display);font-stretch:80%;text-transform:uppercase;letter-spacing:.06em;font-size:.8rem;margin-right:6px}
+
+/* route */
+.route{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:22px 18px 16px;overflow-x:auto}
+.route-title{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;font-family:var(--display);font-stretch:80%;font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:.9rem;margin-bottom:14px}
+.route ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(13,minmax(78px,1fr));min-width:1040px}
+.route .m{font-size:.72rem;font-variant-numeric:tabular-nums;color:var(--muted)}
+.route .m b{color:var(--ink)}
+.route li{position:relative;text-align:center}
+.route li::before{content:"";position:absolute;top:13px;left:0;right:0;height:8px;background:var(--c)}
+.route li:first-child::before{left:50%}
+.route li:last-child::before{right:50%}
+.route a{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--ink);text-decoration:none;padding:0 4px}
+.route .dot{width:34px;height:34px;border-radius:50%;background:var(--card);border:6px solid var(--ink);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:.8rem}
+.route .done .dot{background:var(--ok);border-color:var(--ok);color:#fff}
+.route .lbl{font-family:var(--display);font-stretch:75%;font-weight:600;font-size:.95rem;line-height:1.15}
+.route .sub{font-size:.74rem;color:var(--muted);line-height:1.2}
+.route a:hover .lbl{text-decoration:underline}
+.lvl{display:inline-block;font-family:var(--display);font-stretch:80%;font-weight:800;font-size:.68rem;letter-spacing:.06em;border:1.5px solid currentColor;border-radius:4px;padding:0 4px;line-height:1.4}
+
+/* sticky bar */
+.linebar{position:sticky;top:0;z-index:20;background:var(--plate);color:var(--plate-ink);box-shadow:0 2px 0 rgba(0,0,0,.15)}
+.linebar .wrap{display:flex;align-items:center;gap:16px;height:56px}
+.linebar .name{font-family:var(--display);font-stretch:70%;font-weight:800;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.stops{flex:1;display:flex;align-items:center;justify-content:space-between;position:relative;margin:0;padding:0;list-style:none}
+.stops::before{content:"";position:absolute;left:8px;right:8px;top:50%;height:4px;margin-top:-2px;background:rgba(255,255,255,.35);border-radius:2px}
+.stops a{position:relative;display:flex;align-items:center;gap:6px;color:var(--plate-ink);text-decoration:none;font-family:var(--display);font-stretch:75%;font-size:.82rem;font-weight:600;background:var(--plate);padding:2px 6px;border-radius:12px}
+.stops i{width:14px;height:14px;border-radius:50%;background:var(--plate);border:3px solid var(--c);flex:none}
+.stops .done i{background:var(--c)}
+.stops a.here{outline:2px solid var(--plate-ink)}
+@media (max-width:900px){.stops span{display:none}.linebar .name{font-size:.8rem}}
+
+/* stations */
+.station{position:relative;padding:64px 20px 36px 84px;max-width:1100px;margin:0 auto}
+.station::before{content:"";position:absolute;left:34px;top:0;bottom:0;width:10px;background:var(--line);border-radius:5px}
+.roundel{position:absolute;left:19px;top:60px;width:40px;height:40px;border-radius:50%;background:var(--line);color:var(--line-ink,#fff);border:4px solid var(--card);display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:1.1rem;box-shadow:0 0 0 2px var(--line)}
+.station-head{display:flex;flex-direction:column;align-items:flex-start;gap:10px;margin-bottom:26px}
+.payoff{font-size:1.15rem;margin:0;max-width:62ch}
+.payoff b{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--line) 45%,transparent) 60%)}
+@media (max-width:600px){
+  .station{padding:56px 16px 30px 52px}
+  .station::before{left:18px;width:8px}
+  .roundel{left:6px;width:32px;height:32px;font-size:.9rem;border-width:3px}
+}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr))}
+.stack{display:flex;flex-direction:column;gap:16px}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:18px 20px}
+.card h3{font-size:1.25rem;font-stretch:85%;margin-bottom:8px}
+.eyebrow{display:inline-block;font-family:var(--display);font-stretch:80%;font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:.72rem;color:var(--muted);margin-bottom:6px}
+.card.key{border:2px solid var(--line);box-shadow:6px 6px 0 color-mix(in srgb,var(--line) 55%,transparent)}
+.card ul{margin:.2em 0 .6em;padding-left:1.2em}
+.card li{margin:.15em 0}
+.formula{font-family:var(--display);font-stretch:85%;font-weight:700;font-size:1.1rem;background:var(--bg);border-radius:6px;padding:6px 10px;display:inline-block;margin:2px 0 8px}
+
+/* tables */
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.95rem}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-family:var(--display);font-stretch:80%;font-weight:700;text-transform:uppercase;letter-spacing:.05em;font-size:.76rem;color:var(--muted)}
+tr:last-child td{border-bottom:0}
+.mood{font-family:var(--display);font-stretch:80%;font-weight:700;font-size:.75rem;border-radius:4px;padding:1px 6px;white-space:nowrap}
+.mood.s{background:color-mix(in srgb,#CF009E 20%,transparent)}
+.mood.i{background:color-mix(in srgb,#6ECA97 30%,transparent)}
+.mood.n{background:color-mix(in srgb,#FFCD00 35%,transparent)}
+
+/* clickable French */
+.fr{background:none;border:0;padding:0 0 1px;margin:0;cursor:pointer;font-weight:700;font-family:var(--body);border-bottom:2px solid var(--line);color:var(--ink);display:inline;text-align:left}
+.fr::after{
+  content:"";display:inline-block;width:.8em;height:.8em;margin-left:.25em;vertical-align:-.05em;background:var(--muted);
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.47 4.47 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.47 4.47 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+.fr:hover{background:color-mix(in srgb,var(--line) 22%,transparent)}
+
+/* tools */
+.tool{background:var(--card);border:2px solid var(--ink);border-radius:12px;overflow:hidden}
+.tool-head{display:flex;align-items:center;gap:10px;background:var(--ink);color:var(--card);padding:8px 16px;font-family:var(--display);font-stretch:78%;font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:.9rem}
+.tool-head .tag{background:var(--line);color:var(--line-ink,#fff);border-radius:4px;padding:1px 7px;font-size:.75rem}
+.tool-body{padding:16px 18px 18px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+label.lab,.lab{font-family:var(--display);font-stretch:85%;font-weight:600;font-size:.88rem;display:block;margin-bottom:4px}
+input[type=text]{font:inherit;font-size:1.05rem;padding:9px 12px;border-radius:8px;border:2px solid var(--rule);background:var(--bg);color:var(--ink);min-width:0;flex:1 1 220px}
+input:focus{border-color:var(--line);outline:none}
+.btn{cursor:pointer;border:2px solid var(--ink);background:var(--card);color:var(--ink);border-radius:8px;padding:8px 14px;font-family:var(--display);font-stretch:85%;font-weight:700;font-size:.95rem}
+.btn:hover{background:var(--bg)}
+.btn.solid{background:var(--ink);color:var(--card)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{cursor:pointer;border:1px solid var(--rule);background:var(--bg);border-radius:999px;padding:3px 11px;font-size:.88rem}
+.chip:hover{border-color:var(--ink)}
+.out{margin-top:14px}
+.conj td:first-child{color:var(--muted);white-space:nowrap}
+.conj td{white-space:nowrap}
+
+/* drill */
+.drill-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;font-size:.88rem;color:var(--muted);margin-bottom:10px}
+.drill-q{font-size:1.25rem;font-weight:600;line-height:1.45;margin-bottom:12px}
+.drill-q .gap{display:inline-block;min-width:3.2em;border-bottom:3px solid var(--line);text-align:center}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{cursor:pointer;border:2px solid var(--rule);background:var(--bg);border-radius:8px;padding:7px 14px;font-size:1rem}
+.opt:hover:not(:disabled){border-color:var(--ink)}
+.opt.right{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 18%,transparent)}
+.opt.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 14%,transparent)}
+.opt:disabled{cursor:default}
+.feedback{margin-top:12px;font-size:.95rem;min-height:1.5em}
+.feedback .verdict{font-family:var(--display);font-stretch:80%;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:.8rem;margin-right:6px}
+.feedback .verdict.y{color:var(--ok)}
+.feedback .verdict.n{color:var(--bad)}
+.bar{height:8px;border-radius:4px;background:var(--rule);overflow:hidden;margin-top:4px}
+.bar i{display:block;height:100%;background:var(--line);transition:width .3s}
+.score{font-family:var(--display);font-stretch:75%;font-weight:800;font-size:2.4rem;font-variant-numeric:tabular-nums;line-height:1}
+
+/* boss */
+.boss{border-left:8px solid var(--line)}
+.boss .why{font-size:.93rem;color:var(--muted)}
+.cheat{margin-top:10px;border:2px dashed var(--ink);border-radius:8px;padding:10px 12px;background:var(--bg)}
+.cheat::before{content:"Cheat code";display:block;font-family:var(--display);font-stretch:80%;font-weight:800;text-transform:uppercase;letter-spacing:.1em;font-size:.72rem;margin-bottom:4px}
+
+/* practice hub */
+.hub{margin-bottom:8px}
+.hub .card{border:2px solid var(--ink);box-shadow:6px 6px 0 var(--plate)}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+.tab{cursor:pointer;border:2px solid var(--ink);background:var(--card);border-radius:999px;padding:6px 14px;font-family:var(--display);font-stretch:85%;font-weight:700;font-size:.92rem}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--card)}
+.hub-head{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap}
+.hub-head h2{font-size:clamp(1.5rem,3vw,2rem);font-stretch:80%}
+.accents{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.acc{cursor:pointer;min-width:2.1em;border:1px solid var(--rule);background:var(--bg);border-radius:6px;padding:2px 6px;font-size:1rem}
+.acc:hover{border-color:var(--ink)}
+.tchecks{display:flex;flex-wrap:wrap;gap:6px 14px;margin-bottom:12px;font-size:.88rem}
+.tchecks label{display:flex;gap:5px;align-items:center;cursor:pointer}
+.sp-q{font-size:1.35rem;margin:6px 0 12px}
+.sp-q b{font-size:1.5rem}
+
+/* vocabulary + idioms */
+.vocab td:first-child{width:52%}
+.idiom h3{font-size:1.1rem}
+.idiom .lit{font-size:.85rem;color:var(--muted);font-style:italic}
+
+/* writing checker */
+textarea{width:100%;min-height:200px;font:inherit;font-size:1rem;line-height:1.6;padding:12px;border-radius:8px;border:2px solid var(--rule);background:var(--bg);color:var(--ink);resize:vertical}
+textarea:focus{border-color:var(--line);outline:none}
+.prompt{background:var(--bg);border-left:6px solid var(--line);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:.98rem}
+.marked{background:var(--bg);border-radius:8px;padding:12px 14px;line-height:1.9;white-space:pre-wrap}
+mark{color:inherit;border-radius:3px;padding:0 2px}
+mark.k-b1{background:color-mix(in srgb,#6ECA97 35%,transparent)}
+mark.k-b2{background:color-mix(in srgb,#007852 40%,transparent)}
+mark.k-rel{background:color-mix(in srgb,#837902 35%,transparent)}
+mark.k-subj{background:color-mix(in srgb,#FF7E2E 40%,transparent)}
+mark.k-cond{background:color-mix(in srgb,#CF009E 30%,transparent)}
+mark.k-op{background:color-mix(in srgb,#003CA6 28%,transparent)}
+mark.k-over{background:none;text-decoration:underline wavy var(--bad);text-underline-offset:4px}
+.keyrow{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:.82rem;margin:8px 0}
+.checks{list-style:none;padding:0;margin:0}
+.checks li{display:flex;gap:8px;padding:5px 0;border-bottom:1px solid var(--rule);font-size:.93rem}
+.checks li:last-child{border-bottom:0}
+.checks .st{flex:none;width:1.4em;height:1.4em;border-radius:50%;display:grid;place-items:center;font-size:.8rem;font-weight:800;border:2px solid var(--rule);color:var(--muted)}
+.checks li.ok .st{background:var(--ok);border-color:var(--ok);color:#fff}
+.est{font-family:var(--display);font-stretch:75%;font-weight:800;font-size:1.8rem;line-height:1}
+
+/* frequent words */
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--card);border-color:var(--ink)}
+.fq-list{margin-top:14px}
+.fq-cat{font-family:var(--display);font-stretch:80%;font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:.85rem;margin:18px 0 6px;padding-bottom:4px;border-bottom:2px solid var(--line)}
+.fq-cat span{color:var(--muted);font-weight:600}
+.fq-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));column-gap:22px}
+.fq-row{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;align-items:start;padding:7px 0;border-bottom:1px solid var(--rule)}
+.fq-row input{margin-top:.35em;width:1.05em;height:1.05em;cursor:pointer;accent-color:var(--ok)}
+.fq-row .w{line-height:1.35}
+.fq-row .m{font-size:.9rem;color:var(--muted);line-height:1.35}
+.fq-row .note{font-size:.8rem;color:var(--muted)}
+.fq-row.known .fr{opacity:.55}
+.ff-tag{display:inline-block;font-family:var(--display);font-stretch:85%;font-weight:700;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--bad);border:1.5px solid var(--bad);border-radius:4px;padding:0 4px;margin-right:4px;vertical-align:1px}
+
+/* English glosses */
+.gloss{font-size:.86em;color:var(--muted);font-style:italic;font-weight:400;margin-left:.35em}
+.gloss.block{display:block;margin:.2em 0 0}
+.en-title{font-family:var(--display);font-stretch:85%;font-weight:600;font-size:1rem;letter-spacing:.04em;color:var(--muted);margin-top:-4px}
+body.no-en .gloss,body.no-en .en-title,body.no-en .en-only{display:none}
+.en-toggle{cursor:pointer;flex:none;border:2px solid var(--plate-ink);background:transparent;color:var(--plate-ink);border-radius:999px;padding:3px 10px;font-family:var(--display);font-stretch:85%;font-weight:700;font-size:.8rem}
+.en-toggle[aria-pressed="true"]{background:var(--plate-ink);color:var(--plate)}
+.tr-btn{margin-top:10px;font-size:.85rem;padding:4px 10px}
+
+/* footer bits */
+.station-foot{margin-top:22px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.clear-btn{cursor:pointer;border:2px solid var(--line);background:var(--card);border-radius:999px;padding:8px 16px;font-family:var(--display);font-stretch:85%;font-weight:700}
+.clear-btn[aria-pressed="true"]{background:var(--ok);border-color:var(--ok);color:#fff}
+.next{color:var(--muted);font-size:.9rem}
+.next a{color:var(--ink)}
+footer{padding:40px 20px 60px;text-align:center;color:var(--muted);font-size:.88rem}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--card);padding:10px 16px;border-radius:8px;font-size:.92rem;opacity:0;pointer-events:none;transition:opacity .2s;z-index:50}
+.toast.show{opacity:1}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="hero wrap">
+  <p class="kicker">Ligne B · A2 → B1 → B2</p>
+  <h1 class="plate">Français<small>mode facile · niveau B</small></h1>
+  <p class="lede">At A2 you can get by. B1 means you can tell a story, give your reasons and handle almost any everyday situation. B2 means you can argue a point and follow native speakers without strain. A small set of structures does most of that work. This line takes you through them in the order that pays off fastest. Every station ends with a drill; your mistakes are saved and come back in daily practice until you get them right.</p>
+  <ul class="facts">
+    <li><b>B1</b>Tell what happened, explain plans, give reasons and opinions.</li>
+    <li><b>B2</b>Argue for and against, follow TV and debates, sound natural.</li>
+    <li><b>6</b>grammar blocks (stations 1–6) carry most of the A2 → B1 jump.</li>
+    <li><b>1 stem</b>builds both the future and the conditional. Learn it once.</li>
+  </ul>
+  <p class="check"><b>A2 check</b>This line assumes you already handle: the present tense (regular + être, avoir, aller, faire), passé composé with avoir/être, <em>aller</em> + infinitive, <em>ne … pas</em>, simple questions, and le/la. If any of those wobble, fix them first; everything here builds on them.</p>
+  <nav class="route" aria-label="Route map">
+    <div class="route-title"><span>Plan de ligne</span><span class="muted small"><strong id="clearedCount">0</strong> of <span id="stTotal">12</span> stations cleared · % = your drill accuracy · saved in this browser</span></div>
+    <ol id="route"></ol>
+  </nav>
+</header>
+
+<section class="wrap hub" id="entrainement" aria-label="Practice">
+  <div class="card">
+    <div class="hub-head">
+      <div>
+        <span class="eyebrow">Entraînement · 10 minutes a day</span>
+        <h2>Today's practice</h2>
+        <p class="small muted" id="hubHint" style="margin:4px 0 0"></p>
+      </div>
+      <div class="tabs" role="tablist" aria-label="Practice mode">
+        <button class="tab" role="tab" type="button" data-tab="mix" aria-selected="true">Daily mix · 10</button>
+        <button class="tab" role="tab" type="button" data-tab="err" aria-selected="false">My mistakes · <span id="errN">0</span></button>
+        <button class="tab" role="tab" type="button" data-tab="sprint" aria-selected="false">Conjugation sprint</button>
+      </div>
+    </div>
+    <div id="hubPanel" style="margin-top:16px" role="tabpanel"></div>
+  </div>
+</section>
+
+<nav class="linebar" aria-label="Stations">
+  <div class="wrap">
+    <span class="name">Ligne B</span>
+    <ol class="stops" id="stops"></ol>
+    <button class="en-toggle" type="button" id="enToggle" aria-pressed="true" title="Show or hide English translations">English: on</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- 1 PASSÉ -->
+<section class="station" id="passe" style="--line:#FFCD00;--line-ink:#1b1b1b">
+  <span class="roundel">1</span>
+  <div class="station-head">
+    <h2 class="plate">Le passé</h2>
+    <p class="payoff">The number-one B1 skill is telling a story. That means choosing between <em>passé composé</em> and <em>imparfait</em>. <b>Think of a film: the imparfait is the set, the passé composé is the action.</b></p>
+  </div>
+
+  <div class="grid">
+    <div class="card key">
+      <span class="eyebrow">Imparfait · the set</span>
+      <h3>Background, habits, states, "was …-ing"</h3>
+      <p><button class="fr" data-say>Il faisait beau, les gens se promenaient.</button></p>
+      <p><button class="fr" data-say>Quand j'étais petit, je jouais au foot le samedi.</button></p>
+      <p class="small"><b>Signal words:</b> d'habitude <span class="gloss">usually</span>, souvent <span class="gloss">often</span>, tous les jours <span class="gloss">every day</span>, autrefois <span class="gloss">in the old days</span>, à l'époque <span class="gloss">back then</span>, quand j'étais… <span class="gloss">when I was…</span>, pendant que <span class="gloss">while</span></p>
+      <p class="small muted">Form: <em>nous</em> present minus <em>-ons</em> + ais, ais, ait, ions, iez, aient. Only one irregular: <em>être → ét-</em>.</p>
+    </div>
+    <div class="card key">
+      <span class="eyebrow">Passé composé · the action</span>
+      <h3>Events that happened, finished, moved the story on</h3>
+      <p><button class="fr" data-say>Soudain, le téléphone a sonné.</button></p>
+      <p><button class="fr" data-say>J'ai vécu deux ans à Lyon.</button> <span class="small muted">(closed period, even if long)</span></p>
+      <p class="small"><b>Signal words:</b> soudain / tout à coup <span class="gloss">suddenly</span>, hier <span class="gloss">yesterday</span>, un jour <span class="gloss">one day</span>, une fois <span class="gloss">once</span>, d'abord / ensuite / enfin <span class="gloss">first / then / finally</span>, pendant + a fixed length <span class="gloss">for (two years…)</span></p>
+    </div>
+    <div class="card">
+      <span class="eyebrow">Together</span>
+      <h3>The interruption pattern</h3>
+      <p><button class="fr" data-say>Je dormais quand tu as appelé.</button></p>
+      <p>Ongoing action (imparfait) is cut by an event (passé composé). This one sentence shape covers a huge share of real stories.</p>
+      <span class="eyebrow" style="margin-top:6px">One step further back</span>
+      <h3>Plus-que-parfait = "had done"</h3>
+      <p><button class="fr" data-say>Quand je suis arrivé, le film avait déjà commencé.</button></p>
+      <p class="small muted">avais / étais + participle. Same choice of avoir/être as the passé composé.</p>
+    </div>
+  </div>
+
+  <div class="tool" style="margin-top:16px">
+    <div class="tool-head"><span class="tag">Outil</span> B-level conjugator · every tense on this line</div>
+    <div class="tool-body">
+      <label class="lab" for="conjIn">Type an infinitive (regular -er / -ir / -re, or common irregulars like faire, venir, prendre, écrire, connaître…)</label>
+      <div class="row"><input type="text" id="conjIn" value="prendre" autocomplete="off" spellcheck="false"></div>
+      <div class="chips" id="conjChips"></div>
+      <div class="out" id="conjOut" aria-live="polite"></div>
+      <p class="small muted" style="margin-top:8px">Spelling-change verbs (acheter → j'achèterai, appeler → j'appellerai) are shown without the change. Reflexive verbs: type them without <em>se</em>.</p>
+    </div>
+  </div>
+
+  <div class="tool" style="margin-top:16px"><div class="tool-head"><span class="tag">Drill</span> Passé composé or imparfait?</div><div class="tool-body" data-drill="passe"></div></div>
+
+  <div class="station-foot"><button class="clear-btn" data-station="passe" aria-pressed="false">Mark station cleared</button><span class="next">Next: <a href="#pronoms">Pronoms</a></span></div>
+</section>
+
+<!-- 2 PRONOMS -->
+<section class="station" id="pronoms" style="--line:#003CA6;--line-ink:#fff">
+  <span class="roundel">2</span>
+  <div class="station-head">
+    <h2 class="plate">Les pronoms</h2>
+    <p class="payoff">A2 speakers repeat nouns: "Tu as vu le film ? Oui, j'ai vu le film." <span class="gloss">(Did you see the film? Yes, I saw the film.)</span> B1 speakers say <em>Oui, je l'ai vu.</em> <span class="gloss">(Yes, I saw it.)</span> <b>Five little words and one order chart</b> make you sound fluent at once.</p>
+  </div>
+
+  <div class="card">
+    <h3>Which pronoun replaces what</h3>
+    <div class="scroll"><table>
+      <thead><tr><th>Replaces</th><th>Pronoun</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>a direct object (no preposition)</td><td><b>le, la, l', les</b></td><td><button class="fr" data-say>Je la connais.</button></td></tr>
+        <tr><td><em>à</em> + a person</td><td><b>lui, leur</b></td><td><button class="fr" data-say>Je lui ai écrit.</button></td></tr>
+        <tr><td><em>à</em> + a thing, or a place</td><td><b>y</b></td><td><button class="fr" data-say>J'y pense. J'y vais.</button></td></tr>
+        <tr><td><em>de</em> + thing, a quantity, du / de la / des</td><td><b>en</b></td><td><button class="fr" data-say>J'en ai trois. J'en parle.</button></td></tr>
+        <tr><td>after a preposition, for people</td><td><b>moi, toi, lui, elle, nous, vous, eux, elles</b></td><td><button class="fr" data-say>Je pense à elle.</button></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="grid" style="margin-top:16px">
+    <div class="card key">
+      <span class="eyebrow">The order chart</span>
+      <h3>When two pronouns meet</h3>
+      <p class="formula">me te se nous vous → le la les → lui leur → y → en</p>
+      <p><button class="fr" data-say>Il me le donne.</button> <button class="fr" data-say>Je le lui donne.</button> <button class="fr" data-say>Il y en a.</button></p>
+      <p class="small muted">"y en" has its own memory hook: <em>il y en a</em> = there are some.</p>
+    </div>
+    <div class="card key">
+      <span class="eyebrow">Where they go</span>
+      <h3>Before the verb that they belong to</h3>
+      <ul>
+        <li>Simple tense: <button class="fr" data-say>Je le vois.</button></li>
+        <li>Passé composé, before the auxiliary: <button class="fr" data-say>Je l'ai vu.</button></li>
+        <li>With an infinitive, before the infinitive: <button class="fr" data-say>Je vais le voir.</button></li>
+        <li>Positive command, after with hyphens: <button class="fr" data-say>Donne-le-moi !</button></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tool" style="margin-top:16px"><div class="tool-head"><span class="tag">Drill</span> Replace with a pronoun</div><div class="tool-body" data-drill="pronoms"></div></div>
+  <div class="station-foot"><button class="clear-btn" data-station="pronoms" aria-pressed="false">Mark station cleared</button><span class="next">Next: <a href="#relatifs">Relatifs</a></span></div>
+</section>
+
+<!-- 3 RELATIFS -->
+<section class="station" id="relatifs" style="--line:#837902;--line-ink:#fff">
+  <span class="roundel">3</span>
+  <div class="station-head">
+    <h2 class="plate">Les relatifs</h2>
+    <p class="payoff">Relative pronouns turn two short A2 sentences into one B1 sentence. <b>Pick by asking one question: what role does the word play in the second clause?</b></p>
+  </div>
+
+  <div class="card">
+    <div class="scroll"><table>
+      <thead><tr><th>Pronoun</th><th>Use when the word is…</th><th>Example</th><th>Level</th></tr></thead>
+      <tbody>
+        <tr><td><b>qui</b></td><td>the subject (a verb follows)</td><td><button class="fr" data-say>La femme qui parle est ma prof.</button></td><td><span class="lvl">B1</span></td></tr>
+        <tr><td><b>que / qu'</b></td><td>the direct object (a subject follows)</td><td><button class="fr" data-say>Le livre que je lis est génial.</button></td><td><span class="lvl">B1</span></td></tr>
+        <tr><td><b>où</b></td><td>a place, or a time</td><td><button class="fr" data-say>Le jour où on s'est rencontrés.</button></td><td><span class="lvl">B1</span></td></tr>
+        <tr><td><b>dont</b></td><td>introduced by <em>de</em> (parler de, avoir besoin de, se souvenir de…)</td><td><button class="fr" data-say>Le film dont je t'ai parlé.</button></td><td><span class="lvl">B1</span></td></tr>
+        <tr><td><b>ce qui / ce que</b></td><td>"what" with no noun before it</td><td><button class="fr" data-say>Ce qui m'intéresse, c'est l'histoire.</button></td><td><span class="lvl">B1</span></td></tr>
+        <tr><td><b>lequel, auquel, duquel…</b></td><td>a thing after a preposition (avec, pour, sur, à côté de…)</td><td><button class="fr" data-say>La raison pour laquelle je suis venu.</button></td><td><span class="lvl">B2</span></td></tr>
+      </tbody>
+    </table></div>
+    <p class="small muted" style="margin-top:10px">Shortcut for people after a preposition: just use <b>qui</b>. <button class="fr" data-say>Le collègue avec qui je travaille.</button></p>
+  </div>
+
+  <div class="tool" style="margin-top:16px"><div class="tool-head"><span class="tag">Drill</span> Choose the relative pronoun</div><div class="tool-body" data-drill="relatifs"></div></div>
+  <div class="station-foot"><button class="clear-btn" data-station="relatifs" aria-pressed="false">Mark station cleared</button><span class="next">Next: <a href="#hypotheses">Hypothèses</a></span></div>
+</section>
+
+<!-- 4 HYPOTHESES -->
+<section class="station" id="hypotheses" style="--line:#CF009E;--line-ink:#fff">
+  <span class="roundel">4</span>
+  <div class="station-head">
+    <h2 class="plate">Futur &amp; si</h2>
+    <p class="payoff">Plans, wishes, regrets, polite requests. <b>Future and conditional share one stem</b>, and <em>si</em>-sentences follow three fixed patterns.</p>
+  </div>
+
+  <div class="grid">
+    <div class="card key">
+      <span class="eyebrow">One stem, two tenses</span>
+      <h3>Stem = the infinitive (drop the final -e of -re)</h3>
+      <p>Futur: stem + <b>ai, as, a, ons, ez, ont</b> → <button class="fr" data-say>je parlerai</button><br>
+      Conditionnel: stem + imparfait endings <b>ais, ais, ait, ions, iez, aient</b> → <button class="fr" data-say>je parlerais</button></p>
+      <p class="small"><b>The 12 irregular stems:</b> être <b>ser-</b> · avoir <b>aur-</b> · aller <b>ir-</b> · faire <b>fer-</b> · pouvoir <b>pourr-</b> · vouloir <b>voudr-</b> · savoir <b>saur-</b> · venir <b>viendr-</b> · devoir <b>devr-</b> · voir <b>verr-</b> · envoyer <b>enverr-</b> · falloir <b>faudr-</b></p>
+    </div>
+    <div class="card key">
+      <span class="eyebrow">The three si patterns</span>
+      <h3>Never put futur or conditionnel right after si</h3>
+      <div class="scroll"><table>
+        <tbody>
+          <tr><td>Real</td><td>si + présent → futur</td><td><button class="fr" data-say>Si j'ai le temps, je viendrai.</button></td></tr>
+          <tr><td>Imagined</td><td>si + imparfait → conditionnel</td><td><button class="fr" data-say>Si j'avais le temps, je viendrais.</button></td></tr>
+          <tr><td>Regret</td><td>si + plus-que-parfait → cond. passé</td><td><button class="fr" data-say>Si j'avais su, je serais venu.</button></td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <div class="card">
+      <span class="eyebrow">Two traps English speakers fall into</span>
+      <h3>quand + futur</h3>
+      <p>English says "when I <em>arrive</em>". French uses the future: <button class="fr" data-say>Quand j'arriverai, je t'appellerai.</button></p>
+      <h3 style="margin-top:10px">Politeness lives in the conditionnel</h3>
+      <p><button class="fr" data-say>Pourriez-vous m'aider ?</button> <button class="fr" data-say>Tu devrais essayer.</button> <button class="fr" data-say>Ça me plairait.</button></p>
+    </div>
+  </div>
+  <p class="small muted" style="margin-top:12px">Use the <a href="#passe">conjugator in station 1</a> to see futur, conditionnel and conditionnel passé for any verb.</p>
+
+  <div class="tool" style="margin-top:12px"><div class="tool-head"><span class="tag">Drill</span> Futur, conditionnel, si</div><div class="tool-body" data-drill="hypotheses"></div></div>
+  <div class="station-foot"><button class="clear-btn" data-station="hypotheses" aria-pressed="false">Mark station cleared</button><span class="next">Next: <a href="#subjonctif">Subjonctif</a></span></div>
+</section>
+
+<!-- 5 SUBJONCTIF -->
+<section class="station" id="subjonctif" style="--line:#FF7E2E;--line-ink:#1b1b1b">
+  <span class="roundel">5</span>
+  <div class="station-head">
+    <h2 class="plate">Le subjonctif</h2>
+    <p class="payoff">It looks like a whole new world, but it's a reflex triggered by certain phrases. <b>Learn the triggers, the one formation rule and eight irregular verbs.</b></p>
+  </div>
+
+  <div class="grid">
+    <div class="card key">
+      <span class="eyebrow">Triggers · after "que"</span>
+      <h3>Wanting, feeling, necessity, doubt</h3>
+      <ul class="small">
+        <li><b>Want / ask:</b> vouloir que <span class="gloss">want (someone) to</span>, souhaiter que <span class="gloss">wish that</span>, demander que <span class="gloss">ask that</span>, préférer que <span class="gloss">prefer that</span></li>
+        <li><b>Feel:</b> être content / triste / surpris que <span class="gloss">be glad / sad / surprised that</span>, avoir peur que <span class="gloss">be afraid that</span>, regretter que <span class="gloss">be sorry that</span></li>
+        <li><b>Must:</b> il faut que <span class="gloss">(someone) has to</span>, il est important / nécessaire / normal que <span class="gloss">it's important / necessary / normal that</span></li>
+        <li><b>Doubt / deny:</b> douter que <span class="gloss">doubt that</span>, ne pas penser que <span class="gloss">not think that</span>, ne pas croire que <span class="gloss">not believe that</span></li>
+        <li><b>Conjunctions:</b> bien que <span class="gloss">although</span>, pour que / afin que <span class="gloss">so that</span>, avant que <span class="gloss">before</span>, sans que <span class="gloss">without</span>, à moins que <span class="gloss">unless</span>, jusqu'à ce que <span class="gloss">until</span></li>
+      </ul>
+    </div>
+    <div class="card key">
+      <span class="eyebrow">Not triggers · indicative</span>
+      <h3>Certainty, hope, thinking (positive), "after"</h3>
+      <ul class="small">
+        <li>penser que, croire que, trouver que (<b>positive</b>) <span class="gloss">think, believe, find that</span></li>
+        <li>espérer que <span class="gloss">hope that</span></li>
+        <li>il est sûr / certain / évident que <span class="gloss">it's sure / certain / obvious that</span></li>
+        <li>après que <span class="gloss">after</span>, parce que <span class="gloss">because</span>, pendant que <span class="gloss">while</span>, alors que <span class="gloss">whereas</span>, même si <span class="gloss">even if</span></li>
+      </ul>
+      <p class="small"><b>Same subject?</b> Skip "que" and use the infinitive: <button class="fr" data-say>Je veux partir.</button> not <em>je veux que je parte</em>.</p>
+    </div>
+    <div class="card">
+      <span class="eyebrow">Formation</span>
+      <h3>Take the ils-form, drop -ent, add e, es, e, ions, iez, ent</h3>
+      <p><em>ils finissent</em> → <button class="fr" data-say>que je finisse</button><br><em>ils prennent</em> → <button class="fr" data-say>que je prenne</button></p>
+      <p class="small">nous / vous look like the imparfait: <em>que nous prenions</em>. For -er verbs the singular sounds like the present.</p>
+      <p class="small"><b>Irregular eight:</b> être <b>sois</b> · avoir <b>aie</b> · aller <b>aille</b> · faire <b>fasse</b> · pouvoir <b>puisse</b> · savoir <b>sache</b> · vouloir <b>veuille</b> · falloir <b>faille</b></p>
+    </div>
+  </div>
+
+  <div class="tool" style="margin-top:16px"><div class="tool-head"><span class="tag">Drill</span> Subjonctif or indicatif?</div><div class="tool-body" data-drill="subjonctif"></div></div>
+  <div class="station-foot"><button class="clear-btn" data-station="subjonctif" aria-pressed="false">Mark station cleared</button><span class="next">Next: <a href="#connecteurs">Connecteurs</a></span></div>
+</section>
+
+<!-- 6 CONNECTEURS -->
+<section class="station" id="connecteurs" style="--line:#6ECA97;--line-ink:#1b1b1b">
+  <span class="roundel">6</span>
+  <div class="station-head">
+    <h2 class="plate">Connecteurs</h2>
+    <p class="payoff">Examiners and natives hear your level in the small words that link ideas. <b>Swap A2 "et, mais, parce que" for these</b> and every sentence moves up a level.</p>
+  </div>
+
+  <div class="card">
+    <div class="scroll"><table>
+      <thead><tr><th>Job</th><th>B1</th><th>B2</th><th>Followed by</th></tr></thead>
+      <tbody>
+        <tr><td>Add</td><td>en plus <span class="gloss">plus</span>, aussi <span class="gloss">also</span></td><td><b>de plus</b> <span class="gloss">moreover</span>, <b>en outre</b> <span class="gloss">furthermore</span>, <b>par ailleurs</b> <span class="gloss">besides</span></td><td><span class="mood i">sentence</span></td></tr>
+        <tr><td>Contrast</td><td>mais <span class="gloss">but</span>, par contre <span class="gloss">on the other hand</span></td><td><b>cependant</b> <span class="gloss">however</span>, <b>pourtant</b> <span class="gloss">yet</span>, <b>en revanche</b> <span class="gloss">on the other hand</span>, <b>alors que / tandis que</b> <span class="gloss">whereas</span></td><td><span class="mood i">indicatif</span></td></tr>
+        <tr><td>Concede</td><td>même si <span class="gloss">even if</span></td><td><b>bien que, quoique</b> <span class="gloss">although</span> · <b>certes … mais</b> <span class="gloss">admittedly … but</span></td><td><span class="mood s">subjonctif</span> after bien que</td></tr>
+        <tr><td>Despite</td><td>—</td><td><b>malgré</b> <span class="gloss">despite</span></td><td><span class="mood n">noun</span></td></tr>
+        <tr><td>Cause</td><td>parce que, car <span class="gloss">because</span></td><td><b>puisque</b> <span class="gloss">since</span>, <b>étant donné que, vu que</b> <span class="gloss">given that</span></td><td><span class="mood i">indicatif</span></td></tr>
+        <tr><td>Cause + noun</td><td>à cause de <span class="gloss">because of (bad)</span></td><td><b>grâce à</b> <span class="gloss">thanks to (good)</span>, <b>en raison de</b> <span class="gloss">due to</span></td><td><span class="mood n">noun</span></td></tr>
+        <tr><td>Result</td><td>donc, alors <span class="gloss">so</span>, du coup <span class="gloss">so (spoken)</span></td><td><b>par conséquent</b> <span class="gloss">as a result</span>, <b>c'est pourquoi</b> <span class="gloss">that's why</span>, <b>si bien que</b> <span class="gloss">so much so that</span>, <b>ainsi</b> <span class="gloss">thus</span></td><td><span class="mood i">indicatif</span></td></tr>
+        <tr><td>Goal</td><td>pour + infinitive <span class="gloss">to / in order to</span></td><td><b>afin de</b> + inf. <span class="gloss">in order to</span> · <b>pour que, afin que</b> <span class="gloss">so that</span></td><td><span class="mood s">subjonctif</span> after que</td></tr>
+        <tr><td>Order</td><td>d'abord, ensuite, enfin <span class="gloss">first, then, finally</span></td><td><b>tout d'abord</b> <span class="gloss">first of all</span>, <b>en premier lieu</b> <span class="gloss">in the first place</span>, <b>pour conclure</b> <span class="gloss">to conclude</span></td><td><span class="mood i">sentence</span></td></tr>
+        <tr><td>Explain</td><td>par exemple <span class="gloss">for example</span></td><td><b>notamment</b> <span class="gloss">in particular</span>, <b>c'est-à-dire</b> <span class="gloss">that is to say</span>, <b>en effet</b> <span class="gloss">indeed</span></td><td><span class="mood i">sentence</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="grid" style="margin-top:16px">
+    <div class="card key">
+      <span class="eyebrow">Opinion kit</span>
+      <h3>Give and defend an opinion (the core of B1/B2 speaking)</h3>
+      <ul class="small">
+        <li><button class="fr" data-say>À mon avis,</button> · <button class="fr" data-say>Selon moi,</button> · <button class="fr" data-say>Il me semble que</button> <span class="mood i">indicatif</span></li>
+        <li><button class="fr" data-say>Je suis convaincu que</button> <span class="mood i">indicatif</span> · <button class="fr" data-say>Je doute que</button> <span class="mood s">subjonctif</span></li>
+        <li><button class="fr" data-say>D'un côté… de l'autre…</button> · <button class="fr" data-say>Non seulement… mais aussi…</button></li>
+        <li><button class="fr" data-say>Certes, c'est cher, mais c'est utile.</button></li>
+        <li><button class="fr" data-say>Je suis d'accord avec vous sur ce point, mais…</button></li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="eyebrow">Level-up words</span>
+      <h3>Replace the A2 all-purpose words</h3>
+      <div class="scroll"><table class="small">
+        <tbody>
+          <tr><td>faire <span class="gloss">do</span></td><td>réaliser, effectuer (un projet, une tâche) <span class="gloss">carry out (a project, a task)</span></td></tr>
+          <tr><td>dire <span class="gloss">say</span></td><td>affirmer, expliquer, souligner, préciser <span class="gloss">state, explain, stress, specify</span></td></tr>
+          <tr><td>avoir <span class="gloss">have</span></td><td>posséder, disposer de <span class="gloss">own, have available</span></td></tr>
+          <tr><td>il y a <span class="gloss">there is</span></td><td>il existe <span class="gloss">there exists</span></td></tr>
+          <tr><td>voir <span class="gloss">see</span></td><td>constater, remarquer <span class="gloss">observe, notice</span></td></tr>
+          <tr><td>donner <span class="gloss">give</span></td><td>fournir, offrir, accorder <span class="gloss">provide, offer, grant</span></td></tr>
+          <tr><td>chose <span class="gloss">thing</span></td><td>élément, aspect, point, enjeu <span class="gloss">element, aspect, point, issue</span></td></tr>
+          <tr><td>beaucoup de <span class="gloss">a lot of</span></td><td>de nombreux, un grand nombre de <span class="gloss">many, a large number of</span></td></tr>
+          <tr><td>important</td><td>essentiel, crucial, primordial <span class="gloss">essential, crucial, vital</span></td></tr>
+          <tr><td>problème <span class="gloss">problem</span></td><td>difficulté, obstacle, inconvénient <span class="gloss">difficulty, obstacle, drawback</span></td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="tool" style="margin-top:16px"><div class="tool-head"><span class="tag">Drill</span> Pick the connector</div><div class="tool-body" data-drill="connecteurs"></div></div>
+  <div class="station-foot"><button class="clear-btn" data-station="connecteurs" aria-pressed="false">Mark station cleared</button><span class="next">Next: <a href="#raconter">Raconter</a></span></div>
+</section>
+
+<!-- 7 RACONTER -->
+<section class="station" id="raconter" style="--line:#FA9ABA;--line-ink:#1b1b1b">
+  <span class="roundel">7</span>
+  <div class="station-head">
+    <h2 class="plate">Raconter</h2>
+    <p class="payoff">Reporting what people said, and the compact structures that make your French sound written-level. <b>One tense-shift table covers reported speech.</b></p>
+  </div>
+
+  <div class="grid">
+    <div class="card key">
+      <span class="eyebrow">Reported speech · after "il a dit que"</span>
+      <h3>Each tense shifts one step back</h3>
+      <div class="scroll"><table class="small">
+        <thead><tr><th>He said:</th><th>He said that…</th></tr></thead>
+        <tbody>
+          <tr><td>présent « Je suis prêt. »</td><td>imparfait: <button class="fr" data-say>il a dit qu'il était prêt</button></td></tr>
+          <tr><td>passé composé « J'ai fini. »</td><td>plus-que-parfait: <button class="fr" data-say>qu'il avait fini</button></td></tr>
+          <tr><td>futur « Je viendrai. »</td><td>conditionnel: <button class="fr" data-say>qu'il viendrait</button></td></tr>
+          <tr><td>aller + inf. « Je vais partir. »</td><td><button class="fr" data-say>qu'il allait partir</button></td></tr>
+          <tr><td>imparfait</td><td>stays the same</td></tr>
+          <tr><td>command « Viens ! »</td><td><button class="fr" data-say>il m'a dit de venir</button></td></tr>
+        </tbody>
+      </table></div>
+      <p class="small">Questions: yes/no → <b>si</b>; « Qu'est-ce que… ? » → <b>ce que</b>; « Qu'est-ce qui… ? » → <b>ce qui</b>. Time words shift too: demain → <b>le lendemain</b> <span class="gloss">tomorrow → the next day</span>, hier → <b>la veille</b> <span class="gloss">yesterday → the day before</span>, aujourd'hui → <b>ce jour-là</b> <span class="gloss">today → that day</span>.</p>
+    </div>
+    <div class="stack">
+      <div class="card">
+        <span class="eyebrow">Gérondif · en + -ant</span>
+        <h3>Two actions at once, or "by doing"</h3>
+        <p><button class="fr" data-say>Il chante en cuisinant.</button> <button class="fr" data-say>C'est en pratiquant qu'on progresse.</button></p>
+        <p class="small muted">Form: nous-stem + ant (nous faisons → en faisant). Exceptions: étant, ayant, sachant.</p>
+      </div>
+      <div class="card">
+        <span class="eyebrow">Passive</span>
+        <h3>être + participle (+ par)</h3>
+        <p><button class="fr" data-say>La tour a été construite en 1889.</button></p>
+        <p class="small muted">In speech French usually prefers <em>on</em>: <button class="fr" data-say>On a construit la tour en 1889.</button></p>
+      </div>
+      <div class="card">
+        <span class="eyebrow">Recognise only · B2 reading</span>
+        <h3>Passé simple</h3>
+        <p class="small">Novels and history texts use it for the passé composé. You never need to say it, only to recognise it: <em>il fut</em> (était/a été), <em>il eut</em>, <em>il alla</em>, <em>il fit</em>, <em>il dit</em>, <em>ils parlèrent</em>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tool" style="margin-top:16px"><div class="tool-head"><span class="tag">Drill</span> Report it, narrate it</div><div class="tool-body" data-drill="raconter"></div></div>
+  <div class="station-foot"><button class="clear-btn" data-station="raconter" aria-pressed="false">Mark station cleared</button><span class="next">Next: <a href="#frequents">Mots fréquents</a></span></div>
+</section>
+
+<!-- 8 MOTS FREQUENTS -->
+<section class="station" id="frequents" style="--line:#C9910D;--line-ink:#1b1b1b">
+  <span class="roundel">8</span>
+  <div class="station-head">
+    <h2 class="plate">Mots fréquents</h2>
+    <p class="payoff">These are the words beyond A2 that keep coming back in B1–B2 articles, news, podcasts and exam texts. They're the vocabulary side of the 80/20 rule: <b>learn these and most B-level texts become readable</b>. After that, the words you don't know are mostly topic words you can guess or look up.</p>
+  </div>
+
+  <div class="card">
+    <div class="row" style="justify-content:space-between;align-items:flex-end">
+      <div style="flex:1 1 260px">
+        <label class="lab" for="fqSearch">Search in French or English</label>
+        <input type="text" id="fqSearch" placeholder="e.g. however, augmenter…" autocomplete="off" spellcheck="false" style="width:100%">
+      </div>
+      <div style="flex:0 1 260px">
+        <div class="small"><b id="fqKnown">0</b> of <span id="fqTotal">0</span> marked as known</div>
+        <div class="bar"><i id="fqBar" style="width:0"></i></div>
+      </div>
+    </div>
+    <div class="row" style="margin-top:12px;justify-content:space-between">
+      <div class="chips" id="fqCats" style="margin:0"></div>
+      <label class="small" style="display:flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox" id="fqHide"> Hide words I know</label>
+    </div>
+    <p class="small muted" style="margin:10px 0 0">Tick a word once you'd recognise it in a text. Click the French to hear it. <span class="ff-tag">False friend</span> marks words that look like English but mean something else.</p>
+    <div class="fq-list" id="fqList"></div>
+    <p class="small muted" id="fqEmpty" hidden>No words match. Try another search or category.</p>
+  </div>
+  <p class="small muted" style="margin-top:10px">This list was put together from common French frequency lists and typical DELF B1–B2 texts, leaving out A2 basics. It's a practical guide, not an exact word count.</p>
+
+  <div class="tool" style="margin-top:12px"><div class="tool-head"><span class="tag">Drill</span> 15 words you haven't marked yet</div><div class="tool-body" data-drill="frequents"></div></div>
+  <div class="station-foot"><button class="clear-btn" data-station="frequents" aria-pressed="false">Mark station cleared</button><span class="next">Next: <a href="#vocabulaire">Vocabulaire</a></span></div>
+</section>
+
+<!-- 9 VOCABULAIRE -->
+<section class="station" id="vocabulaire" style="--line:#E19BDF;--line-ink:#1b1b1b">
+  <span class="roundel">9</span>
+  <div class="station-head">
+    <h2 class="plate">Vocabulaire B</h2>
+    <p class="payoff">B-level conversations and the DELF keep returning to the same six topics. <b>Learn the words in chunks</b> (verb + noun, adjective + noun), the way natives use them, not one by one.</p>
+  </div>
+  <div class="grid" id="vocabGrid"></div>
+  <p class="small muted" style="margin-top:12px">Watch the trap in <em>Études</em>: <b>passer un examen</b> means to <em>take</em> it. To pass is <b>réussir</b>.</p>
+  <div class="tool" style="margin-top:12px"><div class="tool-head"><span class="tag">Drill</span> What does it mean?</div><div class="tool-body" data-drill="vocabulaire"></div></div>
+  <div class="station-foot"><button class="clear-btn" data-station="vocabulaire" aria-pressed="false">Mark station cleared</button><span class="next">Next: <a href="#expressions">Expressions</a></span></div>
+</section>
+
+<!-- 9 EXPRESSIONS -->
+<section class="station" id="expressions" style="--line:#B6BD00;--line-ink:#1b1b1b">
+  <span class="roundel">10</span>
+  <div class="station-head">
+    <h2 class="plate">Expressions</h2>
+    <p class="payoff">Natives speak in idioms, and B2 listening means catching them. <b>These twenty come up constantly</b> in conversation, series and podcasts.</p>
+  </div>
+  <div class="grid" id="idiomGrid"></div>
+  <div class="tool" style="margin-top:16px"><div class="tool-head"><span class="tag">Drill</span> Decode the idiom</div><div class="tool-body" data-drill="expressions"></div></div>
+  <div class="station-foot"><button class="clear-btn" data-station="expressions" aria-pressed="false">Mark station cleared</button><span class="next">Next: <a href="#boss">Boss B2</a></span></div>
+</section>
+
+<!-- 10 BOSS -->
+<section class="station" id="boss" style="--line:#704B1C;--line-ink:#fff">
+  <span class="roundel">11</span>
+  <div class="station-head">
+    <h2 class="plate">Boss B2</h2>
+    <p class="payoff">The traps that still catch upper-intermediate learners. Each has a <b>cheat code</b>.</p>
+  </div>
+
+  <div class="grid">
+    <div class="card boss">
+      <span class="eyebrow">Boss 1</span>
+      <h3>Participle agreement with avoir</h3>
+      <p class="why">Sometimes the participle takes -e or -s even with avoir.</p>
+      <div class="cheat">Agree only when the <b>direct object comes before</b> the verb: <button class="fr" data-say>Les lettres que j'ai écrites.</button> <button class="fr" data-say>Je les ai vues.</button> You only hear it with participles ending in a consonant: <em>écrite, prise, mise, faite</em>.</div>
+    </div>
+    <div class="card boss">
+      <span class="eyebrow">Boss 2</span>
+      <h3>C'est or il est?</h3>
+      <p class="why">Both translate as "it is / he is".</p>
+      <div class="cheat"><b>C'est</b> + a determiner or name: <button class="fr" data-say>C'est un bon médecin.</button> <b>Il est</b> + a bare adjective or job: <button class="fr" data-say>Il est médecin.</button> For a general remark: <button class="fr" data-say>C'est facile.</button></div>
+    </div>
+    <div class="card boss">
+      <span class="eyebrow">Boss 3</span>
+      <h3>depuis, il y a, pendant, dans, en</h3>
+      <p class="why">All of them are "for / in / ago" in English.</p>
+      <div class="cheat"><b>depuis</b> + present = still going: <button class="fr" data-say>J'habite ici depuis trois ans.</button> · <b>il y a</b> = ago · <b>pendant</b> = a finished duration · <b>dans</b> = from now · <b>en</b> = time it takes: <button class="fr" data-say>Je l'ai lu en deux jours.</button></div>
+    </div>
+    <div class="card boss">
+      <span class="eyebrow">Boss 4</span>
+      <h3>Register</h3>
+      <p class="why">Natives switch between three Frenches.</p>
+      <div class="cheat">
+        <div class="scroll"><table class="small"><thead><tr><th></th><th>familier <span class="gloss">slang</span></th><th>courant <span class="gloss">everyday</span></th><th>soutenu <span class="gloss">formal</span></th></tr></thead><tbody>
+          <tr><td class="gloss">book</td><td>un bouquin</td><td>un livre</td><td>un ouvrage</td></tr>
+          <tr><td class="gloss">job</td><td>le boulot</td><td>le travail</td><td>l'emploi</td></tr>
+          <tr><td class="gloss">car</td><td>une bagnole</td><td>une voiture</td><td>un véhicule</td></tr>
+          <tr><td class="gloss">man</td><td>un mec</td><td>un homme</td><td>un individu</td></tr>
+        </tbody></table></div>
+        Speak <em>courant</em>, understand <em>familier</em>, write <em>soutenu</em> for exams and work.
+      </div>
+    </div>
+    <div class="card boss">
+      <span class="eyebrow">Boss 5</span>
+      <h3>The "ne" that isn't negative</h3>
+      <p class="why">A <em>ne</em> appears with no <em>pas</em>, and nothing is negated.</p>
+      <div class="cheat">After <b>avant que, à moins que, avoir peur que</b> and comparisons, formal French adds an empty <em>ne</em>: <button class="fr" data-say>Partez avant qu'il ne pleuve.</button> Ignore it when reading; you never have to say it.</div>
+    </div>
+    <div class="card boss">
+      <span class="eyebrow">Boss 6</span>
+      <h3>B2 false friends</h3>
+      <p class="why">They look easy, so you don't check them.</p>
+      <div class="cheat"><b>éventuellement</b> = possibly · <b>finalement</b> = eventually · <b>assister à</b> = to attend · <b>prétendre</b> = to claim · <b>supporter</b> = to tolerate · <b>une déception</b> = a disappointment · <b>achever</b> = to finish · <b>sensible</b> = sensitive</div>
+    </div>
+  </div>
+
+  <div class="tool" style="margin-top:16px"><div class="tool-head"><span class="tag">Drill</span> Boss round</div><div class="tool-body" data-drill="boss"></div></div>
+  <div class="station-foot"><button class="clear-btn" data-station="boss" aria-pressed="false">Mark station cleared</button><span class="next">Next: <a href="#delf">DELF</a></span></div>
+</section>
+
+<!-- 11 DELF -->
+<section class="station" id="delf" style="--line:#007852;--line-ink:#fff">
+  <span class="roundel">12</span>
+  <div class="station-head">
+    <h2 class="plate">Atelier DELF</h2>
+    <p class="payoff">Whether or not you sit the exam, the DELF tasks are the best definition of "B level": tell, explain, argue. <b>Write here, and the B-mètre shows which B-level structures you used.</b></p>
+  </div>
+
+  <div class="card">
+    <span class="eyebrow">The exams at a glance</span>
+    <div class="scroll"><table>
+      <thead><tr><th></th><th>DELF B1</th><th>DELF B2</th></tr></thead>
+      <tbody>
+        <tr><td>Structure</td><td colspan="2">4 parts, 25 points each: listening, reading, writing, speaking. Pass = 50/100 with at least 5/25 in every part.</td></tr>
+        <tr><td>Writing</td><td>~160 words: a personal letter, forum post or article giving your opinion</td><td>~250 words: an argued text (essay, formal letter, article)</td></tr>
+        <tr><td>Speaking</td><td>Guided interview, a role-play, then giving your view on a short document</td><td>Present and defend a viewpoint from a short document, then debate it with the examiner</td></tr>
+        <tr><td>Key skill</td><td>Tell, describe, give reasons</td><td>Argue for and against, nuance, convince</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="grid" style="margin-top:16px">
+    <div class="card key">
+      <span class="eyebrow">Essay skeleton (B2)</span>
+      <h3>Four blocks, every time</h3>
+      <ol class="small" style="padding-left:1.2em;margin:0">
+        <li><b>Introduction:</b> set the topic, ask the question, announce the plan. <button class="fr" data-say>Nous verrons d'abord… puis…</button></li>
+        <li><b>Part 1:</b> two arguments, each with an example. <button class="fr" data-say>D'une part… Par exemple…</button></li>
+        <li><b>Part 2:</b> the other side, or limits. <button class="fr" data-say>D'autre part… Cependant…</button></li>
+        <li><b>Conclusion:</b> your answer, then a wider question. <button class="fr" data-say>En définitive… On peut se demander si…</button></li>
+      </ol>
+    </div>
+    <div class="card">
+      <span class="eyebrow">Letters</span>
+      <h3>Open and close in the right register</h3>
+      <div class="scroll"><table class="small">
+        <thead><tr><th></th><th>Friend</th><th>Formal</th></tr></thead>
+        <tbody>
+          <tr><td>Open</td><td>Salut Léa, / Chère Léa, <span class="gloss block">Hi Léa, / Dear Léa,</span></td><td>Madame, Monsieur, <span class="gloss block">Dear Sir or Madam,</span></td></tr>
+          <tr><td>Purpose</td><td>Je t'écris pour te raconter… <span class="gloss block">I'm writing to tell you about…</span></td><td>Je me permets de vous écrire afin de… <span class="gloss block">I am writing to you in order to…</span></td></tr>
+          <tr><td>Close</td><td>Bises, / À bientôt ! <span class="gloss block">Love, / See you soon!</span></td><td>Je vous prie d'agréer, Madame, Monsieur, l'expression de mes salutations distinguées. <span class="gloss block">Yours faithfully (fixed formal closing)</span></td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <div class="card">
+      <span class="eyebrow">Speaking lifelines</span>
+      <h3>Buy time, check, recover</h3>
+      <ul class="small">
+        <li><button class="fr" data-say>C'est une bonne question.</button> · <button class="fr" data-say>Comment dire…</button></li>
+        <li><button class="fr" data-say>Si je comprends bien, vous voulez dire que…</button></li>
+        <li><button class="fr" data-say>Je n'ai pas bien saisi, pourriez-vous reformuler ?</button></li>
+        <li><button class="fr" data-say>Je dirais plutôt que…</button> · <button class="fr" data-say>Autrement dit…</button></li>
+        <li><button class="fr" data-say>Je vous rejoins sur ce point, mais…</button></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tool" style="margin-top:16px">
+    <div class="tool-head"><span class="tag">Outil</span> B-mètre · writing checker</div>
+    <div class="tool-body">
+      <div class="row" style="justify-content:space-between">
+        <span class="lab" style="margin:0">Pick a task, or write about anything</span>
+        <div class="row"><button class="btn" type="button" data-prompt="B1">New B1 task</button><button class="btn" type="button" data-prompt="B2">New B2 task</button></div>
+      </div>
+      <div class="prompt" id="bmPrompt">Free writing. Aim for at least 160 words (B1) or 250 words (B2).</div>
+      <label class="lab" for="bmIn">Your text (the example below shows how it works; replace it with your own)</label>
+      <textarea id="bmIn" spellcheck="false"></textarea>
+      <div class="accents" data-for="bmIn"></div>
+      <div class="grid" style="margin-top:14px">
+        <div>
+          <span class="eyebrow">Your text, marked up</span>
+          <div class="keyrow"><span><mark class="k-b1">B1 link</mark></span><span><mark class="k-b2">B2 link</mark></span><span><mark class="k-rel">relative</mark></span><span><mark class="k-subj">subj. trigger</mark></span><span><mark class="k-cond">conditionnel</mark></span><span><mark class="k-op">opinion</mark></span><span><mark class="k-over">overused</mark></span></div>
+          <div class="marked" id="bmMarked"></div>
+        </div>
+        <div>
+          <span class="eyebrow">Checklist</span>
+          <div class="row" style="margin-bottom:8px"><span class="est" id="bmEst"></span><span class="small muted" id="bmWords"></span></div>
+          <ul class="checks" id="bmChecks"></ul>
+          <div id="bmTips" class="small" style="margin-top:10px"></div>
+        </div>
+      </div>
+      <p class="small muted" style="margin-top:10px">The B-mètre counts B-level structures. It does not check grammar or spelling, so a text can score well and still contain mistakes. Ask a teacher or a tandem partner to correct it.</p>
+    </div>
+  </div>
+  <div class="station-foot"><button class="clear-btn" data-station="delf" aria-pressed="false">Mark station cleared</button><span class="next">Next: <a href="#terminus">Terminus</a></span></div>
+</section>
+
+<!-- 12 TERMINUS -->
+<section class="station" id="terminus" style="--line:#62259D;--line-ink:#fff">
+  <span class="roundel">13</span>
+  <div class="station-head">
+    <h2 class="plate">Terminus</h2>
+    <p class="payoff">A mock exam: 15 questions drawn at random from every station. <b>Score 12 or more</b> and the line is yours.</p>
+  </div>
+
+  <div class="grid">
+    <div class="tool"><div class="tool-head"><span class="tag">Examen blanc</span> 15 mixed questions</div><div class="tool-body" data-drill="exam"></div></div>
+    <div class="card key">
+      <span class="eyebrow">The other 80%</span>
+      <h3>Grammar is the 20%. Hours of French are the rest.</h3>
+      <p>Grammar gets you to B1 on paper. What gets you there in real life is time spent with French. A simple weekly plan:</p>
+      <ul class="small">
+        <li><b>Listen daily, 20–40 min</b>, to French made for learners and then for natives: RFI's <em>Journal en français facile</em>, the InnerFrench podcast, TV5Monde's learning site, then French YouTube and series with French subtitles.</li>
+        <li><b>One station a week.</b> Do the drill, then write 5 sentences of your own using that structure.</li>
+        <li><b>Shadow 5 minutes a day</b>: replay a sentence and say it along with the speaker.</li>
+        <li><b>Speak once a week</b> with a tutor or a language exchange partner, and use the opinion kit from station 6.</li>
+        <li>Want proof of your level? The <b>DELF B1 / B2</b> are the official exams.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="station-foot"><button class="clear-btn" data-station="terminus" aria-pressed="false">Mark station cleared</button><span class="next"><a href="#passe">Back to station 1</a></span></div>
+</section>
+
+</main>
+
+<footer>
+  <p>Ligne B · Click any underlined French to hear it in your device's French voice, if it has one.</p>
+  <p><button class="btn" type="button" id="resetAll">Erase all my progress</button></p>
+</footer>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+"use strict";
+
+const STATIONS=[
+  {id:"passe",name:"Le passé",sub:"PC vs imparfait",lv:"B1",c:"#FFCD00"},
+  {id:"pronoms",name:"Pronoms",sub:"le, lui, y, en",lv:"B1",c:"#003CA6"},
+  {id:"relatifs",name:"Relatifs",sub:"qui, que, dont",lv:"B1",c:"#837902"},
+  {id:"hypotheses",name:"Futur & si",sub:"plans, regrets",lv:"B1",c:"#CF009E"},
+  {id:"subjonctif",name:"Subjonctif",sub:"triggers",lv:"B1+",c:"#FF7E2E"},
+  {id:"connecteurs",name:"Connecteurs",sub:"argue, link",lv:"B2",c:"#6ECA97"},
+  {id:"raconter",name:"Raconter",sub:"reported speech",lv:"B2",c:"#FA9ABA"},
+  {id:"frequents",name:"Mots fréquents",sub:"~360 core words",lv:"B1–B2",c:"#C9910D"},
+  {id:"vocabulaire",name:"Vocabulaire",sub:"6 exam topics",lv:"B1–B2",c:"#E19BDF"},
+  {id:"expressions",name:"Expressions",sub:"20 idioms",lv:"B2",c:"#B6BD00"},
+  {id:"boss",name:"Boss B2",sub:"last traps",lv:"B2",c:"#704B1C"},
+  {id:"delf",name:"Atelier DELF",sub:"write + check",lv:"B1–B2",c:"#007852"},
+  {id:"terminus",name:"Terminus",sub:"mock exam",lv:"B2",c:"#62259D"}
+];
+
+/* Frequent B-level words: [french, english, note?]. "!" in a note = false friend or trap */
+const FREQ={
+"Verbes":[
+["s'agir de","to be about (il s'agit de = it's about)"],["permettre (de)","to allow, to make possible"],["devenir","to become"],["paraître","to seem; to be published"],["sembler","to seem"],["rendre","to give back; to make (+ adjective)","rendre heureux = to make happy"],["tenir","to hold"],["mener","to lead"],["porter","to carry; to wear"],["suivre","to follow"],["compter","to count; to intend to"],["considérer","to consider"],["présenter","to present, to introduce"],["proposer","to suggest, to offer"],["représenter","to represent"],["concerner","to concern"],["exister","to exist"],["prévoir","to plan; to forecast"],["réussir (à)","to succeed (in)"],["obtenir","to get, to obtain"],["atteindre","to reach"],["augmenter","to increase"],["diminuer","to decrease"],["baisser","to drop, to lower"],["améliorer","to improve"],["développer","to develop"],["créer","to create"],["produire","to produce"],["réduire","to reduce"],["éviter","to avoid"],["empêcher (de)","to prevent (from)"],["favoriser","to encourage, to promote"],["soutenir","to support"],["défendre","to defend; to forbid","défendu = forbidden"],["exiger","to demand"],["refuser (de)","to refuse"],["accepter","to accept"],["reconnaître","to recognise; to admit"],["admettre","to admit"],["affirmer","to state, to claim"],["expliquer","to explain"],["souligner","to stress, to underline"],["indiquer","to indicate, to show"],["annoncer","to announce"],["constater","to note, to observe"],["remarquer","to notice"],["s'apercevoir (de)","to realise, to notice"],["se rendre compte (de)","to realise"],["se souvenir (de)","to remember"],["réfléchir (à)","to think (about), to reflect"],["décider (de)","to decide"],["hésiter (à)","to hesitate"],["essayer (de)","to try"],["tenter (de)","to attempt"],["chercher (à)","to try to; to look for"],["risquer (de)","to risk; to be likely to"],["se passer","to happen"],["se produire","to occur"],["dépendre (de)","to depend (on)"],["correspondre (à)","to match, to correspond"],["appartenir (à)","to belong (to)"],["se trouver","to be (located), to find oneself"],["rester","to stay, to remain","! not 'to rest'"],["manquer","to miss; to be lacking","tu me manques = I miss you"],["partager","to share"],["gérer","to manage"],["fournir","to provide"],["assurer","to ensure; to insure"],["garantir","to guarantee"],["mettre en place","to set up"],["tenir compte de","to take into account"],["faire face à","to face, to deal with"],["s'occuper de","to take care of"],["se servir de","to use"],["s'intéresser à","to be interested in"],["s'habituer à","to get used to"],["s'attendre à","to expect"],["se plaindre (de)","to complain (about)"],["s'engager","to commit (oneself)"],["s'inquiéter","to worry"],["attendre","to wait (for)","! not 'to attend'"],["assister à","to attend","! not 'to assist'"],["prétendre","to claim","! not 'to pretend'"],["supporter","to stand, to tolerate","! not 'to support'"]
+],
+"Noms":[
+["le niveau","level"],["le moyen","means, way"],["la manière / la façon","way, manner"],["le rôle","role"],["la place","room, space; square; seat"],["le domaine","field, area"],["le secteur","sector"],["le système","system"],["la société","society; company"],["l'entreprise (f)","company, business"],["le gouvernement","government"],["l'État (m)","the State"],["la loi","law"],["la politique","politics; policy"],["la mesure","measure; measurement"],["la décision","decision"],["le projet","project, plan"],["le but","goal, aim"],["l'objectif (m)","objective, target"],["le résultat","result"],["la conséquence","consequence"],["la cause","cause"],["la raison","reason"],["le fait","fact"],["l'effet (m)","effect"],["le risque","risk"],["l'avantage (m)","advantage"],["l'inconvénient (m)","drawback, disadvantage"],["le progrès","progress"],["la croissance","growth"],["l'augmentation (f)","increase"],["la baisse","drop, fall"],["la hausse","rise"],["le taux","rate"],["le chiffre","figure, number"],["la moitié","half"],["la plupart (de)","most (of)"],["l'ensemble (m)","the whole, all"],["la part","share, portion"],["la partie","part; game, match"],["le reste","the rest"],["le point de vue","point of view"],["l'avis (m)","opinion"],["le débat","debate"],["la question","question; issue"],["le sujet","subject, topic"],["l'enjeu (m)","what's at stake, issue"],["le défi","challenge"],["la crise","crisis"],["le besoin","need"],["l'exigence (f)","requirement"],["la demande","request; demand","! usually 'a request', not a 'demand'"],["l'offre (f)","offer; supply"],["le choix","choice"],["la possibilité","possibility"],["la chance","luck; chance"],["l'occasion (f)","opportunity; bargain"],["l'expérience (f)","experience; experiment"],["la connaissance","knowledge; acquaintance"],["la compétence","skill"],["la formation","training"],["la recherche","research; search"],["l'étude (f)","study"],["l'enquête (f)","survey; investigation"],["le sondage","opinion poll"],["la population","population"],["l'habitant (m)","inhabitant, resident"],["le citoyen","citizen"],["le comportement","behaviour"],["l'habitude (f)","habit"],["le mode de vie","lifestyle"],["le quotidien","daily life"],["l'avenir (m)","the future"],["l'époque (f)","era, period"],["le siècle","century"],["le début","beginning"],["la fin","end"],["le lieu","place (avoir lieu = to take place)"],["le monde","world; people"],["les gens","people"],["la vie","life"],["le travail","work, job"],["l'argent (m)","money; silver"],["le pays","country"],["la ville","town, city"],["l'emploi (m)","job, employment; use"],["le salarié","employee"]
+],
+"Adjectifs":[
+["actuel / actuelle","current","! not 'actual' (= réel)"],["récent","recent"],["ancien","former (before noun); old (after)"],["prochain","next"],["dernier","last; latest"],["principal","main"],["essentiel","essential"],["nécessaire","necessary"],["indispensable","essential, vital"],["probable","likely"],["certain","certain; some (before noun)"],["sûr","sure; safe"],["clair","clear; light (colour)"],["évident","obvious"],["réel","real, actual"],["véritable","genuine, real"],["propre","own (before noun); clean (after)"],["seul","alone; only"],["même","same; even; -self (lui-même)"],["tel / telle","such"],["divers","various"],["nombreux","numerous, many"],["grave","serious"],["complexe","complex"],["efficace","effective, efficient"],["utile","useful"],["inutile","useless; unnecessary"],["moderne","modern"],["traditionnel","traditional"],["public / publique","public"],["privé","private"],["social","social"],["économique","economic; cheap"],["politique","political"],["international","international"],["local","local"],["personnel","personal"],["professionnel","professional"],["quotidien","daily"],["global","overall; global"],["général","general"],["particulier","particular, specific; private"],["précis","precise, exact"],["libre","free (not busy, not controlled)"],["gratuit","free (no cost)"],["fort","strong; loud; good at"],["faible","weak; low"],["élevé","high"],["bas / basse","low"],["large","wide","! not 'large' (= grand)"],["lourd","heavy"],["léger","light"],["inquiet","worried"],["fier","proud"],["capable (de)","able (to)"],["prêt (à)","ready (to)"]
+],
+"Adverbes":[
+["d'ailleurs","besides; by the way"],["en fait","actually, in fact"],["effectivement","indeed (confirming)","! not 'effectively'"],["actuellement","currently","! not 'actually'"],["désormais","from now on"],["aujourd'hui","today; nowadays"],["autrefois","in the past"],["à présent","now, at present"],["bientôt","soon"],["déjà","already"],["encore","still; again; even more"],["toujours","always; still"],["parfois","sometimes"],["souvent","often"],["rarement","rarely"],["généralement","generally"],["notamment","in particular, notably"],["surtout","above all, especially"],["plutôt","rather"],["assez","quite; enough"],["presque","almost"],["environ","about, approximately"],["à peine","barely, hardly"],["vraiment","really"],["tout à fait","absolutely, completely"],["seulement","only"],["également","also; equally"],["ensemble","together"],["ailleurs","elsewhere"],["partout","everywhere"],["autant","as much, as many"],["davantage","more"],["peu à peu","little by little"],["de plus en plus","more and more"],["de moins en moins","less and less"],["sans doute","probably","! not 'without doubt'"],["sans aucun doute","without a doubt"],["éventuellement","possibly, if need be","! not 'eventually'"],["finalement","in the end, eventually"],["forcément","necessarily, inevitably"]
+],
+"Expressions":[
+["cependant","however"],["pourtant","yet, and yet"],["néanmoins / toutefois","nevertheless, however"],["donc","so, therefore"],["car","because, for"],["puisque","since, as"],["parce que","because"],["il s'agit de","it's about, it's a matter of"],["à la fois","at the same time; both"],["au lieu de","instead of"],["grâce à","thanks to"],["à cause de","because of"],["en raison de","due to"],["par rapport à","compared to; in relation to"],["en ce qui concerne","as regards, concerning"],["quant à","as for"],["à propos de","about, regarding"],["au sein de","within"],["face à","faced with"],["selon / d'après","according to"],["en effet","indeed"],["en revanche","on the other hand"],["par ailleurs","moreover; otherwise"],["de plus / en outre","moreover, furthermore"],["or","yet, now (in an argument)"],["ainsi","thus, so"],["alors que","whereas; while"],["tandis que","whereas; while"],["bien que","although (+ subjonctif)"],["même si","even if"],["afin de","in order to"],["dès que","as soon as"],["depuis que","since (time)"],["lorsque","when (formal)"],["avoir lieu","to take place"],["avoir tendance à","to tend to"],["faire partie de","to be part of"],["mettre en œuvre","to implement"],["prendre conscience de","to become aware of"],["c'est-à-dire","that is to say"],["en général","in general"],["en particulier","in particular"],["de nos jours","nowadays"],["à l'heure actuelle","at present"],["en tout cas","in any case"],["au fur et à mesure","gradually, as you go"],["à long terme","in the long term"],["à court terme","in the short term"],["dans l'ensemble","on the whole"],["il est vrai que","it's true that"],["il faut dire que","it must be said that"]
+]
+};
+
+const VOCAB=[
+ {t:"Le travail",w:[["postuler à un poste","to apply for a job"],["un entretien d'embauche","a job interview"],["le télétravail","remote work"],["un CDI","a permanent contract"],["un CDD","a fixed-term contract"],["démissionner","to resign"],["les heures supplémentaires","overtime"],["le chômage","unemployment"],["une reconversion","a career change"],["être débordé","to be swamped"]]},
+ {t:"L'environnement",w:[["le réchauffement climatique","global warming"],["les énergies renouvelables","renewable energy"],["trier ses déchets","to sort your rubbish"],["le gaspillage","wastefulness"],["l'empreinte carbone","carbon footprint"],["les transports en commun","public transport"],["la biodiversité","biodiversity"],["une canicule","a heatwave"],["la sécheresse","drought"]]},
+ {t:"Le numérique",w:[["les réseaux sociaux","social media"],["la vie privée","privacy"],["les données personnelles","personal data"],["être accro à","to be hooked on"],["une infox","fake news"],["le harcèlement en ligne","online harassment"],["un mot de passe","a password"],["une appli","an app"],["un écran","a screen"]]},
+ {t:"La santé",w:[["une ordonnance","a prescription"],["prendre rendez-vous","to make an appointment"],["un médecin généraliste","a GP, family doctor"],["la mutuelle","top-up health insurance"],["se soigner","to get treatment, look after yourself"],["une alimentation équilibrée","a balanced diet"],["être enrhumé","to have a cold"],["le surmenage","overwork, burnout"],["les urgences","the emergency room"]]},
+ {t:"Les études",w:[["passer un examen","to TAKE an exam"],["réussir un examen","to PASS an exam"],["rater un examen","to fail an exam"],["redoubler","to repeat a school year"],["un diplôme","a degree, qualification"],["la formation continue","ongoing adult training"],["les frais d'inscription","registration / tuition fees"],["une bourse","a scholarship, grant"],["un stage","an internship"]]},
+ {t:"La société",w:[["le pouvoir d'achat","purchasing power"],["les inégalités","inequality"],["une grève","a strike"],["une manifestation","a protest, demonstration"],["le logement","housing"],["le loyer","the rent"],["l'égalité femmes-hommes","gender equality"],["un enjeu","an issue, what's at stake"],["les impôts","taxes"]]}
+];
+const IDIOMS=[
+ ["avoir le cafard","to feel down","to have the cockroach"],
+ ["poser un lapin","to stand someone up","to put down a rabbit"],
+ ["coûter les yeux de la tête","to cost a fortune","to cost the eyes of the head"],
+ ["avoir la flemme","to not be able to be bothered","to have the laziness"],
+ ["en avoir marre","to be fed up","to have had enough of it"],
+ ["casser les pieds à quelqu'un","to annoy someone","to break someone's feet"],
+ ["tomber dans les pommes","to faint","to fall into the apples"],
+ ["avoir un coup de foudre","to fall in love at first sight","to get a lightning strike"],
+ ["ce n'est pas la mer à boire","it's not that hard","it's not the sea to drink"],
+ ["avoir du pain sur la planche","to have a lot of work to do","to have bread on the board"],
+ ["raconter des salades","to tell lies","to tell salads"],
+ ["se prendre la tête","to overthink, to stress about something","to take one's head"],
+ ["être dans la lune","to be daydreaming","to be in the moon"],
+ ["faire la grasse matinée","to sleep in","to do the fat morning"],
+ ["avoir la pêche","to be full of energy","to have the peach"],
+ ["ça vaut le coup","it's worth it","it's worth the blow"],
+ ["n'importe quoi","nonsense","no matter what"],
+ ["c'est la goutte d'eau qui fait déborder le vase","it's the last straw","it's the drop that makes the vase overflow"],
+ ["quand les poules auront des dents","when pigs fly","when hens have teeth"],
+ ["il pleut des cordes","it's pouring","it's raining ropes"]
+];
+
+/* ---------- drill banks: o[0] is always the right answer ---------- */
+const BANKS={
+passe:[
+ {q:"Quand j'étais petit, je ___ au foot tous les samedis.",o:["jouais","ai joué"],e:"A habit in the past → imparfait."},
+ {q:"Hier, j'___ trois heures sur ce dossier.",o:["ai travaillé","travaillais"],e:"A finished block of time yesterday → passé composé."},
+ {q:"Il ___ beau quand nous sommes partis.",o:["faisait","a fait"],e:"Weather is the background → imparfait."},
+ {q:"Je lisais quand le téléphone ___.",o:["a sonné","sonnait"],e:"The event that interrupts → passé composé."},
+ {q:"Elle ___ en Italie pendant deux ans.",o:["a vécu","vivait"],e:"pendant + a fixed length = a closed period → passé composé."},
+ {q:"À cette époque, nous ___ dans un petit appartement.",o:["habitions","avons habité"],e:"« À cette époque » sets the scene → imparfait."},
+ {q:"Soudain, il ___ à pleuvoir.",o:["a commencé","commençait"],e:"« Soudain » signals an event → passé composé."},
+ {q:"J'___ fatigué, alors je suis rentré.",o:["étais","ai été"],e:"A state of mind or body → imparfait."},
+ {q:"Quand je suis arrivé, ils ___ déjà partis.",o:["étaient","sont"],e:"Earlier than another past moment → plus-que-parfait (étaient partis)."},
+ {q:"Pendant que je ___, il a commencé à neiger.",o:["marchais","ai marché"],e:"pendant que + an ongoing action → imparfait."},
+ {q:"Nous ___ au restaurant trois fois la semaine dernière.",o:["sommes allés","allions"],e:"A counted number of times → passé composé."},
+ {q:"Avant, je ne ___ jamais de café.",o:["buvais","ai bu"],e:"« Avant » + a habit → imparfait."}
+],
+pronoms:[
+ {q:"Tu as vu le film ? — Oui, je ___ ai vu.",o:["l'","lui","en"],e:"le film is a direct object → le, elided to l'."},
+ {q:"Tu as parlé à ta mère ? — Oui, je ___ ai parlé.",o:["lui","la","y"],e:"parler à + a person → lui."},
+ {q:"Tu veux du café ? — Oui, j'___ veux bien.",o:["en","le","y"],e:"du café (a partitive) → en."},
+ {q:"Tu vas à Lyon demain ? — Oui, j'___ vais.",o:["y","en","le"],e:"A place → y."},
+ {q:"Tu penses à ton examen ? — Oui, j'___ pense.",o:["y","lui","en"],e:"penser à + a thing → y."},
+ {q:"Tu penses à ta sœur ? — Oui, je pense ___.",o:["à elle","lui","y"],e:"penser à + a person keeps à + stressed pronoun."},
+ {q:"Il donne les clés à Marc. → Il ___ donne.",o:["les lui","lui les","leur les"],e:"Order: le/la/les before lui/leur."},
+ {q:"Elle m'a donné des conseils. → Elle ___ a donné.",o:["m'en","en m'","me les"],e:"me before en; des conseils → en."},
+ {q:"Tu as combien de frères ? — J'___ ai deux.",o:["en","les","y"],e:"A quantity → en + the number."},
+ {q:"Donne-moi le livre ! → ___ !",o:["Donne-le-moi","Donne-moi-le","Le-moi donne"],e:"Positive command: verb-le-moi."},
+ {q:"Tu as écrit à tes parents ? — Oui, je ___ ai écrit.",o:["leur","les","lui"],e:"écrire à + several people → leur."},
+ {q:"Tu vas acheter ces chaussures ? — Oui, je vais ___ acheter.",o:["les","leur","en"],e:"Direct object, placed before the infinitive it belongs to."},
+ {q:"Il y a du pain ? — Oui, il y ___ a.",o:["en","le","y"],e:"il y en a = there is some."}
+],
+relatifs:[
+ {q:"Le livre ___ je lis est passionnant.",o:["que","qui","dont"],e:"A subject (je) follows → que."},
+ {q:"La femme ___ parle est ma prof.",o:["qui","que","dont"],e:"A verb follows directly → qui."},
+ {q:"Le film ___ je t'ai parlé.",o:["dont","que","où"],e:"parler de → dont."},
+ {q:"La ville ___ je suis né.",o:["où","dont","que"],e:"A place → où."},
+ {q:"Le jour ___ on s'est rencontrés.",o:["où","quand","que"],e:"French uses où for times too."},
+ {q:"___ m'intéresse, c'est l'histoire.",o:["Ce qui","Ce que","Qui"],e:"\"What\" as subject (verb follows) → ce qui."},
+ {q:"Je ne comprends pas ___ tu veux.",o:["ce que","ce qui","que"],e:"\"What\" as object (subject follows) → ce que."},
+ {q:"C'est l'outil ___ j'ai besoin.",o:["dont","que","où"],e:"avoir besoin de → dont."},
+ {q:"Le collègue avec ___ je travaille.",o:["qui","que","dont"],e:"A person after a preposition → qui."},
+ {q:"La table sur ___ j'ai posé mes clés.",o:["laquelle","qui","que"],e:"A thing after a preposition → lequel/laquelle."}
+],
+hypotheses:[
+ {q:"Si j'ai le temps, je ___.",o:["viendrai","viendrais","venais"],e:"si + présent → futur."},
+ {q:"Si j'avais le temps, je ___.",o:["viendrais","viendrai","serais venu"],e:"si + imparfait → conditionnel."},
+ {q:"Si j'avais su, je ___.",o:["serais venu","viendrais","viendrai"],e:"si + plus-que-parfait → conditionnel passé."},
+ {q:"Si tu ___ plus tôt, tu aurais eu ton train.",o:["étais parti","partirais","partiras"],e:"Regret → plus-que-parfait after si."},
+ {q:"Demain, il ___ trop tard.",o:["sera","serait","était"],e:"être → ser- + a."},
+ {q:"Quand tu ___ à Paris, appelle-moi.",o:["arriveras","arrives","arriverais"],e:"quand + future meaning → futur in French."},
+ {q:"___-vous m'aider, s'il vous plaît ?",o:["Pourriez","Pourrez","Pouviez"],e:"Polite request → conditionnel."},
+ {q:"Nous ___ demain si possible.",o:["partirons","partions","partirions"],e:"A plan with si possible → futur."},
+ {q:"À ta place, je ___ ce travail.",o:["prendrais","prendrai","prenais"],e:"« À ta place » = imagined → conditionnel."}
+],
+subjonctif:[
+ {q:"Il faut que tu ___. (venir)",o:["viennes","viens","viendras"],e:"il faut que → subjonctif."},
+ {q:"Je pense qu'il ___ raison.",o:["a","ait"],e:"Positive penser que → indicatif."},
+ {q:"Je ne pense pas qu'il ___ raison.",o:["ait","a"],e:"Negative penser que = doubt → subjonctif."},
+ {q:"Bien qu'elle ___ fatiguée, elle travaille.",o:["soit","est"],e:"bien que → subjonctif."},
+ {q:"Après qu'il ___ parti, on a mangé.",o:["est","soit"],e:"après que → indicatif (avant que takes the subjonctif)."},
+ {q:"Je veux que vous ___ la vérité. (savoir)",o:["sachiez","savez","saurez"],e:"vouloir que → subjonctif; savoir → sach-."},
+ {q:"J'espère que tu ___ bien.",o:["vas","ailles"],e:"espérer que → indicatif."},
+ {q:"Je suis content que tu ___ là.",o:["sois","es"],e:"An emotion + que → subjonctif."},
+ {q:"Je veux ___. (I want to leave)",o:["partir","que je parte"],e:"Same subject → infinitive, no que."},
+ {q:"Je t'explique pour que tu ___. (comprendre)",o:["comprennes","comprends","comprendras"],e:"pour que → subjonctif; ils comprennent → comprenn-."},
+ {q:"Il est évident qu'il ___ tort.",o:["a","ait"],e:"Certainty → indicatif."},
+ {q:"Attends jusqu'à ce que je ___ là. (être)",o:["sois","suis","serai"],e:"jusqu'à ce que → subjonctif."},
+ {q:"Je doute qu'elle ___ venir. (pouvoir)",o:["puisse","peut","pourra"],e:"douter que → subjonctif; pouvoir → puiss-."}
+],
+connecteurs:[
+ {q:"Le projet est cher. ___, il est utile.",o:["Cependant","Donc","Ainsi"],e:"Contrast → cependant."},
+ {q:"Je reste chez moi ___ je suis malade.",o:["car","donc","pourtant"],e:"Cause → car / parce que."},
+ {q:"___ il fasse froid, il sort en t-shirt.",o:["Bien qu'","Parce qu'","Puisqu'"],e:"fasse is subjonctif → bien que."},
+ {q:"J'ai raté le bus, ___ je suis arrivé en retard.",o:["du coup","pourtant","bien que"],e:"Spoken result → du coup."},
+ {q:"Paul aime le thé, ___ sa femme préfère le café.",o:["tandis que","parce que","afin que"],e:"Contrast between two people → tandis que / alors que."},
+ {q:"Je t'explique ___ tu comprennes.",o:["pour que","parce que","alors que"],e:"Goal + subjonctif → pour que."},
+ {q:"___ la pluie, le match a eu lieu.",o:["Malgré","Bien que","Pourtant"],e:"Followed by a noun → malgré."},
+ {q:"___ son aide, j'ai réussi.",o:["Grâce à","À cause de","Malgré"],e:"Positive cause + noun → grâce à."},
+ {q:"Il n'a pas étudié ; ___, il a échoué.",o:["par conséquent","en revanche","pourtant"],e:"Formal result → par conséquent."},
+ {q:"___ tu es là, aide-moi !",o:["Puisque","Bien que","Afin que"],e:"An obvious, shared cause → puisque."},
+ {q:"Il travaille beaucoup ; ___, il gagne peu.",o:["en revanche","de plus","ainsi"],e:"Opposition between two facts → en revanche."},
+ {q:"Je vais à la bibliothèque ___ réviser.",o:["afin de","afin que","grâce à"],e:"Goal + infinitive → afin de."}
+],
+raconter:[
+ {q:"« Je suis fatigué. » → Il a dit qu'il ___ fatigué.",o:["était","est","sera"],e:"présent → imparfait."},
+ {q:"« Je viendrai. » → Elle a dit qu'elle ___.",o:["viendrait","viendra","venait"],e:"futur → conditionnel."},
+ {q:"« J'ai fini. » → Il a dit qu'il ___ fini.",o:["avait","a","aurait"],e:"passé composé → plus-que-parfait."},
+ {q:"« Tu viens ? » → Il m'a demandé ___ je venais.",o:["si","que","ce que"],e:"Yes/no question → si."},
+ {q:"« Qu'est-ce que tu fais ? » → Il m'a demandé ___ je faisais.",o:["ce que","qu'est-ce que","si"],e:"Qu'est-ce que → ce que."},
+ {q:"« Viens demain ! » → Il m'a dit ___ le lendemain.",o:["de venir","que je viens","venir"],e:"Command → de + infinitive."},
+ {q:"Il écoute la radio ___ la cuisine.",o:["en faisant","en fait","faisant de"],e:"Gérondif: en + -ant."},
+ {q:"La maison ___ construite en 1900.",o:["a été","était été","a"],e:"Passive past: a été + participle (agreed)."},
+ {q:"« Il fut président. » In everyday French this is…",o:["il a été président","il sera président","il était fou"],e:"Passé simple fut = a été / était."}
+],
+boss:[
+ {q:"Les lettres que j'ai ___.",o:["écrites","écrit","écrits"],e:"Direct object (les lettres, fem. pl.) comes first → agree."},
+ {q:"___ un excellent médecin.",o:["C'est","Il est"],e:"Determiner (un) → c'est."},
+ {q:"Mon frère ? ___ médecin.",o:["Il est","C'est"],e:"Bare profession → il est."},
+ {q:"J'habite ici ___ trois ans.",o:["depuis","il y a","pendant"],e:"Still true now → depuis + présent."},
+ {q:"Je suis arrivé ___ trois ans.",o:["il y a","depuis","dans"],e:"\"Ago\" → il y a."},
+ {q:"J'ai lu ce roman ___ deux jours. (it took me two days)",o:["en","dans","depuis"],e:"Time taken → en."},
+ {q:"« Éventuellement » means…",o:["possibly","eventually","finally"],e:"Eventually = finalement."},
+ {q:"Which is the soutenu word for travail?",o:["l'emploi","le boulot","le taf"],e:"boulot and taf are familier."},
+ {q:"« Avant qu'il ne parte » means…",o:["before he leaves","before he doesn't leave"],e:"An empty, non-negative ne."}
+]
+};
+
+/* ---------- storage ---------- */
+const store={
+  get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+};
+const hot=(window.claude&&window.claude.hot)||null;
+const hotData=(hot&&hot.data)||{};
+const state={
+  cleared:new Set(hotData.cleared||store.get("frB.cleared",[])),
+  stats:hotData.stats||store.get("frB.stats",{}),          // {stationId:{a:attempts,c:correct}}
+  mistakes:new Set(hotData.mistakes||store.get("frB.mistakes",[])) // "bank:index"
+};
+const save=()=>{store.set("frB.cleared",[...state.cleared]);store.set("frB.stats",state.stats);store.set("frB.mistakes",[...state.mistakes])};
+try{hot&&hot.snapshot(()=>({cleared:[...state.cleared],stats:state.stats,mistakes:[...state.mistakes]}))}catch(e){}
+const acc=k=>{const s=state.stats[k];return s&&s.a?s.c/s.a:null};
+
+/* ---------- helpers ---------- */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fr=t=>`<button class="fr" data-say="${esc(t)}">${esc(t)}</button>`;
+let toastT;
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("show"),2800)}
+function speak(text){
+  try{
+    const s=window.speechSynthesis;if(!s||!window.SpeechSynthesisUtterance)throw 0;
+    s.cancel();
+    const u=new SpeechSynthesisUtterance(text.replace(/[«»…→]/g," ").replace(/\(.*?\)/g," "));
+    u.lang="fr-FR";u.rate=.9;
+    const v=s.getVoices().find(v=>/^fr(-|_|$)/i.test(v.lang));if(v)u.voice=v;
+    s.speak(u);
+  }catch(e){toast("Audio isn't available in this browser.")}
+}
+try{window.speechSynthesis&&window.speechSynthesis.getVoices()}catch(e){}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-say]");if(b)speak(b.dataset.say||b.textContent)});
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+
+/* ---------- English layer ---------- */
+const TITLE_EN={passe:"The past: telling a story",pronoms:"Pronouns: it, him, there, some",relatifs:"Relative pronouns: who, which, whose",hypotheses:"The future and 'if' sentences",subjonctif:"The subjunctive",connecteurs:"Linking words",raconter:"Telling and reporting",frequents:"The words that keep coming back",vocabulaire:"B-level vocabulary",expressions:"Everyday idioms",boss:"Final traps",delf:"DELF exam workshop",terminus:"Last stop: mock exam"};
+const EN={
+"Il faisait beau, les gens se promenaient.":"The weather was nice, people were out walking.",
+"Quand j'étais petit, je jouais au foot le samedi.":"When I was little, I played football on Saturdays.",
+"Soudain, le téléphone a sonné.":"Suddenly, the phone rang.",
+"J'ai vécu deux ans à Lyon.":"I lived in Lyon for two years.",
+"Je dormais quand tu as appelé.":"I was sleeping when you called.",
+"Quand je suis arrivé, le film avait déjà commencé.":"When I arrived, the film had already started.",
+"Je la connais.":"I know her.",
+"Je lui ai écrit.":"I wrote to him / her.",
+"J'y pense. J'y vais.":"I'm thinking about it. I'm going (there).",
+"J'en ai trois. J'en parle.":"I have three (of them). I'm talking about it.",
+"Je pense à elle.":"I'm thinking about her.",
+"Il me le donne.":"He gives it to me.",
+"Je le lui donne.":"I give it to him / her.",
+"Il y en a.":"There are some.",
+"Je le vois.":"I see him / it.",
+"Je l'ai vu.":"I saw him / it.",
+"Je vais le voir.":"I'm going to see him / it.",
+"Donne-le-moi !":"Give it to me!",
+"La femme qui parle est ma prof.":"The woman who is speaking is my teacher.",
+"Le livre que je lis est génial.":"The book (that) I'm reading is great.",
+"Le jour où on s'est rencontrés.":"The day (when) we met.",
+"Le film dont je t'ai parlé.":"The film I told you about.",
+"Ce qui m'intéresse, c'est l'histoire.":"What interests me is history.",
+"La raison pour laquelle je suis venu.":"The reason why I came.",
+"Le collègue avec qui je travaille.":"The colleague I work with.",
+"je parlerai":"I will speak",
+"je parlerais":"I would speak",
+"Si j'ai le temps, je viendrai.":"If I have time, I'll come.",
+"Si j'avais le temps, je viendrais.":"If I had time, I would come.",
+"Si j'avais su, je serais venu.":"If I had known, I would have come.",
+"Quand j'arriverai, je t'appellerai.":"When I arrive, I'll call you.",
+"Pourriez-vous m'aider ?":"Could you help me?",
+"Tu devrais essayer.":"You should try.",
+"Ça me plairait.":"I'd like that.",
+"Je veux partir.":"I want to leave.",
+"que je finisse":"that I finish",
+"que je prenne":"that I take",
+"À mon avis,":"In my opinion,",
+"Selon moi,":"In my view,",
+"Il me semble que":"It seems to me that",
+"Je suis convaincu que":"I'm convinced that",
+"Je doute que":"I doubt that",
+"D'un côté… de l'autre…":"On one hand… on the other…",
+"Non seulement… mais aussi…":"Not only… but also…",
+"Certes, c'est cher, mais c'est utile.":"Admittedly it's expensive, but it's useful.",
+"Je suis d'accord avec vous sur ce point, mais…":"I agree with you on this point, but…",
+"il a dit qu'il était prêt":"he said he was ready",
+"qu'il avait fini":"that he had finished",
+"qu'il viendrait":"that he would come",
+"qu'il allait partir":"that he was going to leave",
+"il m'a dit de venir":"he told me to come",
+"Il chante en cuisinant.":"He sings while cooking.",
+"C'est en pratiquant qu'on progresse.":"It's by practising that you improve.",
+"La tour a été construite en 1889.":"The tower was built in 1889.",
+"On a construit la tour en 1889.":"They built the tower in 1889.",
+"Les lettres que j'ai écrites.":"The letters (that) I wrote.",
+"Je les ai vues.":"I saw them.",
+"C'est un bon médecin.":"He's a good doctor.",
+"Il est médecin.":"He's a doctor.",
+"C'est facile.":"It's easy.",
+"J'habite ici depuis trois ans.":"I've lived here for three years.",
+"Je l'ai lu en deux jours.":"I read it in two days.",
+"Partez avant qu'il ne pleuve.":"Leave before it rains.",
+"Nous verrons d'abord… puis…":"We will first look at… then…",
+"D'une part… Par exemple…":"On the one hand… For example…",
+"D'autre part… Cependant…":"On the other hand… However…",
+"En définitive… On peut se demander si…":"All in all… One may wonder whether…",
+"C'est une bonne question.":"That's a good question.",
+"Comment dire…":"How can I put it…",
+"Si je comprends bien, vous voulez dire que…":"If I understand correctly, you mean that…",
+"Je n'ai pas bien saisi, pourriez-vous reformuler ?":"I didn't quite catch that, could you rephrase?",
+"Je dirais plutôt que…":"I'd rather say that…",
+"Autrement dit…":"In other words…",
+"Je vous rejoins sur ce point, mais…":"I'm with you on that point, but…"
+};
+const DRILL_EN={
+passe:["When I was little, I played football every Saturday.","Yesterday I worked on this file for three hours.","The weather was nice when we left.","I was reading when the phone rang.","She lived in Italy for two years.","Back then, we lived in a small flat.","Suddenly, it started to rain.","I was tired, so I went home.","When I arrived, they had already left.","While I was walking, it started to snow.","We went to the restaurant three times last week.","I never used to drink coffee before."],
+pronoms:["Did you see the film? — Yes, I saw it.","Did you talk to your mother? — Yes, I talked to her.","Do you want some coffee? — Yes, I'd like some.","Are you going to Lyon tomorrow? — Yes, I'm going (there).","Are you thinking about your exam? — Yes, I'm thinking about it.","Are you thinking about your sister? — Yes, I'm thinking about her.","He gives the keys to Marc. → He gives them to him.","She gave me some advice. → She gave me some.","How many brothers do you have? — I have two.","Give me the book! → Give it to me!","Did you write to your parents? — Yes, I wrote to them.","Are you going to buy these shoes? — Yes, I'm going to buy them.","Is there any bread? — Yes, there is some."],
+relatifs:["The book (that) I'm reading is gripping.","The woman who is speaking is my teacher.","The film I told you about.","The town where I was born.","The day (when) we met.","What interests me is history.","I don't understand what you want.","It's the tool I need.","The colleague I work with.","The table I put my keys on."],
+hypotheses:["If I have time, I'll come.","If I had time, I would come.","If I had known, I would have come.","If you had left earlier, you would have caught your train.","Tomorrow it will be too late.","When you arrive in Paris, call me.","Could you help me, please?","We will leave tomorrow if possible.","If I were you, I would take this job."],
+subjonctif:["You have to come.","I think he's right.","I don't think he's right.","Although she's tired, she's working.","After he left, we ate.","I want you to know the truth.","I hope you're well.","I'm glad you're here.","I want to leave.","I'm explaining so that you understand.","It's obvious he's wrong.","Wait until I'm there.","I doubt she can come."],
+connecteurs:["The project is expensive. However, it's useful.","I'm staying home because I'm ill.","Although it's cold, he goes out in a T-shirt.","I missed the bus, so I arrived late.","Paul likes tea, whereas his wife prefers coffee.","I'm explaining so that you understand.","Despite the rain, the match took place.","Thanks to his help, I succeeded.","He didn't study; as a result, he failed.","Since you're here, help me!","He works a lot; on the other hand, he earns little.","I'm going to the library in order to revise."],
+raconter:["\"I'm tired.\" → He said he was tired.","\"I'll come.\" → She said she would come.","\"I've finished.\" → He said he had finished.","\"Are you coming?\" → He asked me if I was coming.","\"What are you doing?\" → He asked me what I was doing.","\"Come tomorrow!\" → He told me to come the next day.","He listens to the radio while cooking.","The house was built in 1900.","\"He was president\" (old written style). In everyday French this is…"],
+boss:["The letters (that) I wrote.","He's an excellent doctor.","My brother? He's a doctor.","I've lived here for three years.","I arrived three years ago.","I read this novel in two days."]
+};
+function addGlosses(root){
+  (root||document).querySelectorAll("button.fr").forEach(b=>{
+    if(b.dataset.glossed)return;const en=EN[b.textContent.trim()];if(!en)return;
+    b.dataset.glossed="1";b.insertAdjacentHTML("afterend",`<span class="gloss">(${esc(en)})</span>`);
+  });
+}
+function setEnglish(on){
+  document.body.classList.toggle("no-en",!on);
+  const t=$("#enToggle");t.setAttribute("aria-pressed",on);t.textContent="English: "+(on?"on":"off");
+  store.set("frB.en",on);
+}
+
+/* ---------- progress ---------- */
+let hereId=null;
+function renderProgress(){
+  $("#route").innerHTML=STATIONS.map((s,i)=>`<li style="--c:${s.c}" class="${state.cleared.has(s.id)?"done":""}"><a href="#${s.id}"><span class="dot">${state.cleared.has(s.id)?"✓":i+1}</span><span class="lbl">${s.name}</span><span class="sub">${s.sub}</span><span class="lvl">${s.lv}</span>${acc(s.id)!==null?`<span class="m"><b>${Math.round(acc(s.id)*100)}%</b> of ${state.stats[s.id].a}</span>`:""}</a></li>`).join("");
+  $("#stTotal").textContent=STATIONS.length;
+  const en=$("#errN");if(en)en.textContent=state.mistakes.size;
+  const hint=$("#hubHint");
+  if(hint){
+    const tried=STATIONS.filter(s=>state.stats[s.id]&&state.stats[s.id].a>=3).sort((a,b)=>acc(a.id)-acc(b.id));
+    const fresh=STATIONS.find(s=>BANKS[s.id]&&!state.stats[s.id]);
+    hint.innerHTML=tried.length&&acc(tried[0].id)<.8?`Weakest so far: <a href="#${tried[0].id}">${tried[0].name}</a> (${Math.round(acc(tried[0].id)*100)}%). The daily mix leans towards it.`:
+      fresh?`Next new ground: <a href="#${fresh.id}">${fresh.name}</a>. The daily mix favours stations you haven't tried.`:"Every station tried. Keep the mix and your mistakes list going daily.";
+  }
+  $("#stops").innerHTML=STATIONS.map((s,i)=>`<li><a href="#${s.id}" style="--c:${s.c}" class="${state.cleared.has(s.id)?"done":""}${s.id===hereId?" here":""}" data-id="${s.id}" title="${i+1}. ${s.name}"><i></i><span>${s.name}</span></a></li>`).join("");
+  $("#clearedCount").textContent=state.cleared.size;
+  document.querySelectorAll(".clear-btn").forEach(b=>{const on=state.cleared.has(b.dataset.station);b.setAttribute("aria-pressed",on);b.textContent=on?"✓ Station cleared":"Mark station cleared"});
+}
+function setCleared(id,on){on?state.cleared.add(id):state.cleared.delete(id);save();renderProgress()}
+document.addEventListener("click",e=>{
+  const b=e.target.closest(".clear-btn");if(!b)return;
+  const id=b.dataset.station;setCleared(id,!state.cleared.has(id));
+  const n=STATIONS.length;
+  if(state.cleared.has(id))toast(state.cleared.size===n?`Ligne B complète ! All ${n} stations cleared.`:`Station cleared · ${state.cleared.size} of ${n}`);
+});
+if("IntersectionObserver" in window){
+  const io=new IntersectionObserver(ents=>ents.forEach(en=>{if(en.isIntersecting){hereId=en.target.id;document.querySelectorAll(".stops a").forEach(a=>a.classList.toggle("here",a.dataset.id===hereId))}}),{rootMargin:"-45% 0px -50% 0px"});
+  document.querySelectorAll(".station").forEach(s=>io.observe(s));
+}
+
+/* ---------- drill engine ---------- */
+function drill(el,getItems,opts={}){
+  let items,idx,score,answered;
+  function start(){items=getItems();idx=0;score=0;if(!items.length){el.innerHTML=opts.empty||"<p>Nothing to practise here yet.</p>";return}show()}
+  function show(){
+    if(idx>=items.length){
+      const pass=opts.pass?score>=opts.pass:score>=Math.ceil(items.length*.7);
+      el.innerHTML=`<div class="score">${score} / ${items.length}</div>
+        <p style="margin-top:8px">${opts.doneText?opts.doneText(score,items.length):pass?"Solid. This structure is yours.":"Read the cards above once more, then go again. The questions reshuffle. Missed ones are saved to <b>Mes erreurs</b>."}</p>
+        <button class="btn solid" type="button" data-act="again">Go again</button>`;
+      opts.onDone&&opts.onDone(score,items.length);
+      return;
+    }
+    const it=items[idx];answered=false;
+    const qHtml=esc(it.q).replace("___",'<span class="gap">…</span>');
+    el.innerHTML=`<div class="drill-top"><span>Question ${idx+1} of ${items.length}${it.tag?` · ${esc(it.tag)}`:""}</span><span>${score} correct</span></div>
+      <div class="bar"><i style="width:${idx/items.length*100}%"></i></div>
+      <p class="drill-q" style="margin-top:12px">${qHtml}</p>
+      <div class="opts">${shuffle(it.o.map((o,j)=>({o,j}))).map(x=>`<button class="opt" type="button" data-j="${x.j}">${esc(x.o)}</button>`).join("")}</div>
+      ${it.en?`<button class="btn tr-btn en-only" type="button" data-act="tr">Translate the sentence</button><p class="gloss block" data-tr hidden>${esc(it.en)}</p>`:""}
+      <div class="feedback" aria-live="polite"></div>`;
+  }
+  el.addEventListener("click",e=>{
+    if(e.target.closest('[data-act="again"]')){start();return}
+    if(e.target.closest('[data-act="next"]')){idx++;show();return}
+    if(e.target.closest('[data-act="tr"]')){const p=el.querySelector("[data-tr]");if(p){p.hidden=false;e.target.closest('[data-act="tr"]').remove()}return}
+    const b=e.target.closest(".opt");if(!b||answered)return;
+    answered=true;
+    const it=items[idx],j=+b.dataset.j,ok=j===0;if(ok)score++;
+    record(it,ok);
+    el.querySelectorAll(".opt").forEach(o=>{o.disabled=true;if(+o.dataset.j===0)o.classList.add("right");else if(o===b)o.classList.add("wrong")});
+    const full=it.say||((it.q.includes("___")&&!/[«→]|I want/.test(it.q))?it.q.replace(/\s*\(.*?\)/g,"").replace("___",it.o[0]).replace(/' /g,"'"):"");
+    const trBtn=el.querySelector('[data-act="tr"]'),trP=el.querySelector("[data-tr]");if(trBtn)trBtn.remove();if(trP)trP.remove();
+    el.querySelector(".feedback").innerHTML=`<span class="verdict ${ok?"y":"n"}">${ok?"Correct":"Not quite"}</span>${esc(it.e)}
+      ${full?`<div style="margin-top:6px">${fr(full)}</div>`:""}
+      ${it.en?`<p class="gloss block">${esc(it.en)}</p>`:""}
+      <div style="margin-top:10px"><button class="btn solid" type="button" data-act="next">${idx+1<items.length?"Next":"See score"}</button></div>`;
+    el.querySelector('[data-act="next"]').focus({preventScroll:true});
+  });
+  start();
+}
+function record(it,ok){
+  const s=state.stats[it.k]||(state.stats[it.k]={a:0,c:0});s.a++;if(ok)s.c++;
+  const id=it.k+":"+it.i;ok?state.mistakes.delete(id):state.mistakes.add(id);
+  save();renderProgress();
+}
+
+/* ---------- generated banks: vocabulary + idioms ---------- */
+function pickOthers(all,right,n){return shuffle(all.filter(x=>x!==right)).slice(0,n)}
+const VOCAB_ALL=VOCAB.flatMap(g=>g.w.map(w=>({fr:w[0],en:w[1],t:g.t})));
+const VOCAB_EN=VOCAB_ALL.map(v=>v.en);
+BANKS.vocabulaire=VOCAB_ALL.map(v=>({q:`« ${v.fr} » means…`,o:[v.en,...pickOthers(VOCAB_EN,v.en,2)],e:`Topic: ${v.t}.`,say:v.fr}));
+const IDIOM_EN=IDIOMS.map(x=>x[1]);
+BANKS.expressions=IDIOMS.map(x=>({q:`« ${x[0]} » means…`,o:[x[1],...pickOthers(IDIOM_EN,x[1],2)],e:`Word for word: "${x[2]}".`,say:x[0]}));
+/* frequent words: bank, list, known tracking */
+const FQ=Object.entries(FREQ).flatMap(([cat,ws])=>ws.map(w=>({fr:w[0],en:w[1],note:w[2]||"",cat})));
+STATIONS.find(s=>s.id==="frequents").sub=FQ.length+" core words";
+BANKS.frequents=FQ.map(w=>{
+  const same=FQ.filter(x=>x.cat===w.cat).map(x=>x.en);
+  return {q:`« ${w.fr} » means…`,o:[w.en,...pickOthers(same,w.en,2)],e:w.note?(w.note[0]==="!"?"False friend: "+w.note.slice(1).trim():w.note):`${w.cat}.`,say:w.fr.replace(/\s*\(.*?\)/g,"")};
+});
+const known=new Set(store.get("frB.known",[]));
+const fqUI={cat:"Tout",q:"",hide:false};
+const fqNorm=s=>s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+function renderFQ(){
+  const q=fqNorm(fqUI.q.trim());
+  const cats=Object.keys(FREQ).filter(c=>fqUI.cat==="Tout"||c===fqUI.cat);
+  let shown=0;
+  $("#fqList").innerHTML=cats.map(c=>{
+    const rows=FQ.filter(w=>w.cat===c&&(!fqUI.hide||!known.has(w.fr))&&(!q||fqNorm(w.fr).includes(q)||fqNorm(w.en).includes(q)));
+    shown+=rows.length;if(!rows.length)return "";
+    const nk=FQ.filter(w=>w.cat===c&&known.has(w.fr)).length,tot=FQ.filter(w=>w.cat===c).length;
+    return `<div class="fq-cat">${c} <span>· ${nk} / ${tot} known</span></div><div class="fq-grid">${rows.map(w=>{
+      const id="fq-"+FQ.indexOf(w),ff=w.note[0]==="!";
+      return `<div class="fq-row${known.has(w.fr)?" known":""}"><input type="checkbox" id="${id}" data-fr="${esc(w.fr)}" ${known.has(w.fr)?"checked":""} aria-label="I know ${esc(w.fr)}">
+        <div><div class="w"><button class="fr" data-say="${esc(w.fr.replace(/\s*\(.*?\)/g,""))}">${esc(w.fr)}</button></div>
+        <div class="m">${esc(w.en)}</div>${w.note?`<div class="note">${ff?`<span class="ff-tag">False friend</span>${esc(w.note.slice(1).trim())}`:esc(w.note)}</div>`:""}</div></div>`}).join("")}</div>`;
+  }).join("");
+  $("#fqEmpty").hidden=shown>0;
+  $("#fqKnown").textContent=known.size;$("#fqTotal").textContent=FQ.length;$("#fqBar").style.width=(known.size/FQ.length*100)+"%";
+}
+$("#fqCats").innerHTML=["Tout",...Object.keys(FREQ)].map(c=>`<button class="chip" type="button" data-cat="${c}" aria-pressed="${c==="Tout"}">${c==="Tout"?"All":c}${c==="Tout"?"":` <span class="gloss">${{Verbes:"verbs",Noms:"nouns",Adjectifs:"adjectives",Adverbes:"adverbs",Expressions:"phrases"}[c]}</span>`}</button>`).join("");
+$("#fqCats").addEventListener("click",e=>{const c=e.target.closest("[data-cat]");if(!c)return;fqUI.cat=c.dataset.cat;$("#fqCats").querySelectorAll("[data-cat]").forEach(b=>b.setAttribute("aria-pressed",b===c));renderFQ()});
+$("#fqSearch").addEventListener("input",e=>{fqUI.q=e.target.value;renderFQ()});
+$("#fqHide").addEventListener("change",e=>{fqUI.hide=e.target.checked;renderFQ()});
+$("#fqList").addEventListener("change",e=>{
+  const c=e.target.closest("input[data-fr]");if(!c)return;
+  c.checked?known.add(c.dataset.fr):known.delete(c.dataset.fr);store.set("frB.known",[...known]);
+  c.closest(".fq-row").classList.toggle("known",c.checked);
+  if(fqUI.hide&&c.checked)setTimeout(renderFQ,350);else{$("#fqKnown").textContent=known.size;$("#fqBar").style.width=(known.size/FQ.length*100)+"%"}
+});
+renderFQ();
+
+$("#vocabGrid").innerHTML=VOCAB.map(g=>`<div class="card"><h3>${esc(g.t)}</h3><table class="vocab small"><tbody>${g.w.map(w=>`<tr><td>${fr(w[0])}</td><td>${esc(w[1])}</td></tr>`).join("")}</tbody></table></div>`).join("");
+$("#idiomGrid").innerHTML=IDIOMS.map(x=>`<div class="card idiom"><h3>${fr(x[0])}</h3><p style="margin:4px 0 2px">${esc(x[1])}</p><p class="lit" style="margin:0">literally "${esc(x[2])}"</p></div>`).join("");
+
+/* ---------- all items ---------- */
+const nameOf=k=>(STATIONS.find(s=>s.id===k)||{}).name||k;
+const ALL=[];Object.keys(BANKS).forEach(k=>BANKS[k].forEach((q,i)=>ALL.push(Object.assign({k,i,tag:nameOf(k),en:(DRILL_EN[k]||[])[i]||""},q))));
+const byId=id=>ALL.find(x=>x.k+":"+x.i===id);
+
+document.querySelectorAll("[data-drill]").forEach(el=>{
+  const k=el.dataset.drill;
+  if(k==="exam"){
+    drill(el,()=>shuffle(ALL.filter(x=>x.k!=="frequents")).slice(0,15),{pass:12,onDone:(s)=>{if(s>=12){setCleared("terminus",true);toast(`${s}/15 · Terminus cleared. Félicitations, niveau B en vue !`)}}});
+  }else if(k==="frequents"){
+    drill(el,()=>{const pool=ALL.filter(x=>x.k==="frequents"),fresh=pool.filter(x=>!known.has(FQ[x.i].fr));return shuffle(fresh.length>=15?fresh:pool).slice(0,15)},
+      {doneText:(s,n)=>s>=12?"Good. Tick the words you now know in the list above, and the next round will skip them.":"Missed words are saved to My mistakes. Go again for a new set."});
+  }else drill(el,()=>shuffle(ALL.filter(x=>x.k===k)));
+});
+
+/* daily mix: weight stations by weakness, missed items count double */
+function dailyMix(n){
+  const w=it=>{const a=acc(it.k);const base=a===null?2.2:1+(1-a)*4;const miss=state.mistakes.has(it.k+":"+it.i);
+    // the big word list would swamp the mix: scale it down unless the word was missed
+    const bulk=it.k==="frequents"&&!miss?(known.has(FQ[it.i].fr)?0.02:0.12):1;
+    return base*(miss?2:1)*bulk};
+  const pool=ALL.map(it=>({it,w:w(it)})),out=[];
+  while(out.length<n&&pool.length){
+    const tot=pool.reduce((s,p)=>s+p.w,0);let r=Math.random()*tot,i=0;
+    while(i<pool.length-1&&(r-=pool[i].w)>0)i++;
+    out.push(pool.splice(i,1)[0].it);
+  }
+  return out;
+}
+
+/* ---------- conjugator ---------- */
+const ETRE_V=new Set(["aller","venir","arriver","partir","entrer","sortir","monter","descendre","rester","tomber","retourner","rentrer","passer","naître","mourir","devenir","revenir","repartir"]);
+// "~" = prefix before the key (comprendre → com + prendre)
+const IRR={
+  "être":{ils:"",nous:"ét",fut:"ser",pp:"été",subj:["sois","sois","soit","soyons","soyez","soient"]},
+  "avoir":{ils:"",nous:"av",fut:"aur",pp:"eu",subj:["aie","aies","ait","ayons","ayez","aient"]},
+  "aller":{ils:"",nous:"all",fut:"ir",pp:"allé",subj:["aille","ailles","aille","allions","alliez","aillent"]},
+  "pouvoir":{ils:"",nous:"pouv",fut:"pourr",pp:"pu",subj:["puisse","puisses","puisse","puissions","puissiez","puissent"]},
+  "savoir":{ils:"",nous:"sav",fut:"saur",pp:"su",subj:["sache","saches","sache","sachions","sachiez","sachent"]},
+  "vouloir":{ils:"",nous:"voul",fut:"voudr",pp:"voulu",subj:["veuille","veuilles","veuille","voulions","vouliez","veuillent"]},
+  "devoir":{ils:"doiv",nous:"dev",fut:"devr",pp:"dû"},
+  "recevoir":{ils:"reçoiv",nous:"recev",fut:"recevr",pp:"reçu"},
+  "voir":{ils:"voi",nous:"voy",fut:"verr",pp:"vu"},
+  "croire":{ils:"croi",nous:"croy",fut:"croir",pp:"cru"},
+  "boire":{ils:"boiv",nous:"buv",fut:"boir",pp:"bu"},
+  "lire":{ils:"lis",nous:"lis",fut:"lir",pp:"lu"},
+  "vivre":{ils:"viv",nous:"viv",fut:"vivr",pp:"vécu"},
+  "naître":{ils:"naiss",nous:"naiss",fut:"naîtr",pp:"né"},
+  "mourir":{ils:"meur",nous:"mour",fut:"mourr",pp:"mort"},
+  "courir":{ils:"cour",nous:"cour",fut:"courr",pp:"couru"},
+  "partir":{ils:"part",nous:"part",fut:"partir",pp:"parti"},
+  "sortir":{ils:"sort",nous:"sort",fut:"sortir",pp:"sorti"},
+  "dormir":{ils:"dorm",nous:"dorm",fut:"dormir",pp:"dormi"},
+  "sentir":{ils:"sent",nous:"sent",fut:"sentir",pp:"senti"},
+  "servir":{ils:"serv",nous:"serv",fut:"servir",pp:"servi"},
+  "envoyer":{ils:"envoi",nous:"envoy",fut:"enverr",pp:"envoyé"},
+  "faire":{ils:"~fass",nous:"~fais",fut:"~fer",pp:"~fait",subj:["~fasse","~fasses","~fasse","~fassions","~fassiez","~fassent"]},
+  "prendre":{ils:"~prenn",nous:"~pren",fut:"~prendr",pp:"~pris"},
+  "venir":{ils:"~vienn",nous:"~ven",fut:"~viendr",pp:"~venu"},
+  "tenir":{ils:"~tienn",nous:"~ten",fut:"~tiendr",pp:"~tenu"},
+  "mettre":{ils:"~mett",nous:"~mett",fut:"~mettr",pp:"~mis"},
+  "dire":{ils:"~dis",nous:"~dis",fut:"~dir",pp:"~dit"},
+  "crire":{ils:"~criv",nous:"~criv",fut:"~crir",pp:"~crit"},
+  "duire":{ils:"~duis",nous:"~duis",fut:"~duir",pp:"~duit"},
+  "aître":{ils:"~aiss",nous:"~aiss",fut:"~aîtr",pp:"~u"},
+  "vrir":{ils:"~vr",nous:"~vr",fut:"~vrir",pp:"~vert"},
+  "frir":{ils:"~fr",nous:"~fr",fut:"~frir",pp:"~fert"}
+};
+const PFX_OK=new Set(["faire","prendre","venir","tenir","mettre","dire","crire","duire","aître","vrir","frir"]);
+const SUBJ_P=["que je","que tu","qu'il","que nous","que vous","qu'ils"];
+const P=["je","tu","il","nous","vous","ils"];
+const IMP_E=["ais","ais","ait","ions","iez","aient"],FUT_E=["ai","as","a","ons","ez","ont"],SUB_E=["e","es","e","ions","iez","ent"];
+const AV_IMP=["avais","avais","avait","avions","aviez","avaient"],ET_IMP=["étais","étais","était","étions","étiez","étaient"];
+const AV_CON=["aurais","aurais","aurait","aurions","auriez","auraient"],ET_CON=["serais","serais","serait","serions","seriez","seraient"];
+const vowel=f=>/^[aeiouéèêâîôûyh]/i.test(f);
+function withP(i,f,subj){
+  if(subj){if(i===0&&vowel(f))return "que j'"+f;if((i===2||i===5)&&false)return"";return SUBJ_P[i]+" "+f}
+  return i===0&&vowel(f)?"j'"+f:P[i]+" "+f;
+}
+function analyse(inf){
+  if(IRR[inf]&&!PFX_OK.has(inf))return Object.assign({er:false},IRR[inf]);
+  const key=Object.keys(IRR).filter(k=>PFX_OK.has(k)&&inf.endsWith(k)).sort((a,b)=>b.length-a.length)[0];
+  if(key){
+    const pre=inf.slice(0,-key.length),d=IRR[key],r=s=>s.replace("~",pre);
+    return {er:false,ils:r(d.ils),nous:r(d.nous),fut:r(d.fut),pp:r(d.pp),subj:d.subj&&d.subj.map(r)};
+  }
+  if(/er$/.test(inf)&&inf.length>2){const st=inf.slice(0,-2);return {er:true,ils:st,nous:st,fut:inf,pp:st+"é"}}
+  if(/oir$/.test(inf))return null;
+  if(/ir$/.test(inf)&&inf.length>2){const st=inf.slice(0,-2);return {er:false,ils:st+"iss",nous:st+"iss",fut:inf,pp:st+"i"}}
+  if(/re$/.test(inf)&&inf.length>2){const st=inf.slice(0,-2);return {er:false,ils:st,nous:st,fut:inf.slice(0,-1),pp:st+"u"}}
+  return null;
+}
+function fixEr(st,end,er){
+  if(!er)return st+end;
+  if(/^[ao]/.test(end)){if(/g$/.test(st))return st+"e"+end;if(/c$/.test(st))return st.slice(0,-1)+"ç"+end}
+  return st+end;
+}
+function conjugate(raw){
+  const inf=raw.trim().toLowerCase().replace(/^(se |s')/,"");
+  const a=analyse(inf);if(!a)return null;
+  const etre=ETRE_V.has(inf);
+  const agree=i=>etre?a.pp+(["(e)","(e)","(e)","(e)s","(e)(s)","(e)s"][i]):a.pp;
+  return P.map((_,i)=>({
+    imp:withP(i,fixEr(a.nous,IMP_E[i],a.er)),
+    pqp:withP(i,(etre?ET_IMP:AV_IMP)[i])+" "+agree(i),
+    fut:withP(i,a.fut+FUT_E[i]),
+    con:withP(i,a.fut+IMP_E[i]),
+    cp:withP(i,(etre?ET_CON:AV_CON)[i])+" "+agree(i),
+    sub:withP(i,a.subj?a.subj[i]:fixEr((i===3||i===4)?a.nous:a.ils,SUB_E[i],a.er),true)
+  })).concat([{etre}]);
+}
+const LBL=["je","tu","il / elle / on","nous","vous","ils / elles"];
+function runConj(){
+  const out=$("#conjOut"),r=conjugate($("#conjIn").value);
+  if(!r){out.innerHTML="<p>Type an infinitive ending in -er, -ir or -re (or -oir for the common irregulars).</p>";return}
+  const etre=r.pop().etre;
+  const t=(cols)=>`<div class="scroll"><table class="conj"><thead><tr><th></th>${cols.map(c=>`<th>${c[0]}</th>`).join("")}</tr></thead><tbody>${r.map((x,i)=>`<tr><td>${LBL[i]}</td>${cols.map(c=>`<td>${fr(x[c[1]])}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+  out.innerHTML=(etre?`<p class="small muted">Uses <b>être</b> in compound tenses, so the participle agrees.</p>`:"")+
+    `<span class="eyebrow">Telling the past</span>`+t([["Imparfait <span class='gloss block'>was doing / used to do</span>","imp"],["Plus-que-parfait <span class='gloss block'>had done</span>","pqp"]])+
+    `<span class="eyebrow" style="margin-top:14px">Plans, wishes, regrets</span>`+t([["Futur <span class='gloss block'>will do</span>","fut"],["Conditionnel <span class='gloss block'>would do</span>","con"],["Cond. passé <span class='gloss block'>would have done</span>","cp"],["Subjonctif <span class='gloss block'>(that) … do, after il faut que…</span>","sub"]]);
+}
+$("#conjIn").addEventListener("input",runConj);
+const chipsEl=$("#conjChips");
+chipsEl.innerHTML=["parler","manger","finir","attendre","être","avoir","aller","faire","venir","pouvoir","comprendre","écrire","connaître"].map(w=>`<button class="chip" type="button">${w}</button>`).join("");
+chipsEl.addEventListener("click",e=>{const c=e.target.closest(".chip");if(c){$("#conjIn").value=c.textContent;runConj()}});
+runConj();
+
+/* ---------- accent keys ---------- */
+const ACCENTS=["é","è","ê","à","â","ç","ù","û","î","ï","ô","œ","ë","«","»"];
+document.querySelectorAll(".accents").forEach(b=>{b.innerHTML=ACCENTS.map(a=>`<button class="acc" type="button" tabindex="-1">${a}</button>`).join("")});
+document.addEventListener("mousedown",e=>{if(e.target.closest(".acc"))e.preventDefault()});
+document.addEventListener("click",e=>{
+  const a=e.target.closest(".acc");if(!a)return;
+  const t=document.getElementById(a.parentElement.dataset.for);if(!t)return;
+  const s=t.selectionStart??t.value.length,en=t.selectionEnd??s,ch=a.textContent;
+  t.value=t.value.slice(0,s)+ch+t.value.slice(en);t.focus();t.setSelectionRange(s+ch.length,s+ch.length);
+  t.dispatchEvent(new Event("input"));
+});
+
+/* ---------- conjugation sprint ---------- */
+const SPRINT_VERBS=["parler","manger","finir","attendre","choisir","répondre","arriver","rester","être","avoir","aller","faire","venir","pouvoir","vouloir","savoir","devoir","prendre","comprendre","mettre","dire","écrire","lire","voir","partir","sortir","connaître","boire","vivre","recevoir"];
+const TENSES=[["Imparfait","imp",1,"was doing"],["Futur","fut",1,"will do"],["Conditionnel","con",1,"would do"],["Subjonctif","sub",1,"that … do"],["Plus-que-parfait","pqp",0,"had done"],["Cond. passé","cp",0,"would have done"]];
+const VERB_EN={parler:"to speak",manger:"to eat",finir:"to finish",attendre:"to wait",choisir:"to choose",répondre:"to answer",arriver:"to arrive",rester:"to stay",être:"to be",avoir:"to have",aller:"to go",faire:"to do / make",venir:"to come",pouvoir:"can",vouloir:"to want",savoir:"to know",devoir:"must",prendre:"to take",comprendre:"to understand",mettre:"to put",dire:"to say",écrire:"to write",lire:"to read",voir:"to see",partir:"to leave",sortir:"to go out",connaître:"to know (a person / place)",boire:"to drink",vivre:"to live",recevoir:"to receive"};
+const sprintState={on:new Set(TENSES.filter(t=>t[2]).map(t=>t[1])),score:0,tries:0,streak:0,best:store.get("frB.best",0)};
+const strip=s=>s.toLowerCase().replace(/’/g,"'").trim().replace(/\s+/g," ").replace(/^(que |qu')?(je |j'|tu |il |elle |on |nous |vous |ils |elles )/,"");
+const deacc=s=>s.normalize("NFD").replace(/[̀-ͯ]/g,"");
+function sprint(el){
+  el.innerHTML=`<div class="tchecks">${TENSES.map(t=>`<label><input type="checkbox" value="${t[1]}" ${sprintState.on.has(t[1])?"checked":""}> ${t[0]} <span class="gloss">${t[3]}</span></label>`).join("")}</div>
+  <div class="drill-top"><span id="spStat"></span><span id="spBest"></span></div>
+  <p class="sp-q" id="spQ"></p>
+  <div class="row"><input type="text" id="spIn" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="type the verb form, e.g. prendrions"><button class="btn solid" type="button" id="spGo">Check</button><button class="btn" type="button" id="spSkip">Skip</button></div>
+  <div class="accents" data-for="spIn">${ACCENTS.slice(0,13).map(a=>`<button class="acc" type="button" tabindex="-1">${a}</button>`).join("")}</div>
+  <div class="feedback" id="spFb"></div>
+  <p class="small muted" style="margin-top:10px">Type just the verb (with its auxiliary for compound tenses). The pronoun is optional. Press Enter to check, Enter again for the next one.</p>`;
+  let cur=null,done=false;
+  const stat=()=>{$("#spStat").textContent=`${sprintState.score} / ${sprintState.tries} correct · streak ${sprintState.streak}`;$("#spBest").textContent=`best streak ${sprintState.best}`};
+  function next(){
+    const ts=TENSES.filter(t=>sprintState.on.has(t[1]));
+    if(!ts.length){$("#spQ").innerHTML="Tick at least one tense.";cur=null;return}
+    const v=SPRINT_VERBS[Math.floor(Math.random()*SPRINT_VERBS.length)],t=ts[Math.floor(Math.random()*ts.length)],p=Math.floor(Math.random()*6);
+    const rows=conjugate(v);rows.pop();
+    cur={v,t,p,full:rows[p][t[1]]};done=false;
+    $("#spQ").innerHTML=`<span class="lvl">${t[0]}</span> &nbsp;${t[1]==="sub"?"que ":""}${LBL[p]} · <b>${v}</b> <span class="gloss">(${VERB_EN[v]||""}, ${t[3]})</span>`;
+    $("#spIn").value="";$("#spFb").innerHTML="";$("#spIn").focus({preventScroll:true});stat();
+  }
+  function check(){
+    if(!cur)return;
+    if(done){next();return}
+    const ans=strip($("#spIn").value);if(!ans)return;
+    const core=strip(cur.full);
+    const rx=new RegExp("^"+core.replace(/[.*+?^${}|[\]\\]/g,"\\$&").replace(/\(e\)/g,"e?").replace(/\(s\)/g,"s?")+"$");
+    let ok=rx.test(ans),near=false;
+    if(!ok&&new RegExp("^"+deacc(rx.source).replace(/\\\^/,"")).test(deacc(ans))){ok=true;near=true}
+    sprintState.tries++;if(ok){sprintState.score++;sprintState.streak++;if(sprintState.streak>sprintState.best){sprintState.best=sprintState.streak;store.set("frB.best",sprintState.best)}}else sprintState.streak=0;
+    done=true;
+    $("#spFb").innerHTML=`<span class="verdict ${ok?"y":"n"}">${ok?(near?"Almost":"Correct"):"Not quite"}</span>${near?"Right form, but check the accents: ":ok?"":"The answer is "}${fr(cur.full)}<div style="margin-top:10px"><button class="btn solid" type="button" id="spNext">Next</button></div>`;
+    stat();
+  }
+  el.querySelector(".tchecks").addEventListener("change",e=>{const c=e.target;c.checked?sprintState.on.add(c.value):sprintState.on.delete(c.value);next()});
+  el.addEventListener("click",e=>{if(e.target.id==="spGo")check();else if(e.target.id==="spSkip"||e.target.id==="spNext")next()});
+  $("#spIn").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();check()}});
+  next();
+}
+
+/* ---------- practice hub ---------- */
+function openTab(tab){
+  document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected",t.dataset.tab===tab));
+  const panel=$("#hubPanel");panel.innerHTML="<div></div>";const el=panel.firstChild;
+  if(tab==="mix")drill(el,()=>dailyMix(10),{doneText:(s,n)=>s>=8?"Strong session. Come back tomorrow for a new mix.":"Your misses are in <b>Mes erreurs</b>. Clear them before tomorrow's mix."});
+  else if(tab==="err")drill(el,()=>shuffle([...state.mistakes].map(byId).filter(Boolean)),{empty:"<p><b>No saved mistakes.</b> Every question you miss in any drill lands here, and leaves once you answer it correctly.</p>",doneText:()=>state.mistakes.size?`${state.mistakes.size} still to fix. Go again or read their stations.`:"Mistakes list cleared. Bravo !"});
+  else sprint(el);
+}
+document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>openTab(t.dataset.tab)));
+openTab("mix");
+
+/* ---------- B-mètre ---------- */
+const BM_PROMPTS={
+  B1:["Vous avez passé un week-end dans une ville que vous ne connaissiez pas. Écrivez à un ami pour raconter ce que vous avez fait et ce que vous en avez pensé. (160 mots)",
+      "Sur un forum, quelqu'un demande : « Faut-il interdire les voitures en centre-ville ? » Donnez votre opinion avec des exemples. (160 mots)",
+      "Vous avez eu un problème avec un achat en ligne. Écrivez au service client pour expliquer la situation et demander une solution. (160 mots)",
+      "Racontez un souvenir d'enfance important pour vous et expliquez pourquoi il compte encore. (160 mots)",
+      "Un ami hésite à partir étudier un an à l'étranger. Écrivez-lui pour le conseiller. (160 mots)"],
+  B2:["Le télétravail : progrès ou isolement ? Rédigez un essai argumenté. (250 mots)",
+      "Vous écrivez au maire de votre ville pour proposer un projet qui rendrait votre quartier plus écologique. (250 mots)",
+      "Les réseaux sociaux rendent-ils les jeunes moins heureux ? Écrivez un article pour un magazine. (250 mots)",
+      "Faut-il rendre les transports publics gratuits ? Donnez votre point de vue de façon nuancée. (250 mots)",
+      "Apprendre une langue étrangère est-il encore utile à l'heure de la traduction automatique ? (250 mots)"]
+};
+let bmTarget=160;
+document.querySelectorAll("[data-prompt]").forEach(b=>b.addEventListener("click",()=>{
+  const lv=b.dataset.prompt,list=BM_PROMPTS[lv];
+  $("#bmPrompt").innerHTML=`<b>${lv}</b> · ${esc(list[Math.floor(Math.random()*list.length)])}`;bmTarget=lv==="B1"?160:250;runBM();
+}));
+const BM={
+  b1:["d'abord","ensuite","enfin","parce que","car","donc","alors","mais","par contre","par exemple","même si","en plus","aussi","du coup","après","puis"],
+  b2:["cependant","pourtant","en revanche","alors que","tandis que","bien que","quoique","certes","malgré","puisque","étant donné que","vu que","grâce à","en raison de","par conséquent","c'est pourquoi","si bien que","ainsi","afin de","afin que","pour que","tout d'abord","en premier lieu","pour conclure","en conclusion","notamment","c'est-à-dire","en effet","de plus","en outre","par ailleurs","d'une part","d'autre part","non seulement","en définitive","néanmoins","toutefois","au contraire","quant à"],
+  rel:["dont","ce qui","ce que","ce dont","lequel","laquelle","lesquels","lesquelles","auquel","auxquels","duquel","qui","où"],
+  subj:["il faut que","il faudrait que","bien que","pour que","afin que","avant que","sans que","à moins que","jusqu'à ce que","je veux que","je voudrais que","il est important que","il est essentiel que","il est nécessaire que","il est possible que","je doute que","je ne pense pas que","je ne crois pas que","je suis content que","j'ai peur que","je souhaite que","quoique","il semble que"],
+  op:["à mon avis","selon moi","d'après moi","il me semble que","je pense que","je trouve que","je crois que","je suis convaincu","je suis convaincue","je suis d'accord","je ne suis pas d'accord","personnellement","pour ma part","de mon point de vue","j'estime que"],
+  over:{"très":"extrêmement, particulièrement","beaucoup":"énormément, de nombreux","chose":"élément, aspect","choses":"éléments, aspects","il y a":"il existe","faire":"réaliser, effectuer","bon":"efficace, pertinent","important":"essentiel, crucial","problème":"difficulté, enjeu","problèmes":"difficultés, enjeux","dire":"affirmer, expliquer","mettre":"placer, poser","truc":"élément, objet"}
+};
+const CAT={};
+[["subj","k-subj"],["op","k-op"],["b2","k-b2"],["b1","k-b1"],["rel","k-rel"]].forEach(([k,c])=>BM[k].forEach(p=>{if(!CAT[p])CAT[p]=c}));
+Object.keys(BM.over).forEach(p=>CAT[p]="k-over");
+// subj triggers and opinions win over shorter overlaps because longer phrases match first
+const PHRASES=Object.keys(CAT).sort((a,b)=>b.length-a.length).map(p=>p.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"));
+const COND="[a-zàâçéèêëîïôûùœ]{2,}r(?:ais|ait|ions|iez|aient)";
+const BM_RX=new RegExp(`(?<![\\p{L}'])(${PHRASES.join("|")}|${COND})(?![\\p{L}])`,"giu");
+function runBM(){
+  const raw=$("#bmIn").value.replace(/’/g,"'");
+  const words=(raw.match(/[\p{L}'-]+/gu)||[]).length;
+  const sentences=Math.max(1,(raw.match(/[.!?]+(\s|$)/g)||[]).length);
+  const found={};const add=(c,m)=>{(found[c]=found[c]||new Set()).add(m.toLowerCase())};
+  let overCount=0;
+  const html=esc(raw).replace(BM_RX,(m)=>{
+    const c=CAT[m.toLowerCase()]||"k-cond";add(c,m);if(c==="k-over")overCount++;
+    const tip=c==="k-over"?` title="Try: ${esc(BM.over[m.toLowerCase()])}"`:"";
+    return `<mark class="${c}"${tip}>${m}</mark>`;
+  });
+  $("#bmMarked").innerHTML=html||"<span class='muted'>Start typing…</span>";
+  const n=c=>found[c]?found[c].size:0;
+  const relB=[...(found["k-rel"]||[])].some(r=>!["qui","où"].includes(r));
+  const avg=words/sentences;
+  const checks=[
+    [words>=bmTarget,`Length: ${words} / ${bmTarget} words`],
+    [n("k-b1")+n("k-b2")>=4,`At least 4 different linking words (${n("k-b1")+n("k-b2")})`],
+    [n("k-b2")>=2,`At least 2 B2-level linking words (${n("k-b2")})`],
+    [n("k-rel")>=2&&relB,"Relative clauses, including dont / ce qui / ce que / lequel"],
+    [n("k-cond")>=1,"A conditionnel (hypothesis, suggestion, politeness)"],
+    [n("k-subj")>=1,"A subjonctif trigger"],
+    [n("k-op")>=1,"An opinion phrase"],
+    [words>0&&avg>=10&&avg<=28,`Sentence length: ${words?avg.toFixed(0):0} words on average (aim for 10–28)`],
+    [words>0&&overCount/Math.max(words,1)<=.03,`Overused A2 words kept low (${overCount})`]
+  ];
+  const met=checks.filter(c=>c[0]).length;
+  $("#bmChecks").innerHTML=checks.map(c=>`<li class="${c[0]?"ok":""}"><span class="st">${c[0]?"✓":""}</span><span>${c[1]}</span></li>`).join("");
+  $("#bmEst").textContent=!words?"–":met>=8?"B2 features":met>=6?"B1+ features":met>=4?"B1 features":"A2 features";
+  $("#bmWords").textContent=`${met} / ${checks.length} checks`;
+  const tips=[];
+  if(n("k-b2")<2)tips.push("Swap a <em>mais</em> for <b>cependant</b> or <b>en revanche</b>, and a <em>parce que</em> for <b>puisque</b>.");
+  if(n("k-subj")<1)tips.push("Add a sentence with <b>il faut que</b> or <b>bien que</b> + subjonctif.");
+  if(n("k-cond")<1)tips.push("Add a hypothesis: <b>Si j'étais…, je proposerais…</b>");
+  if(!relB)tips.push("Join two sentences with <b>dont</b> or <b>ce qui</b>.");
+  if(overCount)tips.push("Hover the wavy-underlined words for stronger alternatives.");
+  $("#bmTips").innerHTML=tips.length?"<b>Next upgrade:</b> "+tips.slice(0,2).join(" "):"";
+}
+const BM_SAMPLE="À mon avis, le télétravail présente de nombreux avantages. Tout d'abord, il permet de gagner du temps, puisque l'on ne perd plus deux heures dans les transports. De plus, les salariés dont les enfants sont petits peuvent mieux organiser leur journée.\n\nCependant, il faut que les entreprises fassent attention à l'isolement. Certains employés se sentent seuls, ce qui peut les rendre moins motivés. C'est un problème très important.\n\nSi j'étais directeur, je proposerais deux jours au bureau par semaine. Par conséquent, chacun garderait le lien avec l'équipe tout en profitant d'une certaine liberté.";
+$("#bmIn").value=store.get("frB.draft",BM_SAMPLE);
+let draftT;
+$("#bmIn").addEventListener("input",()=>{runBM();clearTimeout(draftT);draftT=setTimeout(()=>store.set("frB.draft",$("#bmIn").value),400)});
+runBM();
+
+/* ---------- reset ---------- */
+let resetArmed=false;
+$("#resetAll").addEventListener("click",e=>{
+  if(!resetArmed){resetArmed=true;e.target.textContent="Click again to erase everything";setTimeout(()=>{resetArmed=false;e.target.textContent="Erase all my progress"},4000);return}
+  state.cleared.clear();state.stats={};state.mistakes.clear();save();known.clear();store.set("frB.known",[]);renderFQ();renderProgress();openTab("mix");
+  e.target.textContent="Erase all my progress";resetArmed=false;toast("Progress erased. Fresh start.");
+});
+
+/* ---------- English layer init ---------- */
+document.querySelectorAll(".station").forEach(s=>{
+  const h=s.querySelector(".station-head h2");if(h&&TITLE_EN[s.id])h.insertAdjacentHTML("afterend",`<span class="en-title">${esc(TITLE_EN[s.id])}</span>`);
+});
+addGlosses();
+setEnglish(store.get("frB.en",true));
+$("#enToggle").addEventListener("click",()=>setEnglish(document.body.classList.contains("no-en")));
+
+renderProgress();
+})();
+</script>
+</body>
+</html>
