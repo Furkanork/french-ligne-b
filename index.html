@@ -272,6 +272,116 @@ footer{padding:40px 20px 60px;text-align:center;color:var(--muted);font-size:.88
 .toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--card);padding:10px 16px;border-radius:8px;font-size:.92rem;opacity:0;pointer-events:none;transition:opacity .2s;z-index:50}
 .toast.show{opacity:1}
 @media (prefers-reduced-motion: reduce){*{transition:none!important}}
+
+/* ---------- mobile navigation (hidden on desktop) ---------- */
+.nav-here,.bottombar{display:none}
+.sheet{position:fixed;inset:0;z-index:60;background:rgba(10,12,30,.5);display:flex;align-items:flex-end;justify-content:center}
+.sheet[hidden]{display:none}
+.sheet-panel{background:var(--card);width:100%;max-width:560px;max-height:85vh;max-height:85dvh;overflow-y:auto;border-radius:16px 16px 0 0;padding:8px 14px calc(16px + env(safe-area-inset-bottom));box-shadow:0 -6px 30px rgba(0,0,0,.25)}
+.sheet-head{position:sticky;top:-8px;background:var(--card);display:flex;justify-content:space-between;align-items:center;padding:10px 2px;font-family:var(--display);font-stretch:80%;font-size:1.2rem;text-transform:uppercase;letter-spacing:.05em;z-index:1}
+.sheet-x{cursor:pointer;min-height:44px;padding:0 16px;border-radius:999px;border:2px solid var(--ink);background:var(--card);font-family:var(--display);font-weight:700;font-stretch:85%}
+.sheet-hub{display:block;margin:2px 0 8px;padding:12px 14px;border-radius:10px;background:var(--ink);color:var(--card);text-decoration:none;font-family:var(--display);font-stretch:85%;font-weight:700}
+#sheetList{list-style:none;margin:0;padding:0}
+#sheetList a{position:relative;display:flex;align-items:center;gap:12px;min-height:58px;padding:6px 8px;color:var(--ink);text-decoration:none;border-radius:10px}
+#sheetList li:not(:last-child) a::before{content:"";position:absolute;left:23px;top:36px;height:44px;width:6px;background:var(--c);z-index:0}
+#sheetList .dot{position:relative;z-index:1;flex:none;width:36px;height:36px;border-radius:50%;background:var(--card);border:6px solid var(--c);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:.85rem}
+#sheetList .done .dot{background:var(--ok);border-color:var(--ok);color:#fff}
+#sheetList .t{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.2}
+#sheetList .t b{font-family:var(--display);font-stretch:85%;font-size:1.05rem}
+#sheetList .t small{color:var(--muted);font-size:.85rem}
+#sheetList .pc{font-family:var(--display);font-weight:800;font-size:.85rem;font-variant-numeric:tabular-nums}
+#sheetList a.here{background:color-mix(in srgb,var(--c) 22%,transparent)}
+body.sheet-open{overflow:hidden}
+
+@media (max-width:700px){
+  body{font-size:16.5px;padding-bottom:calc(68px + env(safe-area-inset-bottom))}
+  html{scroll-padding-top:64px}
+  .wrap{padding:0 12px}
+
+  /* top bar: name · current station (tap for list) · English */
+  .linebar .wrap{gap:8px;height:52px}
+  .linebar .stops{display:none}
+  .nav-here{display:flex;flex:1;min-width:0;align-items:center;justify-content:space-between;gap:4px;min-height:40px;padding:0 10px 0 12px;border-radius:999px;border:0;background:rgba(255,255,255,.14);color:var(--plate-ink);font-family:var(--display);font-stretch:85%;font-weight:700;font-size:.95rem;cursor:pointer}
+  .nav-here span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .nav-here svg{width:18px;height:18px;flex:none}
+  .en-toggle{min-height:40px;padding:0 10px}
+
+  /* bottom bar */
+  .bottombar{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--plate);padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -2px 10px rgba(0,0,0,.18)}
+  .bottombar button{position:relative;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:60px;border:0;background:none;color:var(--plate-ink);font-family:var(--display);font-stretch:85%;font-weight:700;font-size:.8rem;letter-spacing:.02em}
+  .bottombar svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .bottombar button:active{background:rgba(255,255,255,.12)}
+  .bb-n{position:absolute;top:6px;left:calc(50% + 8px);min-width:19px;height:19px;padding:0 5px;border-radius:10px;background:var(--bad);color:#fff;font-size:.72rem;line-height:19px;text-align:center}
+  body.typing .bottombar,body.sheet-open .bottombar{display:none}
+  body.typing{padding-bottom:0}
+  .toast{bottom:calc(76px + env(safe-area-inset-bottom))}
+
+  /* hero */
+  .hero{padding:24px 12px 16px}
+  .lede{font-size:1.05rem;margin:18px 0 16px}
+  .facts{grid-template-columns:1fr 1fr;gap:8px}
+  .facts li{padding:10px 12px;font-size:.88rem;line-height:1.4}
+  .facts b{font-size:1.6rem}
+
+  /* route map: vertical line instead of a 1000px-wide strip */
+  .route{padding:16px 12px 8px;overflow:visible}
+  .route ol{display:block;min-width:0}
+  .route li{text-align:left}
+  .route li::before{top:0;bottom:0;left:19px;right:auto;width:6px;height:auto}
+  .route li:first-child::before{left:19px;top:50%}
+  .route li:last-child::before{right:auto;bottom:50%}
+  .route a{display:grid;grid-template-columns:34px 1fr auto;column-gap:12px;align-items:center;padding:7px 2px;min-height:54px}
+  .route .dot{grid-row:span 2;border-color:var(--c)}
+  .route .lbl{grid-column:2;font-size:1.02rem}
+  .route .sub{grid-column:2;font-size:.82rem}
+  .route .lvl{grid-column:3;grid-row:1}
+  .route .m{grid-column:3;grid-row:2;font-size:.78rem}
+
+  /* stations: drop the side rail, give the content the full width */
+  .station{padding:34px 12px 26px}
+  .station::before{left:12px;right:12px;top:0;bottom:auto;width:auto;height:6px;border-radius:3px}
+  .roundel{left:12px;top:32px;width:36px;height:36px;font-size:.95rem;border-width:3px}
+  .station-head{gap:8px;margin-bottom:18px}
+  .station-head h2.plate{margin-left:46px;font-size:1.65rem}
+  .station-head .en-title{margin-left:46px}
+  .payoff{font-size:1.04rem}
+  .grid,.stack{gap:12px}
+  .card{padding:14px 14px}
+  .card.key{box-shadow:4px 4px 0 color-mix(in srgb,var(--line) 55%,transparent)}
+  .hub .card{box-shadow:4px 4px 0 var(--plate)}
+  .tool-body{padding:12px}
+  .tool-head{padding:8px 12px}
+
+  /* tables */
+  table{font-size:.9rem}
+  th,td{padding:7px 6px}
+  .conj th:first-child,.conj td:first-child{display:none}   /* forms already carry the pronoun */
+  .conj td{white-space:normal}
+
+  /* bigger tap targets */
+  .btn,.tab,.clear-btn{min-height:44px}
+  .tab{padding:6px 14px;font-size:.95rem}
+  .tabs{gap:8px}
+  .chip{min-height:40px;padding:6px 14px;font-size:.95rem}
+  .chips{gap:8px}
+  .acc{min-width:44px;min-height:44px;font-size:1.1rem}
+  .accents{gap:6px}
+  .opts{display:grid;grid-template-columns:1fr;gap:10px}
+  .opt{width:100%;min-height:50px;text-align:left;padding:10px 16px;font-size:1.05rem}
+  .drill-q{font-size:1.15rem}
+  .fq-row{padding:9px 0}
+  .fq-row input{width:22px;height:22px;margin-top:.15em}
+  .tchecks{gap:10px 16px;font-size:.95rem}
+  .tchecks input,.big-check{width:22px;height:22px}
+  input[type=text]{font-size:16.5px;min-height:46px}
+  textarea{font-size:16.5px}
+
+  /* nothing smaller than ~12.5px */
+  .gloss{font-size:max(.86em,12.5px)}
+  .eyebrow{font-size:.76rem}
+  .lvl{font-size:.74rem}
+  .ff-tag{font-size:.74rem}
+}
 </style>
 </head>
 <body>
@@ -314,10 +424,26 @@ footer{padding:40px 20px 60px;text-align:center;color:var(--muted);font-size:.88
 <nav class="linebar" aria-label="Stations">
   <div class="wrap">
     <span class="name">Ligne B</span>
+    <button class="nav-here" type="button" id="navHere" aria-haspopup="dialog" aria-controls="sheet"><span id="navHereTxt">All stations</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <ol class="stops" id="stops"></ol>
     <button class="en-toggle" type="button" id="enToggle" aria-pressed="true" title="Show or hide English translations">English: on</button>
   </div>
 </nav>
+
+<nav class="bottombar" aria-label="Quick menu">
+  <button type="button" data-go="practice"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg>Practice</button>
+  <button type="button" data-go="mistakes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9.5 17h-19z"/><path d="M12 10v4.5M12 17.4v.1"/></svg>Mistakes<b class="bb-n" id="bbErr" hidden></b></button>
+  <button type="button" data-go="stations"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v18"/><circle cx="7" cy="6" r="2.4" fill="var(--plate)"/><circle cx="7" cy="12" r="2.4" fill="var(--plate)"/><circle cx="7" cy="18" r="2.4" fill="var(--plate)"/><path d="M12 6h8M12 12h8M12 18h8"/></svg>Stations</button>
+  <button type="button" data-go="top"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>Top</button>
+</nav>
+
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+  <div class="sheet-panel">
+    <div class="sheet-head"><b id="sheetTitle">All stations</b><button type="button" class="sheet-x" data-close>Close</button></div>
+    <a class="sheet-hub" href="#entrainement" data-close>Today's practice · daily mix, mistakes, sprint</a>
+    <ol id="sheetList"></ol>
+  </div>
+</div>
 
 <main>
 
@@ -664,7 +790,7 @@ footer{padding:40px 20px 60px;text-align:center;color:var(--muted);font-size:.88
     </div>
     <div class="row" style="margin-top:12px;justify-content:space-between">
       <div class="chips" id="fqCats" style="margin:0"></div>
-      <label class="small" style="display:flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox" id="fqHide"> Hide words I know</label>
+      <label class="small" style="display:flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox" id="fqHide" class="big-check"> Hide words I know</label>
     </div>
     <p class="small muted" style="margin:10px 0 0">Tick a word once you'd recognise it in a text. Click the French to hear it. <span class="ff-tag">False friend</span> marks words that look like English but mean something else.</p>
     <div class="fq-list" id="fqList"></div>
@@ -1209,6 +1335,7 @@ function renderProgress(){
   }
   $("#stops").innerHTML=STATIONS.map((s,i)=>`<li><a href="#${s.id}" style="--c:${s.c}" class="${state.cleared.has(s.id)?"done":""}${s.id===hereId?" here":""}" data-id="${s.id}" title="${i+1}. ${s.name}"><i></i><span>${s.name}</span></a></li>`).join("");
   $("#clearedCount").textContent=state.cleared.size;
+  renderMobileNav();
   document.querySelectorAll(".clear-btn").forEach(b=>{const on=state.cleared.has(b.dataset.station);b.setAttribute("aria-pressed",on);b.textContent=on?"✓ Station cleared":"Mark station cleared"});
 }
 function setCleared(id,on){on?state.cleared.add(id):state.cleared.delete(id);save();renderProgress()}
@@ -1219,7 +1346,7 @@ document.addEventListener("click",e=>{
   if(state.cleared.has(id))toast(state.cleared.size===n?`Ligne B complète ! All ${n} stations cleared.`:`Station cleared · ${state.cleared.size} of ${n}`);
 });
 if("IntersectionObserver" in window){
-  const io=new IntersectionObserver(ents=>ents.forEach(en=>{if(en.isIntersecting){hereId=en.target.id;document.querySelectorAll(".stops a").forEach(a=>a.classList.toggle("here",a.dataset.id===hereId))}}),{rootMargin:"-45% 0px -50% 0px"});
+  const io=new IntersectionObserver(ents=>ents.forEach(en=>{if(en.isIntersecting){hereId=en.target.id;document.querySelectorAll(".stops a").forEach(a=>a.classList.toggle("here",a.dataset.id===hereId));updateNavHere()}}),{rootMargin:"-45% 0px -50% 0px"});
   document.querySelectorAll(".station").forEach(s=>io.observe(s));
 }
 
@@ -1435,12 +1562,14 @@ function runConj(){
   const out=$("#conjOut"),r=conjugate($("#conjIn").value);
   if(!r){out.innerHTML="<p>Type an infinitive ending in -er, -ir or -re (or -oir for the common irregulars).</p>";return}
   const etre=r.pop().etre;
-  const t=(cols)=>`<div class="scroll"><table class="conj"><thead><tr><th></th>${cols.map(c=>`<th>${c[0]}</th>`).join("")}</tr></thead><tbody>${r.map((x,i)=>`<tr><td>${LBL[i]}</td>${cols.map(c=>`<td>${fr(x[c[1]])}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+  const narrow=matchMedia("(max-width:700px)").matches;
+  const t=(cols)=>narrow&&cols.length>2?t(cols.slice(0,2))+t(cols.slice(2)):`<div class="scroll"><table class="conj"><thead><tr><th></th>${cols.map(c=>`<th>${c[0]}</th>`).join("")}</tr></thead><tbody>${r.map((x,i)=>`<tr><td>${LBL[i]}</td>${cols.map(c=>`<td>${fr(x[c[1]])}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
   out.innerHTML=(etre?`<p class="small muted">Uses <b>être</b> in compound tenses, so the participle agrees.</p>`:"")+
     `<span class="eyebrow">Telling the past</span>`+t([["Imparfait <span class='gloss block'>was doing / used to do</span>","imp"],["Plus-que-parfait <span class='gloss block'>had done</span>","pqp"]])+
     `<span class="eyebrow" style="margin-top:14px">Plans, wishes, regrets</span>`+t([["Futur <span class='gloss block'>will do</span>","fut"],["Conditionnel <span class='gloss block'>would do</span>","con"],["Cond. passé <span class='gloss block'>would have done</span>","cp"],["Subjonctif <span class='gloss block'>(that) … do, after il faut que…</span>","sub"]]);
 }
 $("#conjIn").addEventListener("input",runConj);
+matchMedia("(max-width:700px)").addEventListener("change",runConj);
 const chipsEl=$("#conjChips");
 chipsEl.innerHTML=["parler","manger","finir","attendre","être","avoir","aller","faire","venir","pouvoir","comprendre","écrire","connaître"].map(w=>`<button class="chip" type="button">${w}</button>`).join("");
 chipsEl.addEventListener("click",e=>{const c=e.target.closest(".chip");if(c){$("#conjIn").value=c.textContent;runConj()}});
@@ -1512,6 +1641,39 @@ function openTab(tab){
   else sprint(el);
 }
 document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>openTab(t.dataset.tab)));
+
+/* ---------- mobile navigation: station sheet + bottom bar ---------- */
+function renderMobileNav(){
+  const list=$("#sheetList");if(!list)return;
+  list.innerHTML=STATIONS.map((s,i)=>{const done=state.cleared.has(s.id),a=acc(s.id);
+    return `<li><a href="#${s.id}" data-close style="--c:${s.c}" class="${done?"done":""}${s.id===hereId?" here":""}"><span class="dot">${done?"✓":i+1}</span><span class="t"><b>${s.name}</b><small>${s.sub}</small></span><span class="lvl">${s.lv}</span>${a!==null?`<span class="pc">${Math.round(a*100)}%</span>`:""}</a></li>`}).join("");
+  const n=state.mistakes.size,b=$("#bbErr");if(b){b.textContent=n;b.hidden=!n}
+  updateNavHere();
+}
+function updateNavHere(){
+  const t=$("#navHereTxt");if(!t)return;
+  const i=STATIONS.findIndex(s=>s.id===hereId);
+  t.textContent=i<0?"All stations":`${i+1}. ${STATIONS[i].name}`;
+  document.querySelectorAll("#sheetList a").forEach(a=>a.classList.toggle("here",a.getAttribute("href")==="#"+hereId));
+}
+const sheet=$("#sheet");
+function openSheet(){sheet.hidden=false;document.body.classList.add("sheet-open");const h=sheet.querySelector("a.here");(h||sheet.querySelector(".sheet-x")).focus({preventScroll:true});if(h)h.scrollIntoView({block:"center"})}
+function closeSheet(){sheet.hidden=true;document.body.classList.remove("sheet-open")}
+$("#navHere").addEventListener("click",openSheet);
+sheet.addEventListener("click",e=>{if(e.target===sheet||e.target.closest("[data-close]"))closeSheet()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!sheet.hidden)closeSheet()});
+document.querySelector(".bottombar").addEventListener("click",e=>{
+  const b=e.target.closest("[data-go]");if(!b)return;const go=b.dataset.go;
+  if(go==="stations")return openSheet();
+  if(go==="top")return scrollTo({top:0});
+  const want=go==="mistakes"?"err":"mix";
+  const cur=document.querySelector('.tab[aria-selected="true"]');
+  if(!cur||cur.dataset.tab!==want)openTab(want);
+  $("#entrainement").scrollIntoView();
+});
+/* hide the bottom bar while typing so it never covers the keyboard area */
+document.addEventListener("focusin",e=>{if(e.target.matches("input[type=text],textarea"))document.body.classList.add("typing")});
+document.addEventListener("focusout",()=>document.body.classList.remove("typing"));
 openTab("mix");
 
 /* ---------- B-mètre ---------- */
