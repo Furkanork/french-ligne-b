@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ligne B — French A2 → B2</title>
+<title>Ligne B · C — French A2 → C2</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#1b2463">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
@@ -463,6 +463,18 @@ body.sheet-open{overflow:hidden}
   .drill-next{scroll-margin-bottom:calc(60px + env(safe-area-inset-bottom))}
 }
 
+/* ---------- Ligne C ---------- */
+mark.k-c{background:color-mix(in srgb,#0B7A75 38%,transparent)}
+mark.k-relief{background:color-mix(in srgb,#C0392B 30%,transparent)}
+.branch{padding:70px 20px 10px;max-width:1100px;margin:0 auto;border-top:6px double var(--ink)}
+.branch h2.plate{font-size:clamp(2rem,6vw,3.4rem);background:#1a1a1a;box-shadow:inset 0 0 0 5px #1a1a1a,inset 0 0 0 7px #fff,0 3px 0 rgba(0,0,0,.2)}
+.branch .payoff{margin-top:14px}
+.stops span{display:none}
+#sheetList li.sep{margin:14px 0 6px;padding:10px 12px;border-radius:10px;background:#1a1a1a;color:#fff;font-family:var(--display);font-stretch:80%;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+@media (max-width:700px){.branch{padding:44px 12px 6px}}
+/* new stations: cards holding a 3-column table span the full row */
+#negation .grid>.card:has(thead th:nth-child(3)),#prepositions .grid>.card:has(thead th:nth-child(3)),#causatif .grid>.card:has(thead th:nth-child(3)),#nuances .grid>.card:has(thead th:nth-child(3)),#relief .grid>.card:has(thead th:nth-child(3)),#litteraire .grid>.card:has(thead th:nth-child(3)),#motjuste .grid>.card:has(thead th:nth-child(3)){grid-column:1/-1}
+.sheet-head{z-index:5}
 </style>
 </head>
 <body>
@@ -477,8 +489,8 @@ body.sheet-open{overflow:hidden}
 </nav>
 
 <header class="hero wrap">
-  <p class="kicker">Ligne B · A2 → B1 → B2</p>
-  <h1 class="plate">Français<small>mode facile · niveau B</small></h1>
+  <p class="kicker">Ligne B · A2 → B1 → B2 · Ligne C · C1 → C2</p>
+  <h1 class="plate">Français<small>mode facile · niveaux B et C</small></h1>
   <div class="today" id="today">
     <a class="today-go" id="todayGo" href="#passe"><small id="todayLbl">Start here</small><b id="todayName">1. Le passé</b><span aria-hidden="true">→</span></a>
     <button class="today-mix" type="button" data-go="practice"><b>Today's practice</b><small id="todayMeta">10 questions · about 10 minutes</small></button>
@@ -489,14 +501,14 @@ body.sheet-open{overflow:hidden}
   <ul class="facts">
     <li><b>B1</b>Tell what happened, explain plans, give reasons and opinions.</li>
     <li><b>B2</b>Argue for and against, follow TV and debates, sound natural.</li>
-    <li><b>6</b>grammar blocks (stations 1–6) carry most of the A2 → B1 jump.</li>
+    <li><b>C1 · C2</b>Ligne C continues past B2: nuance, style, literary French and the DALF.</li>
     <li><b>1 stem</b>builds both the future and the conditional. Learn it once.</li>
   </ul>
   <p class="check"><b>A2 check</b>This line assumes you already handle: the present tense (regular + être, avoir, aller, faire), passé composé with avoir/être, <em>aller</em> + infinitive, <em>ne … pas</em>, simple questions, and le/la. If any of those wobble, fix them first; everything here builds on them.</p>
   <nav class="route" aria-label="Route map">
     <div class="route-title"><span>Plan de ligne</span><span class="muted small"><strong id="clearedCount">0</strong> of <span id="stTotal">12</span> stations cleared · % = your drill accuracy · saved in this browser</span></div>
     <ol id="route"></ol>
-    <button class="route-mini" type="button" data-go="stations"><span class="segs" id="routeSegs"></span><span class="rm-txt"><b id="rmCleared">0</b> of 13 cleared · <u>See all stations</u></span></button>
+    <button class="route-mini" type="button" data-go="stations"><span class="segs" id="routeSegs"></span><span class="rm-txt"><b id="rmCleared">0</b> of <span id="rmTotal">23</span> cleared · <u>See all stations</u></span></button>
   </nav>
 </header>
 
@@ -539,7 +551,7 @@ body.sheet-open{overflow:hidden}
 
 <!-- 1 PASSÉ -->
 <section class="station" id="passe" style="--line:#FFCD00;--line-ink:#1b1b1b">
-  <span class="roundel">1</span>
+  <span class="roundel"></span>
   <div class="station-head">
     <h2 class="plate">Le passé</h2>
     <p class="payoff">The number-one B1 skill is telling a story. That means choosing between <em>passé composé</em> and <em>imparfait</em>. <b>Think of a film: the imparfait is the set, the passé composé is the action.</b></p>
@@ -586,12 +598,12 @@ body.sheet-open{overflow:hidden}
 
   <div class="tool" style="margin-top:16px"><div class="tool-head"><span class="tag">Drill</span> Passé composé or imparfait?</div><div class="tool-body" data-drill="passe"></div></div>
 
-  <div class="station-foot"><button class="clear-btn" data-station="passe" aria-pressed="false">Mark station cleared</button><span class="next">Next: <a href="#pronoms">Pronoms</a></span></div>
+  <div class="station-foot"><button class="clear-btn" data-station="passe" aria-pressed="false">Mark station cleared</button><span class="next"></span></div>
 </section>
 
 <!-- 2 PRONOMS -->
 <section class="station" id="pronoms" style="--line:#003CA6;--line-ink:#fff">
-  <span class="roundel">2</span>
+  <span class="roundel"></span>
   <div class="station-head">
     <h2 class="plate">Les pronoms</h2>
     <p class="payoff">A2 speakers repeat nouns: "Tu as vu le film ? Oui, j'ai vu le film." <span class="gloss">(Did you see the film? Yes, I saw the film.)</span> B1 speakers say <em>Oui, je l'ai vu.</em> <span class="gloss">(Yes, I saw it.)</span> <b>Five little words and one order chart</b> make you sound fluent at once.</p>
@@ -632,12 +644,58 @@ body.sheet-open{overflow:hidden}
   </div>
 
   <div class="tool" style="margin-top:16px"><div class="tool-head"><span class="tag">Drill</span> Replace with a pronoun</div><div class="tool-body" data-drill="pronoms"></div></div>
-  <div class="station-foot"><button class="clear-btn" data-station="pronoms" aria-pressed="false">Mark station cleared</button><span class="next">Next: <a href="#relatifs">Relatifs</a></span></div>
+  <div class="station-foot"><button class="clear-btn" data-station="pronoms" aria-pressed="false">Mark station cleared</button><span class="next"></span></div>
+</section>
+
+<!-- NÉGATION -->
+<section class="station" id="negation" style="--line:#00AEEF;--line-ink:#1b1b1b">
+  <span class="roundel"></span>
+  <div class="station-head">
+    <h2 class="plate">Négation &amp; comparaison</h2>
+    <p class="payoff">A2 is <em>ne … pas</em>. B1 is everything else: never, nothing, nobody, no longer, only. Then comparing things. <b>The frame never changes: ne + verb + the second word.</b></p>
+  </div>
+  <div class="grid">
+    <div class="card key">
+      <span class="eyebrow">Beyond ne … pas</span>
+      <h3>Seven negatives that do most of the work</h3>
+      <div class="scroll"><table><thead><tr><th>Pattern</th><th>Meaning</th><th>Example</th></tr></thead><tbody><tr><td>ne … jamais</td><td>never</td><td><button class="fr" data-say>Je ne fume jamais.</button></td></tr><tr><td>ne … plus</td><td>no longer, not any more</td><td><button class="fr" data-say>Il n'habite plus ici.</button></td></tr><tr><td>ne … rien</td><td>nothing</td><td><button class="fr" data-say>Je n'ai rien vu.</button></td></tr><tr><td>ne … personne</td><td>nobody</td><td><button class="fr" data-say>Je n'ai vu personne.</button></td></tr><tr><td>ne … aucun(e)</td><td>not a single</td><td><button class="fr" data-say>Il n'y a aucun problème.</button></td></tr><tr><td>ne … que</td><td>only</td><td><button class="fr" data-say>Je n'ai que dix euros.</button></td></tr><tr><td>ne … ni … ni</td><td>neither … nor</td><td><button class="fr" data-say>Je ne bois ni thé ni café.</button></td></tr></tbody></table></div>
+    </div>
+    <div class="card key">
+      <span class="eyebrow">Word order</span>
+      <h3>Before or after the participle?</h3>
+      <p><b>rien, jamais, plus, pas</b> go <em>before</em> the participle: <button class="fr" data-say>Je n'ai rien compris.</button></p>
+      <p><b>personne, aucun, que</b> go <em>after</em> it: <button class="fr" data-say>Je n'ai parlé à personne.</button></p>
+      <p>As the subject, they come first: <button class="fr" data-say>Personne n'est venu.</button> <button class="fr" data-say>Rien n'a changé.</button></p>
+      <p class="small muted">Spoken French often drops the <em>ne</em> ("J'ai rien compris"). Recognise it, but write the <em>ne</em>.</p>
+    </div>
+    <div class="card key">
+      <span class="eyebrow">Comparing</span>
+      <h3>plus, moins, aussi, autant</h3>
+      <p>Adjective: <button class="fr" data-say>Lyon est plus petit que Paris.</button></p>
+      <p>Noun: <b>autant de / plus de / moins de</b> <button class="fr" data-say>J'ai autant de travail que toi.</button></p>
+      <p>Verb: <button class="fr" data-say>Il travaille plus que moi.</button></p>
+      <p><b>bon → meilleur</b> (describes a thing), <b>bien → mieux</b> (describes an action): <button class="fr" data-say>Ce film est meilleur que le livre.</button> <button class="fr" data-say>Elle chante mieux que moi.</button></p>
+      <p>Superlative: <button class="fr" data-say>C'est la ville la plus chère de France.</button></p>
+    </div>
+    <div class="card">
+      <span class="eyebrow">B2 extras</span>
+      <h3>Sound more natural</h3>
+      <ul>
+        <li><button class="fr" data-say>Il fait de plus en plus chaud.</button></li>
+        <li><button class="fr" data-say>Plus je lis, plus j'apprends.</button></li>
+        <li><button class="fr" data-say>Moi non plus.</button> <span class="gloss">agreeing with a negative</span></li>
+        <li><button class="fr" data-say>Il n'a pas encore répondu.</button></li>
+        <li><button class="fr" data-say>Il ne sort guère.</button> <span class="gloss">formal: hardly</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="tool" style="margin-top:16px"><div class="tool-head"><span class="tag">Drill</span> Negatives and comparisons</div><div class="tool-body" data-drill="negation"></div></div>
+  <div class="station-foot"><button class="clear-btn" data-station="negation" aria-pressed="false">Mark station cleared</button><span class="next"></span></div>
 </section>
 
 <!-- 3 RELATIFS -->
 <section class="station" id="relatifs" style="--line:#837902;--line-ink:#fff">
-  <span class="roundel">3</span>
+  <span class="roundel"></span>
   <div class="station-head">
     <h2 class="plate">Les relatifs</h2>
     <p class="payoff">Relative pronouns turn two short A2 sentences into one B1 sentence. <b>Pick by asking one question: what role does the word play in the second clause?</b></p>
@@ -659,12 +717,12 @@ body.sheet-open{overflow:hidden}
   </div>
 
   <div class="tool" style="margin-top:16px"><div class="tool-head"><span class="tag">Drill</span> Choose the relative pronoun</div><div class="tool-body" data-drill="relatifs"></div></div>
-  <div class="station-foot"><button class="clear-btn" data-station="relatifs" aria-pressed="false">Mark station cleared</button><span class="next">Next: <a href="#hypotheses">Hypothèses</a></span></div>
+  <div class="station-foot"><button class="clear-btn" data-station="relatifs" aria-pressed="false">Mark station cleared</button><span class="next"></span></div>
 </section>
 
 <!-- 4 HYPOTHESES -->
 <section class="station" id="hypotheses" style="--line:#CF009E;--line-ink:#fff">
-  <span class="roundel">4</span>
+  <span class="roundel"></span>
   <div class="station-head">
     <h2 class="plate">Futur &amp; si</h2>
     <p class="payoff">Plans, wishes, regrets, polite requests. <b>Future and conditional share one stem</b>, and <em>si</em>-sentences follow three fixed patterns.</p>
@@ -700,12 +758,12 @@ body.sheet-open{overflow:hidden}
   <p class="small muted" style="margin-top:12px">Use the <a href="#passe">conjugator in station 1</a> to see futur, conditionnel and conditionnel passé for any verb.</p>
 
   <div class="tool" style="margin-top:12px"><div class="tool-head"><span class="tag">Drill</span> Futur, conditionnel, si</div><div class="tool-body" data-drill="hypotheses"></div></div>
-  <div class="station-foot"><button class="clear-btn" data-station="hypotheses" aria-pressed="false">Mark station cleared</button><span class="next">Next: <a href="#subjonctif">Subjonctif</a></span></div>
+  <div class="station-foot"><button class="clear-btn" data-station="hypotheses" aria-pressed="false">Mark station cleared</button><span class="next"></span></div>
 </section>
 
 <!-- 5 SUBJONCTIF -->
 <section class="station" id="subjonctif" style="--line:#FF7E2E;--line-ink:#1b1b1b">
-  <span class="roundel">5</span>
+  <span class="roundel"></span>
   <div class="station-head">
     <h2 class="plate">Le subjonctif</h2>
     <p class="payoff">It looks like a whole new world, but it's a reflex triggered by certain phrases. <b>Learn the triggers, the one formation rule and eight irregular verbs.</b></p>
@@ -744,12 +802,56 @@ body.sheet-open{overflow:hidden}
   </div>
 
   <div class="tool" style="margin-top:16px"><div class="tool-head"><span class="tag">Drill</span> Subjonctif or indicatif?</div><div class="tool-body" data-drill="subjonctif"></div></div>
-  <div class="station-foot"><button class="clear-btn" data-station="subjonctif" aria-pressed="false">Mark station cleared</button><span class="next">Next: <a href="#connecteurs">Connecteurs</a></span></div>
+  <div class="station-foot"><button class="clear-btn" data-station="subjonctif" aria-pressed="false">Mark station cleared</button><span class="next"></span></div>
+</section>
+
+<!-- VERBES + PRÉPOSITIONS -->
+<section class="station" id="prepositions" style="--line:#A3D977;--line-ink:#1b1b1b">
+  <span class="roundel"></span>
+  <div class="station-head">
+    <h2 class="plate">Verbes + à / de</h2>
+    <p class="payoff">English says "try to", "start to", "stop -ing". French picks <em>à</em>, <em>de</em> or nothing, and you can't guess which. <b>About thirty verbs cover almost every sentence you'll need.</b></p>
+  </div>
+  <div class="grid">
+    <div class="card key">
+      <span class="eyebrow">verb + à + infinitive</span>
+      <h3>Usually: moving towards something</h3>
+      <p class="small">commencer à, continuer à, réussir à, arriver à <span class="gloss">to manage to</span>, apprendre à, aider quelqu'un à, hésiter à, s'habituer à, chercher à <span class="gloss">to try to, seek to</span>, passer du temps à</p>
+      <p><button class="fr" data-say>J'ai commencé à apprendre le français.</button></p>
+      <p><button class="fr" data-say>Il n'arrive pas à dormir.</button></p>
+    </div>
+    <div class="card key">
+      <span class="eyebrow">verb + de + infinitive</span>
+      <h3>The bigger group</h3>
+      <p class="small">arrêter de, essayer de, oublier de, décider de, finir de, refuser de, accepter de, éviter de, regretter de, se souvenir de, avoir besoin de, avoir envie de, avoir peur de · with a person: demander à quelqu'un de, dire à quelqu'un de, conseiller à quelqu'un de, permettre à quelqu'un de</p>
+      <p><button class="fr" data-say>J'ai oublié de fermer la porte.</button></p>
+      <p><button class="fr" data-say>Elle m'a demandé de l'aider.</button></p>
+    </div>
+    <div class="card key">
+      <span class="eyebrow">No preposition at all</span>
+      <h3>Verbs of liking, wanting, moving</h3>
+      <p class="small">aimer, adorer, préférer, détester, vouloir, pouvoir, devoir, savoir, aller, venir, espérer, compter <span class="gloss">to intend to</span>, sembler, il faut, laisser, faire</p>
+      <p><button class="fr" data-say>J'espère venir samedi.</button></p>
+      <p><button class="fr" data-say>Je compte partir lundi.</button></p>
+    </div>
+    <div class="card">
+      <span class="eyebrow">verb + à / de + a thing or person</span>
+      <h3>And how the pronoun changes</h3>
+      <div class="scroll"><table class="small"><thead><tr><th>Verb</th><th>Example</th><th>Short form</th></tr></thead><tbody><tr><td>penser à</td><td><button class="fr" data-say>Je pense à mon examen.</button></td><td><button class="fr" data-say>J'y pense.</button></td></tr><tr><td>parler de</td><td><button class="fr" data-say>On parle du film.</button></td><td><button class="fr" data-say>On en parle.</button></td></tr><tr><td>avoir besoin de</td><td><button class="fr" data-say>J'ai besoin de ma voiture.</button></td><td><button class="fr" data-say>J'en ai besoin.</button></td></tr><tr><td>s'occuper de</td><td><button class="fr" data-say>Je m'occupe des billets.</button></td><td><button class="fr" data-say>Je m'en occupe.</button></td></tr><tr><td>téléphoner à</td><td><button class="fr" data-say>Je téléphone à ma sœur.</button></td><td><button class="fr" data-say>Je lui téléphone.</button></td></tr></tbody></table></div><p class="small" style="margin-top:8px"><b>jouer à</b> a sport or game, <b>jouer de</b> an instrument: <button class="fr" data-say>Je joue au tennis et du piano.</button></p>
+    </div>
+    <div class="card">
+      <span class="eyebrow">Countries and cities</span>
+      <h3>à, en, au, aux</h3>
+      <div class="scroll"><table class="small"><thead><tr><th></th><th>in / to</th><th>from</th></tr></thead><tbody><tr><td>a city</td><td>à Paris</td><td>de Paris</td></tr><tr><td>feminine country (most end in -e)</td><td>en France, en Italie</td><td>de France</td></tr><tr><td>country starting with a vowel</td><td>en Iran, en Israël</td><td>d'Iran</td></tr><tr><td>masculine country</td><td>au Japon, au Canada, au Mexique</td><td>du Japon</td></tr><tr><td>plural country</td><td>aux États-Unis, aux Pays-Bas</td><td>des États-Unis</td></tr></tbody></table></div><p style="margin-top:8px"><button class="fr" data-say>Je viens du Japon, mais j'habite en France.</button></p>
+    </div>
+  </div>
+  <div class="tool" style="margin-top:16px"><div class="tool-head"><span class="tag">Drill</span> à, de, or nothing?</div><div class="tool-body" data-drill="prepositions"></div></div>
+  <div class="station-foot"><button class="clear-btn" data-station="prepositions" aria-pressed="false">Mark station cleared</button><span class="next"></span></div>
 </section>
 
 <!-- 6 CONNECTEURS -->
 <section class="station" id="connecteurs" style="--line:#6ECA97;--line-ink:#1b1b1b">
-  <span class="roundel">6</span>
+  <span class="roundel"></span>
   <div class="station-head">
     <h2 class="plate">Connecteurs</h2>
     <p class="payoff">Examiners and natives hear your level in the small words that link ideas. <b>Swap A2 "et, mais, parce que" for these</b> and every sentence moves up a level.</p>
@@ -806,12 +908,12 @@ body.sheet-open{overflow:hidden}
   </div>
 
   <div class="tool" style="margin-top:16px"><div class="tool-head"><span class="tag">Drill</span> Pick the connector</div><div class="tool-body" data-drill="connecteurs"></div></div>
-  <div class="station-foot"><button class="clear-btn" data-station="connecteurs" aria-pressed="false">Mark station cleared</button><span class="next">Next: <a href="#raconter">Raconter</a></span></div>
+  <div class="station-foot"><button class="clear-btn" data-station="connecteurs" aria-pressed="false">Mark station cleared</button><span class="next"></span></div>
 </section>
 
 <!-- 7 RACONTER -->
 <section class="station" id="raconter" style="--line:#FA9ABA;--line-ink:#1b1b1b">
-  <span class="roundel">7</span>
+  <span class="roundel"></span>
   <div class="station-head">
     <h2 class="plate">Raconter</h2>
     <p class="payoff">Reporting what people said, and the compact structures that make your French sound written-level. <b>One tense-shift table covers reported speech.</b></p>
@@ -856,12 +958,59 @@ body.sheet-open{overflow:hidden}
   </div>
 
   <div class="tool" style="margin-top:16px"><div class="tool-head"><span class="tag">Drill</span> Report it, narrate it</div><div class="tool-body" data-drill="raconter"></div></div>
-  <div class="station-foot"><button class="clear-btn" data-station="raconter" aria-pressed="false">Mark station cleared</button><span class="next">Next: <a href="#frequents">Mots fréquents</a></span></div>
+  <div class="station-foot"><button class="clear-btn" data-station="raconter" aria-pressed="false">Mark station cleared</button><span class="next"></span></div>
+</section>
+
+<!-- FAIRE FAIRE -->
+<section class="station" id="causatif" style="--line:#5B6C8F;--line-ink:#fff">
+  <span class="roundel"></span>
+  <div class="station-head">
+    <h2 class="plate">Faire faire &amp; questions</h2>
+    <p class="payoff">Two things that make you sound native: <em>having things done</em>, and asking questions in the right register. <b>One verb, faire, does a surprising amount of the work.</b></p>
+  </div>
+  <div class="grid">
+    <div class="card key">
+      <span class="eyebrow">faire + infinitive</span>
+      <h3>Having something done</h3>
+      <p><button class="fr" data-say>Je fais réparer ma voiture.</button></p>
+      <p><button class="fr" data-say>Elle a fait construire une maison.</button></p>
+      <p><button class="fr" data-say>Ce film m'a fait rire.</button></p>
+      <p class="small muted">Pronouns go before <em>faire</em>, and <em>fait</em> never agrees here: <button class="fr" data-say>Les invités ? Je les ai fait entrer.</button></p>
+    </div>
+    <div class="card key">
+      <span class="eyebrow">se faire + infinitive</span>
+      <h3>Something done to you</h3>
+      <p><button class="fr" data-say>Je me suis fait couper les cheveux.</button></p>
+      <p><button class="fr" data-say>Il s'est fait voler son portefeuille.</button></p>
+      <p class="small muted">Very common for accidents and services, where English uses "get" or "have".</p>
+    </div>
+    <div class="card key">
+      <span class="eyebrow">laisser + infinitive</span>
+      <h3>Letting something happen</h3>
+      <p><button class="fr" data-say>Laisse-moi parler !</button></p>
+      <p><button class="fr" data-say>Il a laissé tomber ses études.</button> <span class="gloss">laisser tomber = to give up, drop</span></p>
+    </div>
+    <div class="card">
+      <span class="eyebrow">Questions</span>
+      <h3>Three registers, one question</h3>
+      <div class="scroll"><table class="small"><thead><tr><th>familier</th><th>courant</th><th>soutenu</th></tr></thead><tbody><tr><td><button class="fr" data-say>Tu viens ?</button></td><td><button class="fr" data-say>Est-ce que tu viens ?</button></td><td><button class="fr" data-say>Viens-tu ?</button></td></tr><tr><td><button class="fr" data-say>Tu fais quoi ?</button></td><td><button class="fr" data-say>Qu'est-ce que tu fais ?</button></td><td><button class="fr" data-say>Que fais-tu ?</button></td></tr><tr><td><button class="fr" data-say>C'est où ?</button></td><td><button class="fr" data-say>Où est-ce que c'est ?</button></td><td><button class="fr" data-say>Où est-ce ?</button></td></tr></tbody></table></div><p class="small" style="margin-top:8px">Inversion adds <b>-t-</b> between two vowels: <button class="fr" data-say>Parle-t-il anglais ?</button> <button class="fr" data-say>A-t-elle répondu ?</button> With a noun subject, keep the noun and add a pronoun: <button class="fr" data-say>Votre frère vient-il ?</button></p>
+    </div>
+    <div class="card">
+      <span class="eyebrow">Pronominal passive</span>
+      <h3>Ça se dit, ça ne se fait pas</h3>
+      <p><button class="fr" data-say>Ça ne se fait pas.</button></p>
+      <p><button class="fr" data-say>Ce mot ne s'utilise plus.</button></p>
+      <p><button class="fr" data-say>Le vin blanc se boit frais.</button></p>
+      <p class="small muted">The reflexive form replaces the passive for general truths and customs.</p>
+    </div>
+  </div>
+  <div class="tool" style="margin-top:16px"><div class="tool-head"><span class="tag">Drill</span> Causative, questions and passive</div><div class="tool-body" data-drill="causatif"></div></div>
+  <div class="station-foot"><button class="clear-btn" data-station="causatif" aria-pressed="false">Mark station cleared</button><span class="next"></span></div>
 </section>
 
 <!-- 8 MOTS FREQUENTS -->
 <section class="station" id="frequents" style="--line:#C9910D;--line-ink:#1b1b1b">
-  <span class="roundel">8</span>
+  <span class="roundel"></span>
   <div class="station-head">
     <h2 class="plate">Mots fréquents</h2>
     <p class="payoff">These are the words beyond A2 that keep coming back in B1–B2 articles, news, podcasts and exam texts. They're the vocabulary side of the 80/20 rule: <b>learn these and most B-level texts become readable</b>. After that, the words you don't know are mostly topic words you can guess or look up.</p>
@@ -891,12 +1040,12 @@ body.sheet-open{overflow:hidden}
   <p class="small muted" style="margin-top:10px">This list was put together from common French frequency lists and typical DELF B1–B2 texts, leaving out A2 basics. It's a practical guide, not an exact word count.</p>
 
   <div class="tool" style="margin-top:12px"><div class="tool-head"><span class="tag">Drill</span> 15 words you haven't marked yet</div><div class="tool-body" data-drill="frequents"></div></div>
-  <div class="station-foot"><button class="clear-btn" data-station="frequents" aria-pressed="false">Mark station cleared</button><span class="next">Next: <a href="#vocabulaire">Vocabulaire</a></span></div>
+  <div class="station-foot"><button class="clear-btn" data-station="frequents" aria-pressed="false">Mark station cleared</button><span class="next"></span></div>
 </section>
 
 <!-- 9 VOCABULAIRE -->
 <section class="station" id="vocabulaire" style="--line:#E19BDF;--line-ink:#1b1b1b">
-  <span class="roundel">9</span>
+  <span class="roundel"></span>
   <div class="station-head">
     <h2 class="plate">Vocabulaire B</h2>
     <p class="payoff">B-level conversations and the DELF keep returning to the same six topics. <b>Learn the words in chunks</b> (verb + noun, adjective + noun), the way natives use them, not one by one.</p>
@@ -904,24 +1053,24 @@ body.sheet-open{overflow:hidden}
   <div class="grid" id="vocabGrid"></div>
   <p class="small muted" style="margin-top:12px">Watch the trap in <em>Études</em>: <b>passer un examen</b> means to <em>take</em> it. To pass is <b>réussir</b>.</p>
   <div class="tool" style="margin-top:12px"><div class="tool-head"><span class="tag">Drill</span> What does it mean?</div><div class="tool-body" data-drill="vocabulaire"></div></div>
-  <div class="station-foot"><button class="clear-btn" data-station="vocabulaire" aria-pressed="false">Mark station cleared</button><span class="next">Next: <a href="#expressions">Expressions</a></span></div>
+  <div class="station-foot"><button class="clear-btn" data-station="vocabulaire" aria-pressed="false">Mark station cleared</button><span class="next"></span></div>
 </section>
 
 <!-- 9 EXPRESSIONS -->
 <section class="station" id="expressions" style="--line:#B6BD00;--line-ink:#1b1b1b">
-  <span class="roundel">10</span>
+  <span class="roundel"></span>
   <div class="station-head">
     <h2 class="plate">Expressions</h2>
     <p class="payoff">Natives speak in idioms, and B2 listening means catching them. <b>These twenty come up constantly</b> in conversation, series and podcasts.</p>
   </div>
   <div class="grid" id="idiomGrid"></div>
   <div class="tool" style="margin-top:16px"><div class="tool-head"><span class="tag">Drill</span> Decode the idiom</div><div class="tool-body" data-drill="expressions"></div></div>
-  <div class="station-foot"><button class="clear-btn" data-station="expressions" aria-pressed="false">Mark station cleared</button><span class="next">Next: <a href="#boss">Boss B2</a></span></div>
+  <div class="station-foot"><button class="clear-btn" data-station="expressions" aria-pressed="false">Mark station cleared</button><span class="next"></span></div>
 </section>
 
 <!-- 10 BOSS -->
 <section class="station" id="boss" style="--line:#704B1C;--line-ink:#fff">
-  <span class="roundel">11</span>
+  <span class="roundel"></span>
   <div class="station-head">
     <h2 class="plate">Boss B2</h2>
     <p class="payoff">The traps that still catch upper-intermediate learners. Each has a <b>cheat code</b>.</p>
@@ -975,12 +1124,12 @@ body.sheet-open{overflow:hidden}
   </div>
 
   <div class="tool" style="margin-top:16px"><div class="tool-head"><span class="tag">Drill</span> Boss round</div><div class="tool-body" data-drill="boss"></div></div>
-  <div class="station-foot"><button class="clear-btn" data-station="boss" aria-pressed="false">Mark station cleared</button><span class="next">Next: <a href="#delf">DELF</a></span></div>
+  <div class="station-foot"><button class="clear-btn" data-station="boss" aria-pressed="false">Mark station cleared</button><span class="next"></span></div>
 </section>
 
 <!-- 11 DELF -->
 <section class="station" id="delf" style="--line:#007852;--line-ink:#fff">
-  <span class="roundel">12</span>
+  <span class="roundel"></span>
   <div class="station-head">
     <h2 class="plate">Atelier DELF</h2>
     <p class="payoff">Whether or not you sit the exam, the DELF tasks are the best definition of "B level": tell, explain, argue. <b>Write here, and the B-mètre shows which B-level structures you used.</b></p>
@@ -1040,16 +1189,16 @@ body.sheet-open{overflow:hidden}
     <div class="tool-body">
       <div class="row" style="justify-content:space-between">
         <span class="lab" style="margin:0">Pick a task, or write about anything</span>
-        <div class="row"><button class="btn" type="button" data-prompt="B1">New B1 task</button><button class="btn" type="button" data-prompt="B2">New B2 task</button></div>
+        <div class="row"><button class="btn" type="button" data-prompt="B1">New B1 task</button><button class="btn" type="button" data-prompt="B2">New B2 task</button><button class="btn" type="button" data-prompt="C1">New C1 task</button><button class="btn" type="button" data-prompt="C2">New C2 task</button></div>
       </div>
-      <div class="prompt" id="bmPrompt">Free writing. Aim for at least 160 words (B1) or 250 words (B2).</div>
+      <div class="prompt" id="bmPrompt">Free writing. Aim for at least 160 words (B1), 250 words (B2 and C1) or 700 words (C2).</div>
       <label class="lab" for="bmIn">Your text (the example below shows how it works; replace it with your own)</label>
       <textarea id="bmIn" spellcheck="false"></textarea>
       <div class="accents" data-for="bmIn"></div>
       <div class="grid" style="margin-top:14px">
         <div>
           <span class="eyebrow">Your text, marked up</span>
-          <div class="keyrow"><span><mark class="k-b1">B1 link</mark></span><span><mark class="k-b2">B2 link</mark></span><span><mark class="k-rel">relative</mark></span><span><mark class="k-subj">subj. trigger</mark></span><span><mark class="k-cond">conditionnel</mark></span><span><mark class="k-op">opinion</mark></span><span><mark class="k-over">overused</mark></span></div>
+          <div class="keyrow"><span><mark class="k-b1">B1 link</mark></span><span><mark class="k-b2">B2 link</mark></span><span><mark class="k-c">C link</mark></span><span><mark class="k-rel">relative</mark></span><span><mark class="k-subj">subj. trigger</mark></span><span><mark class="k-cond">conditionnel</mark></span><span><mark class="k-op">opinion</mark></span><span><mark class="k-over">overused</mark></span></div>
           <div class="marked" id="bmMarked"></div>
         </div>
         <div>
@@ -1062,15 +1211,15 @@ body.sheet-open{overflow:hidden}
       <p class="small muted" style="margin-top:10px">The B-mètre counts B-level structures. It does not check grammar or spelling, so a text can score well and still contain mistakes. Ask a teacher or a tandem partner to correct it.</p>
     </div>
   </div>
-  <div class="station-foot"><button class="clear-btn" data-station="delf" aria-pressed="false">Mark station cleared</button><span class="next">Next: <a href="#terminus">Terminus</a></span></div>
+  <div class="station-foot"><button class="clear-btn" data-station="delf" aria-pressed="false">Mark station cleared</button><span class="next"></span></div>
 </section>
 
 <!-- 12 TERMINUS -->
 <section class="station" id="terminus" style="--line:#62259D;--line-ink:#fff">
-  <span class="roundel">13</span>
+  <span class="roundel"></span>
   <div class="station-head">
-    <h2 class="plate">Terminus</h2>
-    <p class="payoff">A mock exam: 15 questions drawn at random from every station. <b>Score 12 or more</b> and the line is yours.</p>
+    <h2 class="plate">Terminus B</h2>
+    <p class="payoff">A mock exam: 15 questions drawn at random from every Ligne B station. <b>Score 12 or more</b> and the line is yours.</p>
   </div>
 
   <div class="grid">
@@ -1083,12 +1232,283 @@ body.sheet-open{overflow:hidden}
         <li><b>Listen daily, 20–40 min</b>, to French made for learners and then for natives: RFI's <em>Journal en français facile</em>, the InnerFrench podcast, TV5Monde's learning site, then French YouTube and series with French subtitles.</li>
         <li><b>One station a week.</b> Do the drill, then write 5 sentences of your own using that structure.</li>
         <li><b>Shadow 5 minutes a day</b>: replay a sentence and say it along with the speaker.</li>
-        <li><b>Speak once a week</b> with a tutor or a language exchange partner, and use the opinion kit from station 6.</li>
+        <li><b>Speak once a week</b> with a tutor or a language exchange partner, and use the opinion kit from the Connecteurs station.</li>
         <li>Want proof of your level? The <b>DELF B1 / B2</b> are the official exams.</li>
       </ul>
     </div>
   </div>
-  <div class="station-foot"><button class="clear-btn" data-station="terminus" aria-pressed="false">Mark station cleared</button><span class="next"><a href="#passe">Back to station 1</a></span></div>
+  <div class="station-foot"><button class="clear-btn" data-station="terminus" aria-pressed="false">Mark station cleared</button><span class="next"></span></div>
+</section>
+
+<!-- ================= LIGNE C ================= -->
+<section class="branch wrap" id="ligneC" aria-label="Ligne C">
+  <p class="kicker">Correspondance · change here for</p>
+  <h2 class="plate">Ligne C</h2>
+  <p class="payoff"><b>C1</b>: you understand long, demanding texts and what they imply, and you express yourself fluently and precisely. <b>C2</b>: you understand almost everything you hear or read, and you can render fine shades of meaning. Same method as Ligne B: the structures that make the biggest difference, first.</p>
+</section>
+<section class="station" id="nuances" style="--line:#0B7A75;--line-ink:#fff">
+  <span class="roundel"></span>
+  <div class="station-head">
+    <h2 class="plate">Nuances logiques</h2>
+    <p class="payoff">At B2 you say <em>bien que</em> and <em>parce que</em>. At C1 you choose the exact shade: even if, provided that, all the more since, for lack of. <b>Each connector also chooses its mood, and that choice is what gets tested.</b></p>
+  </div>
+  <div class="grid">
+    <div class="card key">
+      <span class="eyebrow">Concession</span>
+      <h3>Even if, however much, whatever</h3>
+      <div class="scroll"><table class="small"><thead><tr><th>Connector</th><th>Mood</th><th>Example</th></tr></thead><tbody><tr><td>quand bien même</td><td>conditionnel</td><td><button class="fr" data-say>Quand bien même il pleuvrait, nous sortirions.</button></td></tr><tr><td>avoir beau + infinitive</td><td>—</td><td><button class="fr" data-say>J'ai beau essayer, je n'y arrive pas.</button></td></tr><tr><td>si + adjective + que</td><td>subjonctif</td><td><button class="fr" data-say>Si intelligent qu'il soit, il ne peut pas tout savoir.</button></td></tr><tr><td>quoi que (≠ quoique)</td><td>subjonctif</td><td><button class="fr" data-say>Quoi que tu dises, je ne changerai pas d'avis.</button></td></tr><tr><td>encore que</td><td>subjonctif</td><td><button class="fr" data-say>Il a raison, encore que ce soit discutable.</button></td></tr><tr><td>toujours est-il que</td><td>indicatif</td><td><button class="fr" data-say>Toujours est-il que le problème reste entier.</button></td></tr></tbody></table></div>
+    </div>
+    <div class="card key">
+      <span class="eyebrow">Condition</span>
+      <h3>Provided that, in case, assuming</h3>
+      <div class="scroll"><table class="small"><thead><tr><th>Connector</th><th>Mood</th><th>Example</th></tr></thead><tbody><tr><td>à condition que</td><td>subjonctif</td><td><button class="fr" data-say>Je viendrai à condition que tu sois là.</button></td></tr><tr><td>pour peu que</td><td>subjonctif</td><td><button class="fr" data-say>Pour peu qu'on l'encourage, il fera des progrès.</button></td></tr><tr><td>au cas où</td><td>conditionnel</td><td><button class="fr" data-say>Prends un parapluie au cas où il pleuvrait.</button></td></tr><tr><td>à moins que (+ ne)</td><td>subjonctif</td><td><button class="fr" data-say>Nous partirons à six heures, à moins qu'il ne pleuve.</button></td></tr><tr><td>pourvu que</td><td>subjonctif</td><td><button class="fr" data-say>Pourvu qu'il fasse beau demain !</button></td></tr><tr><td>en admettant que</td><td>subjonctif</td><td><button class="fr" data-say>En admettant que ce soit vrai, que faut-il faire ?</button></td></tr></tbody></table></div>
+    </div>
+    <div class="card key">
+      <span class="eyebrow">Cause and consequence</span>
+      <h3>Saying exactly why and what follows</h3>
+      <div class="scroll"><table class="small"><thead><tr><th>Connector</th><th>Meaning</th><th>Example</th></tr></thead><tbody><tr><td>d'autant plus que</td><td>all the more since</td><td><button class="fr" data-say>Je suis déçu, d'autant plus qu'il avait promis.</button></td></tr><tr><td>faute de</td><td>for lack of</td><td><button class="fr" data-say>Faute de temps, le projet a été abandonné.</button></td></tr><tr><td>sous prétexte que</td><td>on the pretext that</td><td><button class="fr" data-say>Il est parti sous prétexte qu'il était malade.</button></td></tr><tr><td>dans la mesure où</td><td>insofar as</td><td><button class="fr" data-say>Dans la mesure où les prix augmentent, les salaires doivent suivre.</button></td></tr><tr><td>si bien que</td><td>so that (result)</td><td><button class="fr" data-say>Il a beaucoup plu, si bien que la route est fermée.</button></td></tr><tr><td>dès lors que</td><td>as soon as, since</td><td><button class="fr" data-say>Dès lors que vous signez, le contrat est valable.</button></td></tr></tbody></table></div>
+    </div>
+    <div class="card">
+      <span class="eyebrow">Mood cheat sheet</span>
+      <h3>Which mood after which connector</h3>
+      <p class="small"><span class="mood s">subjonctif</span> bien que, quoique, encore que, quoi que, si … que, à condition que, pour peu que, pourvu que, à moins que, en admettant que, de sorte que (aim)</p>
+      <p class="small"><span class="mood n">conditionnel</span> quand bien même, au cas où</p>
+      <p class="small"><span class="mood i">indicatif</span> d'autant plus que, si bien que, dès lors que, dans la mesure où, sous prétexte que, de sorte que (result)</p>
+      <p class="small"><b>de sorte que</b> changes meaning with the mood: <button class="fr" data-say>Parle fort, de sorte qu'on t'entende.</button> (aim) vs <button class="fr" data-say>Il a parlé fort, de sorte qu'on l'a entendu.</button> (result)</p>
+    </div>
+  </div>
+  <div class="tool" style="margin-top:16px"><div class="tool-head"><span class="tag">Drill</span> Connector and mood</div><div class="tool-body" data-drill="nuances"></div></div>
+  <div class="station-foot"><button class="clear-btn" data-station="nuances" aria-pressed="false">Mark station cleared</button><span class="next"></span></div>
+</section>
+<section class="station" id="relief" style="--line:#C0392B;--line-ink:#fff">
+  <span class="roundel"></span>
+  <div class="station-head">
+    <h2 class="plate">Mise en relief &amp; style</h2>
+    <p class="payoff">C1 writing isn't about rarer words. It's about structure: you put the key idea first, turn verbs into nouns and vary how sentences open. <b>These five moves make a text read as C1 straight away.</b></p>
+  </div>
+  <div class="grid">
+    <div class="card key">
+      <span class="eyebrow">c'est … qui / que</span>
+      <h3>Spotlight one element</h3>
+      <p><button class="fr" data-say>C'est Marie qui a trouvé la solution.</button></p>
+      <p><button class="fr" data-say>C'est demain que tout se décide.</button></p>
+      <p><button class="fr" data-say>C'est pour cette raison que j'ai refusé.</button></p>
+      <p class="small muted"><em>qui</em> when the highlighted part is the subject, <em>que</em> for everything else.</p>
+    </div>
+    <div class="card key">
+      <span class="eyebrow">ce qui / ce que / ce dont …, c'est</span>
+      <h3>Build suspense, then deliver</h3>
+      <p><button class="fr" data-say>Ce qui me surprend, c'est son calme.</button></p>
+      <p><button class="fr" data-say>Ce que je regrette, c'est de ne pas avoir essayé.</button></p>
+      <p><button class="fr" data-say>Ce dont nous avons besoin, c'est de temps.</button></p>
+    </div>
+    <div class="card key">
+      <span class="eyebrow">Nominalisation</span>
+      <h3>Turn verbs into nouns</h3>
+      <div class="scroll"><table class="small"><thead><tr><th>Verb</th><th>Noun</th></tr></thead><tbody><tr><td>augmenter</td><td>l'augmentation</td></tr><tr><td>baisser</td><td>la baisse</td></tr><tr><td>développer</td><td>le développement</td></tr><tr><td>choisir</td><td>le choix</td></tr><tr><td>réussir</td><td>la réussite</td></tr><tr><td>décider</td><td>la décision</td></tr><tr><td>disparaître</td><td>la disparition</td></tr><tr><td>refuser</td><td>le refus</td></tr></tbody></table></div><p style="margin-top:8px"><button class="fr" data-say>Les prix ont fortement augmenté.</button> → <button class="fr" data-say>La forte augmentation des prix inquiète les ménages.</button></p>
+    </div>
+    <div class="card">
+      <span class="eyebrow">Inversion after an adverb</span>
+      <h3>Written French only</h3>
+      <p><button class="fr" data-say>Peut-être a-t-il raison.</button></p>
+      <p><button class="fr" data-say>Sans doute viendra-t-elle demain.</button></p>
+      <p><button class="fr" data-say>Aussi avons-nous décidé de reporter la réunion.</button> <span class="gloss">aussi at the start = therefore</span></p>
+      <p><button class="fr" data-say>Ainsi s'achève notre enquête.</button></p>
+      <p class="small muted">Spoken alternative: <em>Peut-être qu'il a raison.</em> "Peut-être il a raison" is wrong.</p>
+    </div>
+    <div class="card">
+      <span class="eyebrow">Participle clauses</span>
+      <h3>Pack two sentences into one</h3>
+      <p><button class="fr" data-say>Une fois le dossier terminé, nous l'avons envoyé.</button></p>
+      <p><button class="fr" data-say>Le contrat ayant été signé, les travaux peuvent commencer.</button></p>
+      <p><button class="fr" data-say>Arrivée à la gare, elle a appelé sa mère.</button></p>
+      <p class="small muted">The participle must refer to the subject of the main clause, and agrees with it if the verb takes être.</p>
+    </div>
+  </div>
+  <div class="tool" style="margin-top:16px"><div class="tool-head"><span class="tag">Drill</span> Emphasis and style</div><div class="tool-body" data-drill="relief"></div></div>
+  <div class="station-foot"><button class="clear-btn" data-station="relief" aria-pressed="false">Mark station cleared</button><span class="next"></span></div>
+</section>
+<section class="station" id="litteraire" style="--line:#34495E;--line-ink:#fff">
+  <span class="roundel"></span>
+  <div class="station-head">
+    <h2 class="plate">Temps littéraires</h2>
+    <p class="payoff">Novels, history books and quality newspapers use tenses you'll rarely say aloud. At C1 you read them without effort; at C2 you can write them. <b>The passé simple is the main one, and its endings are very regular.</b></p>
+  </div>
+  <div class="grid">
+    <div class="card key">
+      <span class="eyebrow">Passé simple</span>
+      <h3>The endings</h3>
+      <div class="scroll"><table class="small"><thead><tr><th></th><th>parler</th><th>finir / vendre</th><th>vouloir</th></tr></thead><tbody><tr><td>je</td><td>parlai</td><td>finis / vendis</td><td>voulus</td></tr><tr><td>tu</td><td>parlas</td><td>finis / vendis</td><td>voulus</td></tr><tr><td>il / elle</td><td>parla</td><td>finit / vendit</td><td>voulut</td></tr><tr><td>nous</td><td>parlâmes</td><td>finîmes / vendîmes</td><td>voulûmes</td></tr><tr><td>vous</td><td>parlâtes</td><td>finîtes / vendîtes</td><td>voulûtes</td></tr><tr><td>ils / elles</td><td>parlèrent</td><td>finirent / vendirent</td><td>voulurent</td></tr></tbody></table></div><p class="small muted" style="margin-top:8px">In narration it does the job of the passé composé. The imparfait still paints the background.</p>
+    </div>
+    <div class="card key">
+      <span class="eyebrow">The irregulars</span>
+      <h3>You'll meet these on every page</h3>
+      <p class="small">être → il fut · avoir → il eut · faire → il fit · dire → il dit · voir → il vit · prendre → il prit · mettre → il mit · venir → il vint, ils vinrent · pouvoir → il put · savoir → il sut · devoir → il dut · naître → il naquit · mourir → il mourut · vivre → il vécut · écrire → il écrivit · lire → il lut · connaître → il connut</p>
+      <p><button class="fr" data-say>Il ouvrit la porte et vit un homme qu'il ne connaissait pas.</button></p>
+      <p><button class="fr" data-say>Elle naquit à Lyon en 1890 et mourut à Paris.</button></p>
+    </div>
+    <div class="card key">
+      <span class="eyebrow">Passé antérieur</span>
+      <h3>"Had done" in a story</h3>
+      <p><button class="fr" data-say>Dès qu'il eut fini, il sortit.</button></p>
+      <p><button class="fr" data-say>Quand elle fut partie, il se mit à pleurer.</button></p>
+      <p class="small muted">Passé simple of avoir or être + participle, after dès que, quand, lorsque, après que and à peine … que.</p>
+    </div>
+    <div class="card">
+      <span class="eyebrow">Imperfect subjunctive</span>
+      <h3>Recognise it, and keep the fixed phrases</h3>
+      <p><button class="fr" data-say>Il fallait qu'il fût là.</button></p>
+      <p><button class="fr" data-say>Je voudrais l'aider, ne fût-ce qu'un peu.</button></p>
+      <p><button class="fr" data-say>J'eusse aimé vous voir.</button> <span class="gloss">= j'aurais aimé, very formal</span></p>
+      <p class="small muted">Forms to know: qu'il fût, qu'il eût, qu'il fît, qu'il vînt, qu'il pût, qu'il parlât.</p>
+    </div>
+    <div class="card">
+      <span class="eyebrow">A literary ne without pas</span>
+      <h3>With cesser, oser, pouvoir, savoir</h3>
+      <p><button class="fr" data-say>Je ne sais que faire.</button></p>
+      <p><button class="fr" data-say>Il n'ose le dire.</button></p>
+      <p><button class="fr" data-say>Elle ne cesse de répéter la même chose.</button></p>
+    </div>
+  </div>
+  <div class="tool" style="margin-top:16px"><div class="tool-head"><span class="tag">Drill</span> Literary tenses</div><div class="tool-body" data-drill="litteraire"></div></div>
+  <div class="station-foot"><button class="clear-btn" data-station="litteraire" aria-pressed="false">Mark station cleared</button><span class="next"></span></div>
+</section>
+<section class="station" id="motjuste" style="--line:#9A7D0A;--line-ink:#fff">
+  <span class="roundel"></span>
+  <div class="station-head">
+    <h2 class="plate">Le mot juste</h2>
+    <p class="payoff">C1 examiners look for precision: the exact verb instead of <em>faire, dire, mettre</em>, and the words that naturally belong together. <b>Upgrade five everyday verbs and your writing changes level.</b></p>
+  </div>
+  <div class="grid">
+    <div class="card key">
+      <span class="eyebrow">Instead of faire</span>
+      <h3>The noun chooses the verb</h3>
+      <div class="scroll"><table class="small"><thead><tr><th>Everyday</th><th>Precise</th></tr></thead><tbody><tr><td>faire une erreur</td><td>commettre une erreur</td></tr><tr><td>faire un discours</td><td>prononcer un discours</td></tr><tr><td>faire une enquête</td><td>mener une enquête</td></tr><tr><td>faire un effort</td><td>fournir un effort</td></tr><tr><td>faire un projet</td><td>réaliser / mener à bien un projet</td></tr><tr><td>faire une proposition</td><td>formuler / soumettre une proposition</td></tr></tbody></table></div><p style="margin-top:8px"><button class="fr" data-say>Le président a prononcé un discours remarqué.</button></p>
+    </div>
+    <div class="card key">
+      <span class="eyebrow">Instead of dire</span>
+      <h3>Say how it was said</h3>
+      <p class="small">affirmer <span class="gloss">to state</span>, souligner <span class="gloss">to stress</span>, reconnaître / avouer <span class="gloss">to admit</span>, prétendre <span class="gloss">to claim</span>, rétorquer <span class="gloss">to retort</span>, préciser <span class="gloss">to specify</span>, estimer <span class="gloss">to consider</span>, suggérer</p>
+      <p><button class="fr" data-say>Le ministre a souligné que la situation restait fragile.</button></p>
+    </div>
+    <div class="card key">
+      <span class="eyebrow">Instead of mettre, avoir, donner</span>
+      <h3></h3>
+      <ul class="small">
+        <li><b>mettre en place</b> → instaurer · <b>mettre en danger</b> → compromettre</li>
+        <li><b>avoir</b> → disposer de, posséder, éprouver (a feeling)</li>
+        <li><b>donner</b> → accorder (permission), fournir (information), attribuer (a prize)</li>
+      </ul>
+      <p><button class="fr" data-say>L'entreprise dispose de moyens importants.</button></p>
+    </div>
+    <div class="card">
+      <span class="eyebrow">Collocations</span>
+      <h3>Words that belong together</h3>
+      <p class="small">prendre une décision · émettre une hypothèse <span class="gloss">to put forward</span> · soulever une question <span class="gloss">to raise</span> · remplir une condition <span class="gloss">to meet</span> · tirer une conclusion <span class="gloss">to draw</span> · nouer des liens <span class="gloss">to form ties</span> · porter plainte <span class="gloss">to press charges</span> · relever un défi <span class="gloss">to take up a challenge</span> · combler un retard <span class="gloss">to catch up</span> · susciter la polémique <span class="gloss">to spark controversy</span></p>
+    </div>
+    <div class="card">
+      <span class="eyebrow">Paronyms</span>
+      <h3>Near-twins that change the meaning</h3>
+      <div class="scroll"><table class="small"><thead><tr><th></th><th></th></tr></thead><tbody><tr><td>une conjecture <span class='gloss'>a guess</span></td><td>la conjoncture <span class='gloss'>the economic situation</span></td></tr><tr><td>éminent <span class='gloss'>distinguished</span></td><td>imminent <span class='gloss'>about to happen</span></td></tr><tr><td>infliger <span class='gloss'>to inflict</span></td><td>affliger <span class='gloss'>to distress</span></td></tr><tr><td>l'effraction <span class='gloss'>breaking in</span></td><td>l'infraction <span class='gloss'>an offence</span></td></tr><tr><td>prolifique <span class='gloss'>prolific</span></td><td>prolixe <span class='gloss'>long-winded</span></td></tr><tr><td>l'acception <span class='gloss'>a sense of a word</span></td><td>l'acceptation <span class='gloss'>acceptance</span></td></tr><tr><td>perpétrer <span class='gloss'>to commit (a crime)</span></td><td>perpétuer <span class='gloss'>to perpetuate</span></td></tr></tbody></table></div>
+    </div>
+  </div>
+  <div class="tool" style="margin-top:16px"><div class="tool-head"><span class="tag">Drill</span> Find the exact word</div><div class="tool-body" data-drill="motjuste"></div></div>
+  <div class="station-foot"><button class="clear-btn" data-station="motjuste" aria-pressed="false">Mark station cleared</button><span class="next"></span></div>
+</section>
+<section class="station" id="expressionsc" style="--line:#D35400;--line-ink:#fff">
+  <span class="roundel"></span>
+  <div class="station-head">
+    <h2 class="plate">Expressions C</h2>
+    <p class="payoff">The idioms of newspapers, essays and educated conversation. <b>At C1 you understand them; at C2 you use them at the right moment</b>, and you know that <em>faire long feu</em> means to fail, not to last.</p>
+  </div>
+  <div class="grid" id="idiomGridC"></div>
+  <div class="tool" style="margin-top:16px"><div class="tool-head"><span class="tag">Drill</span> Decode the C idiom</div><div class="tool-body" data-drill="expressionsc"></div></div>
+  <div class="station-foot"><button class="clear-btn" data-station="expressionsc" aria-pressed="false">Mark station cleared</button><span class="next"></span></div>
+</section>
+<section class="station" id="dalf" style="--line:#1B4F72;--line-ink:#fff">
+  <span class="roundel"></span>
+  <div class="station-head">
+    <h2 class="plate">Atelier DALF</h2>
+    <p class="payoff">The DALF C1 and C2 are the official C-level exams. Their tasks define the level: <b>summarise other people's ideas without adding your own, then argue your own case with nuance.</b></p>
+  </div>
+
+  <div class="card">
+    <span class="eyebrow">The exams at a glance</span>
+    <div class="scroll"><table>
+      <thead><tr><th></th><th>DALF C1</th><th>DALF C2</th></tr></thead>
+      <tbody>
+        <tr><td>Structure</td><td>4 parts, 25 points each: listening, reading, writing, speaking. You choose one of two subject areas: humanities or sciences.</td><td>2 parts, 50 points each: listening + speaking, and reading + writing.</td></tr>
+        <tr><td>Writing</td><td>A synthesis of two documents (~220 words), then an argued essay (~250 words)</td><td>A structured text (~700 words) built from a file of documents</td></tr>
+        <tr><td>Speaking</td><td>Present a file of documents, then discuss it with the examiners</td><td>Present a point of view on recordings you've heard, then debate</td></tr>
+        <tr><td>Pass mark</td><td>50/100, at least 5/25 in every part</td><td>50/100, at least 10/50 in each part</td></tr>
+      </tbody>
+    </table></div>
+    <p class="small muted" style="margin-top:8px">Formats change from time to time: check France Éducation International before you register.</p>
+  </div>
+
+  <div class="grid" style="margin-top:16px">
+    <div class="card key">
+      <span class="eyebrow">Synthèse</span>
+      <h3>The C1 task most people fail</h3>
+      <ul class="small">
+        <li><b>No personal opinion</b>, no outside examples, no copied sentences.</li>
+        <li>Organise by <b>idea</b>, not by document. Give it a neutral title.</li>
+        <li>Stay close to the word count (about 220, give or take 10%).</li>
+      </ul>
+      <p><button class="fr" data-say>Les deux documents s'accordent à dire que le télétravail modifie notre rapport au temps.</button></p>
+      <p><button class="fr" data-say>Contrairement à l'auteur du premier texte, celui du second estime que…</button></p>
+      <p><button class="fr" data-say>Il ressort de ces documents que…</button></p>
+    </div>
+    <div class="card key">
+      <span class="eyebrow">Essai argumenté</span>
+      <h3>Thesis, antithesis, your position</h3>
+      <ul class="small">
+        <li><b>Introduction:</b> a hook, the question, the plan.</li>
+        <li><b>Part 1</b> the arguments for, <b>Part 2</b> their limits, <b>Part 3</b> or conclusion: your nuanced answer.</li>
+      </ul>
+      <p><button class="fr" data-say>Force est de constater que le débat reste ouvert.</button></p>
+      <p><button class="fr" data-say>Certes, cette mesure a des avantages ; il n'en demeure pas moins qu'elle coûte cher.</button></p>
+      <p><button class="fr" data-say>Dès lors, on peut se demander si cette solution est durable.</button></p>
+    </div>
+    <div class="card">
+      <span class="eyebrow">Connector toolkit</span>
+      <h3>The C-level links</h3>
+      <p class="small">en outre · de surcroît <span class="gloss">moreover</span> · par ailleurs · néanmoins · toutefois · en l'occurrence <span class="gloss">in this case</span> · a fortiori <span class="gloss">all the more so</span> · dès lors <span class="gloss">therefore, from then on</span> · force est de constater que <span class="gloss">one has to admit</span> · il n'en demeure pas moins que <span class="gloss">the fact remains</span> · somme toute <span class="gloss">all things considered</span> · quoi qu'il en soit <span class="gloss">be that as it may</span> · à cet égard <span class="gloss">in this respect</span> · il convient de <span class="gloss">it is appropriate to</span></p>
+    </div>
+  </div>
+
+  <div class="tool" style="margin-top:16px">
+    <div class="tool-head"><span class="tag">Outil</span> C-mètre · writing checker</div>
+    <div class="tool-body">
+      <p>The writing checker in <a href="#delf">Atelier DELF</a> has a C mode. It marks C-level connectors and emphasis, counts nominalisations, and checks C1 or C2 length.</p>
+      <div class="row"><button class="btn solid" type="button" data-cgo="C1">Write a C1 essay</button><button class="btn" type="button" data-cgo="C2">Write a C2 text</button></div>
+    </div>
+  </div>
+
+  <div class="tool" style="margin-top:16px"><div class="tool-head"><span class="tag">Drill</span> DALF know-how</div><div class="tool-body" data-drill="dalf"></div></div>
+  <div class="station-foot"><button class="clear-btn" data-station="dalf" aria-pressed="false">Mark station cleared</button><span class="next"></span></div>
+</section>
+<section class="station" id="terminusc" style="--line:#1a1a1a;--line-ink:#fff">
+  <span class="roundel"></span>
+  <div class="station-head">
+    <h2 class="plate">Terminus C</h2>
+    <p class="payoff">15 questions drawn from every C station. <b>Score 12 or more</b> and Ligne C is yours.</p>
+  </div>
+  <div class="grid">
+    <div class="tool"><div class="tool-head"><span class="tag">Examen blanc</span> 15 C-level questions</div><div class="tool-body" data-drill="examc"></div></div>
+    <div class="card key">
+      <span class="eyebrow">The C plan</span>
+      <h3>At this level, input does most of the work</h3>
+      <ul class="small">
+        <li><b>Read one long article and one book chapter a week</b>: an opinion piece from a national daily, then a novel. Note five expressions you'd like to use.</li>
+        <li><b>Listen to talk radio and long podcasts</b> made for natives: debates, interviews and documentaries, not learner content.</li>
+        <li><b>Write one synthesis a week</b> from two articles on the same topic, then check it with the C-mètre.</li>
+        <li><b>Debate, don't just chat</b>: with a tutor, defend a position you don't hold.</li>
+        <li>Want proof of your level? The <b>DALF C1 / C2</b> are the official exams.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="station-foot"><button class="clear-btn" data-station="terminusc" aria-pressed="false">Mark station cleared</button><span class="next"></span></div>
 </section>
 
 </main>
@@ -1106,18 +1526,29 @@ body.sheet-open{overflow:hidden}
 const STATIONS=[
   {id:"passe",name:"Le passé",sub:"PC vs imparfait",lv:"B1",c:"#FFCD00"},
   {id:"pronoms",name:"Pronoms",sub:"le, lui, y, en",lv:"B1",c:"#003CA6"},
+  {id:"negation",name:"Négation",sub:"jamais, rien, mieux",lv:"B1",c:"#00AEEF"},
   {id:"relatifs",name:"Relatifs",sub:"qui, que, dont",lv:"B1",c:"#837902"},
   {id:"hypotheses",name:"Futur & si",sub:"plans, regrets",lv:"B1",c:"#CF009E"},
   {id:"subjonctif",name:"Subjonctif",sub:"triggers",lv:"B1+",c:"#FF7E2E"},
+  {id:"prepositions",name:"Verbes + à/de",sub:"à, de, au, en",lv:"B1+",c:"#A3D977"},
   {id:"connecteurs",name:"Connecteurs",sub:"argue, link",lv:"B2",c:"#6ECA97"},
   {id:"raconter",name:"Raconter",sub:"reported speech",lv:"B2",c:"#FA9ABA"},
+  {id:"causatif",name:"Faire faire",sub:"causative, questions",lv:"B2",c:"#5B6C8F"},
   {id:"frequents",name:"Mots fréquents",sub:"~360 core words",lv:"B1–B2",c:"#C9910D"},
   {id:"vocabulaire",name:"Vocabulaire",sub:"6 exam topics",lv:"B1–B2",c:"#E19BDF"},
   {id:"expressions",name:"Expressions",sub:"20 idioms",lv:"B2",c:"#B6BD00"},
   {id:"boss",name:"Boss B2",sub:"last traps",lv:"B2",c:"#704B1C"},
   {id:"delf",name:"Atelier DELF",sub:"write + check",lv:"B1–B2",c:"#007852"},
-  {id:"terminus",name:"Terminus",sub:"mock exam",lv:"B2",c:"#62259D"}
+  {id:"terminus",name:"Terminus B",sub:"B mock exam",lv:"B2",c:"#62259D"},
+  {id:"nuances",name:"Nuances",sub:"concession, condition",lv:"C1",c:"#0B7A75"},
+  {id:"relief",name:"Mise en relief",sub:"emphasis, style",lv:"C1",c:"#C0392B"},
+  {id:"litteraire",name:"Temps littéraires",sub:"passé simple",lv:"C1–C2",c:"#34495E"},
+  {id:"motjuste",name:"Le mot juste",sub:"precise verbs",lv:"C1–C2",c:"#9A7D0A"},
+  {id:"expressionsc",name:"Expressions C",sub:"20 idioms",lv:"C1–C2",c:"#D35400"},
+  {id:"dalf",name:"Atelier DALF",sub:"synthèse, essai",lv:"C1–C2",c:"#1B4F72"},
+  {id:"terminusc",name:"Terminus C",sub:"C mock exam",lv:"C2",c:"#1a1a1a"}
 ];
+const CIDS=new Set(STATIONS.filter(x=>x.lv[0]==="C").map(x=>x.id));
 
 /* Frequent B-level words: [french, english, note?]. "!" in a note = false friend or trap */
 const FREQ={
@@ -1146,6 +1577,7 @@ const VOCAB=[
  {t:"Les études",w:[["passer un examen","to TAKE an exam"],["réussir un examen","to PASS an exam"],["rater un examen","to fail an exam"],["redoubler","to repeat a school year"],["un diplôme","a degree, qualification"],["la formation continue","ongoing adult training"],["les frais d'inscription","registration / tuition fees"],["une bourse","a scholarship, grant"],["un stage","an internship"]]},
  {t:"La société",w:[["le pouvoir d'achat","purchasing power"],["les inégalités","inequality"],["une grève","a strike"],["une manifestation","a protest, demonstration"],["le logement","housing"],["le loyer","the rent"],["l'égalité femmes-hommes","gender equality"],["un enjeu","an issue, what's at stake"],["les impôts","taxes"]]}
 ];
+const IDIOMS_C=[["avoir maille à partir avec quelqu'un", "to be in conflict with someone", "to have a small coin to share with someone"], ["tirer son épingle du jeu", "to get out of a tricky situation well", "to pull one's pin out of the game"], ["faire long feu", "to fizzle out, to fail (not 'to last long')", "to make a long fire"], ["ménager la chèvre et le chou", "to try to keep both sides happy", "to spare the goat and the cabbage"], ["battre en brèche", "to demolish (an argument)", "to batter through a breach"], ["prêter le flanc à la critique", "to lay oneself open to criticism", "to offer one's flank to criticism"], ["être monnaie courante", "to be commonplace", "to be current coin"], ["en dents de scie", "up and down, erratic", "like the teeth of a saw"], ["à l'aune de", "by the standard of", "by the yardstick of"], ["faire table rase", "to start again from scratch", "to clear the table"], ["tant bien que mal", "somehow or other, as best one can", "as much well as badly"], ["de fil en aiguille", "one thing leading to another", "from thread to needle"], ["avoir le vent en poupe", "to be riding high", "to have the wind behind the stern"], ["mettre la puce à l'oreille", "to make someone suspicious", "to put the flea in someone's ear"], ["c'est la croix et la bannière", "it's a real ordeal", "it's the cross and the banner"], ["arriver comme un cheveu sur la soupe", "to come at the worst moment", "to arrive like a hair in the soup"], ["être dans le collimateur", "to be in someone's sights", "to be in the gun sight"], ["couper l'herbe sous le pied à quelqu'un", "to pull the rug out from under someone", "to cut the grass under someone's foot"], ["ne pas y aller par quatre chemins", "not to beat about the bush", "not to go there by four roads"], ["se mettre le doigt dans l'œil", "to be completely mistaken", "to put one's finger in one's eye"]];
 const IDIOMS=[
  ["avoir le cafard","to feel down","to have the cockroach"],
  ["poser un lapin","to stand someone up","to put down a rabbit"],
@@ -1313,7 +1745,7 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-say]");if(
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 
 /* ---------- English layer ---------- */
-const TITLE_EN={passe:"The past: telling a story",pronoms:"Pronouns: it, him, there, some",relatifs:"Relative pronouns: who, which, whose",hypotheses:"The future and 'if' sentences",subjonctif:"The subjunctive",connecteurs:"Linking words",raconter:"Telling and reporting",frequents:"The words that keep coming back",vocabulaire:"B-level vocabulary",expressions:"Everyday idioms",boss:"Final traps",delf:"DELF exam workshop",terminus:"Last stop: mock exam"};
+const TITLE_EN={passe:"The past: telling a story",pronoms:"Pronouns: it, him, there, some",relatifs:"Relative pronouns: who, which, whose",hypotheses:"The future and 'if' sentences",subjonctif:"The subjunctive",connecteurs:"Linking words",raconter:"Telling and reporting",frequents:"The words that keep coming back",vocabulaire:"B-level vocabulary",expressions:"Everyday idioms",boss:"Final traps",delf:"DELF exam workshop",terminus:"Last stop for B: mock exam",negation:"Negatives and comparisons",prepositions:"Verbs with à and de",causatif:"Having things done, and asking questions",nuances:"Logical nuance: concession, condition, cause",relief:"Emphasis and written style",litteraire:"Literary tenses",motjuste:"The exact word",expressionsc:"Advanced idioms",dalf:"DALF exam workshop",terminusc:"Last stop of Ligne C: mock exam"};
 const EN={
 "Il faisait beau, les gens se promenaient.":"The weather was nice, people were out walking.",
 "Quand j'étais petit, je jouais au foot le samedi.":"When I was little, I played football on Saturdays.",
@@ -1390,6 +1822,8 @@ const EN={
 "Autrement dit…":"In other words…",
 "Je vous rejoins sur ce point, mais…":"I'm with you on that point, but…"
 };
+Object.assign(BANKS,{"negation": [{"q": "Il a arrêté : il ne fume ___.", "o": ["plus", "jamais", "rien"], "e": "He stopped, so it's 'no longer' → ne … plus."}, {"q": "Je n'ai vu ___ : la salle était vide.", "o": ["personne", "rien", "aucun"], "e": "Nobody → personne, placed after the participle."}, {"q": "Je n'ai ___ compris.", "o": ["rien", "personne", "aucun"], "e": "rien goes before the participle: je n'ai rien compris."}, {"q": "___ n'est venu à la réunion.", "o": ["Personne", "Rien", "Jamais"], "e": "Nobody as the subject: Personne n'est venu."}, {"q": "Je n'ai ___ dix euros sur moi.", "o": ["que", "rien", "aucun"], "e": "ne … que = only."}, {"q": "Il n'y a ___ problème.", "o": ["aucun", "aucune", "pas"], "e": "aucun agrees with problème (masculine). 'Il n'y a pas problème' is wrong: it would need 'pas de'."}, {"q": "Elle chante ___ que moi.", "o": ["mieux", "meilleur", "plus bien"], "e": "It describes an action (chanter): bien → mieux."}, {"q": "Ce gâteau est ___ que l'autre.", "o": ["meilleur", "mieux", "plus bon"], "e": "It describes a thing (adjective bon): bon → meilleur."}, {"q": "J'ai ___ travail que toi.", "o": ["autant de", "aussi", "autant"], "e": "Equal amount + noun → autant de."}, {"q": "C'est la ville ___ chère de France.", "o": ["la plus", "plus", "le plus"], "e": "Superlative after a feminine noun: la ville la plus chère."}, {"q": "___ je lis, plus j'apprends.", "o": ["Plus", "Le plus", "Autant"], "e": "plus … plus = the more … the more."}, {"q": "— Je n'aime pas le froid. — Moi ___.", "o": ["non plus", "aussi", "pas plus"], "e": "Agreeing with a negative sentence → moi non plus."}], "prepositions": [{"q": "J'ai commencé ___ apprendre le piano.", "o": ["à", "de", "(nothing)"], "e": "commencer à + infinitive."}, {"q": "N'oublie pas ___ fermer la fenêtre.", "o": ["de", "à", "(nothing)"], "e": "oublier de + infinitive."}, {"q": "Il n'arrive pas ___ dormir.", "o": ["à", "de", "(nothing)"], "e": "arriver à = to manage to."}, {"q": "J'espère ___ venir ce week-end.", "o": ["(nothing)", "de", "à"], "e": "espérer takes the infinitive directly: j'espère venir."}, {"q": "Elle m'a demandé ___ l'aider.", "o": ["de", "à", "(nothing)"], "e": "demander à quelqu'un de faire quelque chose."}, {"q": "Il a réussi ___ convaincre son patron.", "o": ["à", "de", "(nothing)"], "e": "réussir à + infinitive."}, {"q": "J'ai décidé ___ partir.", "o": ["de", "à", "(nothing)"], "e": "décider de + infinitive."}, {"q": "Je joue ___ guitare depuis dix ans.", "o": ["de la", "à la", "la"], "e": "An instrument → jouer de."}, {"q": "Il joue ___ foot le dimanche.", "o": ["au", "du", "le"], "e": "A sport or game → jouer à (à + le = au)."}, {"q": "Elle habite ___ Japon.", "o": ["au", "en", "à"], "e": "le Japon is masculine → au."}, {"q": "Nous partons ___ Italie.", "o": ["en", "au", "à"], "e": "l'Italie is feminine → en."}, {"q": "Il vient ___ États-Unis.", "o": ["des", "de", "du"], "e": "A plural country: from = des."}, {"q": "— Tu penses à ton examen ? — Oui, j'___ pense tout le temps.", "o": ["y", "en", "le"], "e": "penser à + a thing → y."}, {"q": "— Tu as besoin de ta voiture ? — Non, je n'___ ai pas besoin.", "o": ["en", "y", "le"], "e": "avoir besoin de + a thing → en."}], "causatif": [{"q": "Je ___ réparer ma voiture chez un garagiste.", "o": ["fais", "me fais", "laisse"], "e": "Having something done → faire + infinitive."}, {"q": "Il s'est fait ___ son vélo.", "o": ["voler", "volé", "voler à"], "e": "se faire + infinitive: the second verb stays in the infinitive."}, {"q": "Ce film m'a ___ rire.", "o": ["fait", "faite", "laissé"], "e": "faire rire = to make someone laugh."}, {"q": "Les invités ? Je les ai ___ entrer.", "o": ["fait", "faits", "faites"], "e": "fait + infinitive never agrees, even with a preceding object."}, {"q": "Elle ___ couper les cheveux hier.", "o": ["s'est fait", "a fait", "s'est faite"], "e": "Done to herself → se faire; and fait doesn't agree before an infinitive."}, {"say": "Parle-t-il anglais ?", "q": "Formal question: « ___ anglais ? »", "o": ["Parle-t-il", "Parle-il", "Il parle-t-il"], "e": "Two vowels meet → add -t-: parle-t-il."}, {"say": "Que fais-tu ?", "q": "Formal question: « Que ___ ? »", "o": ["fais-tu", "tu fais", "est-ce que tu fais"], "e": "Soutenu: que + inverted verb and subject."}, {"say": "A-t-elle répondu ?", "q": "« ___ répondu ? »", "o": ["A-t-elle", "A-elle", "Elle a-t-elle"], "e": "a + elle → a-t-elle."}, {"q": "Ce mot ne ___ plus.", "o": ["s'utilise", "utilise", "est utiliser"], "e": "Pronominal passive: ce mot s'utilise = this word is used."}, {"q": "Il a laissé ___ ses études.", "o": ["tomber", "tombé", "tombe"], "e": "laisser + infinitive: laisser tomber."}], "nuances": [{"q": "Quand bien même il ___ , nous sortirions.", "o": ["pleuvrait", "pleuve", "pleut"], "e": "quand bien même takes the conditionnel."}, {"q": "J'ai beau ___ , je n'y arrive pas.", "o": ["essayer", "essayé", "que j'essaie"], "e": "avoir beau + infinitive = however hard I try."}, {"q": "Si intelligent qu'il ___ , il ne peut pas tout savoir.", "o": ["soit", "est", "serait"], "e": "si + adjective + que → subjonctif."}, {"q": "___ tu dises, je ne changerai pas d'avis.", "o": ["Quoi que", "Quoique", "Bien que"], "e": "quoi que (two words) = whatever. quoique (one word) = although."}, {"q": "Prends un parapluie au cas où il ___ .", "o": ["pleuvrait", "pleuve", "pleut"], "e": "au cas où takes the conditionnel."}, {"q": "Je viendrai à condition que tu ___ là.", "o": ["sois", "es", "seras"], "e": "à condition que → subjonctif."}, {"q": "___ temps, le projet a été abandonné.", "o": ["Faute de", "À cause", "Sous prétexte de"], "e": "faute de + noun = for lack of."}, {"q": "Il a beaucoup plu, ___ la route est fermée.", "o": ["si bien que", "bien que", "pour peu que"], "e": "A result → si bien que + indicatif."}, {"q": "Je suis déçu, ___ il avait promis.", "o": ["d'autant plus qu'", "pour peu qu'", "quand bien même"], "e": "An extra reason that makes it stronger → d'autant plus que."}, {"q": "Parle fort, de sorte qu'on t'___ .", "o": ["entende", "entend", "entendra"], "e": "de sorte que expressing an aim → subjonctif."}, {"q": "Il est parti ___ il était malade.", "o": ["sous prétexte qu'", "à condition qu'", "pourvu qu'"], "e": "A reason you doubt → sous prétexte que."}, {"q": "Pour peu qu'on l'___ , il fera des progrès.", "o": ["encourage", "encourageait", "encouragera"], "e": "pour peu que → subjonctif."}], "relief": [{"q": "C'est Marie ___ a trouvé la solution.", "o": ["qui", "que", "dont"], "e": "Marie is the subject of a trouvé → qui."}, {"q": "C'est demain ___ tout se décide.", "o": ["que", "qui", "où"], "e": "Highlighting a time expression → que."}, {"q": "___ me surprend, c'est son calme.", "o": ["Ce qui", "Ce que", "Ce dont"], "e": "It's the subject of surprend → ce qui."}, {"q": "___ nous avons besoin, c'est de temps.", "o": ["Ce dont", "Ce que", "Ce qui"], "e": "avoir besoin de → ce dont."}, {"q": "___ je regrette, c'est de ne pas avoir essayé.", "o": ["Ce que", "Ce qui", "Ce dont"], "e": "It's the object of regrette → ce que."}, {"say": "le refus", "q": "refuser → le ___", "o": ["refus", "refusement", "refusage"], "e": "refuser → le refus."}, {"say": "l'augmentation des prix", "q": "« Les prix ont augmenté » → « L'___ des prix »", "o": ["augmentation", "augmentement", "augmentage"], "e": "augmenter → l'augmentation."}, {"say": "la réussite", "q": "réussir → la ___", "o": ["réussite", "réussissement", "réussion"], "e": "réussir → la réussite."}, {"q": "Peut-être ___ raison.", "o": ["a-t-il", "il a", "a-il"], "e": "After peut-être at the start, written French inverts: peut-être a-t-il raison."}, {"q": "Aussi ___ décidé de reporter la réunion.", "o": ["avons-nous", "nous avons", "avons nous"], "e": "aussi at the start (= therefore) triggers inversion, with a hyphen."}, {"q": "___ à la gare, elle a appelé sa mère.", "o": ["Arrivée", "Arrivé", "Arrivés"], "e": "arriver takes être, so the participle agrees with elle."}], "litteraire": [{"q": "Il ouvrit la porte et ___ un homme.", "o": ["vit", "vu", "voya"], "e": "voir → il vit in the passé simple."}, {"say": "il fit", "q": "Passé simple of faire: il ___", "o": ["fit", "fut", "fait"], "e": "faire → il fit. (il fut is être.)"}, {"say": "il fut", "q": "Passé simple of être: il ___", "o": ["fut", "fit", "eut"], "e": "être → il fut."}, {"say": "ils vinrent", "q": "Passé simple of venir: ils ___", "o": ["vinrent", "venirent", "vinent"], "e": "venir → ils vinrent."}, {"q": "Elle ___ à Lyon en 1890. (naître)", "o": ["naquit", "naissa", "naît"], "e": "naître → elle naquit."}, {"q": "Ils ___ en silence. (parler)", "o": ["parlèrent", "parlirent", "parlâmes"], "e": "-er verbs: ils parlèrent."}, {"q": "Dès qu'il ___ fini, il sortit.", "o": ["eut", "avait", "a"], "e": "After dès que, with a passé simple main verb, use the passé antérieur: il eut fini."}, {"q": "« Il fallait qu'il fût là » means…", "o": ["He had to be there.", "He was there.", "He would be there."], "e": "fût = imperfect subjunctive of être."}, {"q": "« Je ne sais que faire » means…", "o": ["I don't know what to do.", "I only know how to do it.", "I know what to do."], "e": "A literary ne without pas: je ne sais que faire = je ne sais pas quoi faire."}, {"q": "« Elle ne cesse de répéter la même chose » means…", "o": ["She keeps repeating the same thing.", "She stops repeating the same thing.", "She never repeats the same thing."], "e": "ne cesser de = not to stop = to keep doing."}, {"q": "« J'eusse aimé vous voir » means the same as…", "o": ["J'aurais aimé vous voir.", "J'ai aimé vous voir.", "J'aimerais vous voir."], "e": "eusse aimé = the formal second form of the conditionnel passé."}], "motjuste": [{"q": "Il a ___ une grave erreur.", "o": ["commis", "prononcé", "mené"], "e": "commettre une erreur."}, {"q": "Le président a ___ un discours.", "o": ["prononcé", "commis", "émis"], "e": "prononcer un discours."}, {"q": "La police ___ l'enquête.", "o": ["mène", "commet", "prononce"], "e": "mener une enquête."}, {"q": "Les chercheurs ont ___ une hypothèse.", "o": ["émis", "prononcé", "commis"], "e": "émettre une hypothèse."}, {"q": "Cette décision a ___ la polémique.", "o": ["suscité", "commis", "mené"], "e": "susciter la polémique."}, {"q": "« Ce n'est pas vrai ! », a-t-il ___ aussitôt.", "o": ["rétorqué", "souligné", "précisé"], "e": "A quick, sharp answer → rétorquer."}, {"q": "L'entreprise ___ de moyens importants.", "o": ["dispose", "possède", "a"], "e": "disposer de + noun. posséder and avoir take no de."}, {"q": "La ___ économique est difficile cette année.", "o": ["conjoncture", "conjecture"], "e": "la conjoncture = the economic situation; une conjecture = a guess."}, {"q": "Un orage est ___ .", "o": ["imminent", "éminent"], "e": "imminent = about to happen; éminent = distinguished."}, {"q": "Les cambrioleurs sont entrés par ___ .", "o": ["effraction", "infraction"], "e": "entrer par effraction = to break in."}, {"q": "Il faut ___ ce retard rapidement.", "o": ["combler", "remplir", "relever"], "e": "combler un retard = to catch up."}, {"q": "Elle a ___ le défi avec succès.", "o": ["relevé", "rempli", "soulevé"], "e": "relever un défi = to take up a challenge."}], "dalf": [{"q": "In a synthèse, you ___ give your own opinion.", "o": ["never", "should always", "may briefly"], "e": "A synthèse reports the documents' ideas only."}, {"q": "A DALF C1 synthèse is about ___ words.", "o": ["220", "120", "500"], "e": "About 220 words, give or take 10%."}, {"q": "« Force est de constater que… » means…", "o": ["One has to admit that…", "It is forbidden to note that…", "It takes strength to see that…"], "e": "A classic essay opener."}, {"q": "« Néanmoins » means…", "o": ["nevertheless", "moreover", "therefore"], "e": "néanmoins = toutefois = nevertheless."}, {"q": "« De surcroît » means…", "o": ["moreover", "however", "in short"], "e": "de surcroît = en outre = moreover."}, {"q": "« En l'occurrence » means…", "o": ["in this case", "on that occasion", "by chance"], "e": "en l'occurrence = in this particular case."}, {"q": "« Somme toute » means…", "o": ["all things considered", "in total", "above all"], "e": "somme toute = all in all."}, {"q": "« Il n'en demeure pas moins que… » means…", "o": ["The fact remains that…", "It is less and less true that…", "Nothing remains except…"], "e": "A strong concession: yes, but still…"}, {"q": "« A fortiori » means…", "o": ["all the more so", "at the very least", "by force"], "e": "a fortiori = with even more reason."}]});
+Object.assign(EN,{"Je ne fume jamais.": "I never smoke.", "Il n'habite plus ici.": "He doesn't live here any more.", "Je n'ai rien vu.": "I didn't see anything.", "Je n'ai vu personne.": "I didn't see anybody.", "Il n'y a aucun problème.": "There's no problem at all.", "Je n'ai que dix euros.": "I only have ten euros.", "Je ne bois ni thé ni café.": "I drink neither tea nor coffee.", "Je n'ai rien compris.": "I didn't understand anything.", "Je n'ai parlé à personne.": "I didn't talk to anybody.", "Personne n'est venu.": "Nobody came.", "Rien n'a changé.": "Nothing has changed.", "Lyon est plus petit que Paris.": "Lyon is smaller than Paris.", "J'ai autant de travail que toi.": "I have as much work as you.", "Il travaille plus que moi.": "He works more than me.", "Ce film est meilleur que le livre.": "This film is better than the book.", "Elle chante mieux que moi.": "She sings better than me.", "C'est la ville la plus chère de France.": "It's the most expensive city in France.", "Il fait de plus en plus chaud.": "It's getting hotter and hotter.", "Plus je lis, plus j'apprends.": "The more I read, the more I learn.", "Moi non plus.": "Me neither.", "Il n'a pas encore répondu.": "He hasn't replied yet.", "Il ne sort guère.": "He hardly ever goes out.", "J'ai commencé à apprendre le français.": "I've started learning French.", "Il n'arrive pas à dormir.": "He can't get to sleep.", "J'ai oublié de fermer la porte.": "I forgot to close the door.", "Elle m'a demandé de l'aider.": "She asked me to help her.", "J'espère venir samedi.": "I hope to come on Saturday.", "Je compte partir lundi.": "I intend to leave on Monday.", "Je pense à mon examen.": "I'm thinking about my exam.", "J'y pense.": "I'm thinking about it.", "On parle du film.": "We're talking about the film.", "On en parle.": "We're talking about it.", "J'ai besoin de ma voiture.": "I need my car.", "J'en ai besoin.": "I need it.", "Je m'occupe des billets.": "I'm taking care of the tickets.", "Je m'en occupe.": "I'll take care of it.", "Je téléphone à ma sœur.": "I'm calling my sister.", "Je lui téléphone.": "I'm calling her.", "Je joue au tennis et du piano.": "I play tennis and the piano.", "Je viens du Japon, mais j'habite en France.": "I come from Japan, but I live in France.", "Je fais réparer ma voiture.": "I'm having my car repaired.", "Elle a fait construire une maison.": "She had a house built.", "Ce film m'a fait rire.": "This film made me laugh.", "Les invités ? Je les ai fait entrer.": "The guests? I showed them in.", "Je me suis fait couper les cheveux.": "I had my hair cut.", "Il s'est fait voler son portefeuille.": "He had his wallet stolen.", "Laisse-moi parler !": "Let me speak!", "Il a laissé tomber ses études.": "He dropped out of his studies.", "Tu viens ?": "Are you coming?", "Est-ce que tu viens ?": "Are you coming?", "Viens-tu ?": "Are you coming?", "Tu fais quoi ?": "What are you doing?", "Qu'est-ce que tu fais ?": "What are you doing?", "Que fais-tu ?": "What are you doing?", "C'est où ?": "Where is it?", "Où est-ce que c'est ?": "Where is it?", "Où est-ce ?": "Where is it?", "Parle-t-il anglais ?": "Does he speak English?", "A-t-elle répondu ?": "Has she replied?", "Votre frère vient-il ?": "Is your brother coming?", "Ça ne se fait pas.": "That's not done.", "Ce mot ne s'utilise plus.": "This word isn't used any more.", "Le vin blanc se boit frais.": "White wine is served chilled.", "Quand bien même il pleuvrait, nous sortirions.": "Even if it rained, we would go out.", "J'ai beau essayer, je n'y arrive pas.": "However hard I try, I can't do it.", "Si intelligent qu'il soit, il ne peut pas tout savoir.": "However intelligent he may be, he can't know everything.", "Quoi que tu dises, je ne changerai pas d'avis.": "Whatever you say, I won't change my mind.", "Il a raison, encore que ce soit discutable.": "He's right, although that's debatable.", "Toujours est-il que le problème reste entier.": "The fact remains that the problem is unsolved.", "Je viendrai à condition que tu sois là.": "I'll come provided you're there.", "Pour peu qu'on l'encourage, il fera des progrès.": "With even a little encouragement, he'll make progress.", "Prends un parapluie au cas où il pleuvrait.": "Take an umbrella in case it rains.", "Nous partirons à six heures, à moins qu'il ne pleuve.": "We'll leave at six, unless it rains.", "Pourvu qu'il fasse beau demain !": "Let's hope the weather is nice tomorrow!", "En admettant que ce soit vrai, que faut-il faire ?": "Assuming that's true, what should we do?", "Je suis déçu, d'autant plus qu'il avait promis.": "I'm disappointed, all the more so since he had promised.", "Faute de temps, le projet a été abandonné.": "For lack of time, the project was abandoned.", "Il est parti sous prétexte qu'il était malade.": "He left on the pretext that he was ill.", "Dans la mesure où les prix augmentent, les salaires doivent suivre.": "Insofar as prices are rising, wages must follow.", "Il a beaucoup plu, si bien que la route est fermée.": "It rained a lot, so the road is closed.", "Dès lors que vous signez, le contrat est valable.": "As soon as you sign, the contract is valid.", "Parle fort, de sorte qu'on t'entende.": "Speak up so that people can hear you.", "Il a parlé fort, de sorte qu'on l'a entendu.": "He spoke loudly, so people heard him.", "C'est Marie qui a trouvé la solution.": "It was Marie who found the solution.", "C'est demain que tout se décide.": "It's tomorrow that everything will be decided.", "C'est pour cette raison que j'ai refusé.": "That's why I refused.", "Ce qui me surprend, c'est son calme.": "What surprises me is how calm he is.", "Ce que je regrette, c'est de ne pas avoir essayé.": "What I regret is not having tried.", "Ce dont nous avons besoin, c'est de temps.": "What we need is time.", "Les prix ont fortement augmenté.": "Prices have risen sharply.", "La forte augmentation des prix inquiète les ménages.": "The sharp rise in prices is worrying households.", "Peut-être a-t-il raison.": "Perhaps he's right.", "Sans doute viendra-t-elle demain.": "She'll probably come tomorrow.", "Aussi avons-nous décidé de reporter la réunion.": "We have therefore decided to postpone the meeting.", "Ainsi s'achève notre enquête.": "Thus ends our investigation.", "Une fois le dossier terminé, nous l'avons envoyé.": "Once the file was finished, we sent it.", "Le contrat ayant été signé, les travaux peuvent commencer.": "The contract having been signed, work can begin.", "Arrivée à la gare, elle a appelé sa mère.": "When she got to the station, she called her mother.", "Il ouvrit la porte et vit un homme qu'il ne connaissait pas.": "He opened the door and saw a man he didn't know.", "Elle naquit à Lyon en 1890 et mourut à Paris.": "She was born in Lyon in 1890 and died in Paris.", "Dès qu'il eut fini, il sortit.": "As soon as he had finished, he went out.", "Quand elle fut partie, il se mit à pleurer.": "When she had gone, he began to cry.", "Il fallait qu'il fût là.": "He had to be there.", "Je voudrais l'aider, ne fût-ce qu'un peu.": "I'd like to help him, if only a little.", "J'eusse aimé vous voir.": "I would have liked to see you.", "Je ne sais que faire.": "I don't know what to do.", "Il n'ose le dire.": "He doesn't dare say it.", "Elle ne cesse de répéter la même chose.": "She keeps repeating the same thing.", "Le président a prononcé un discours remarqué.": "The president gave a much-noticed speech.", "Le ministre a souligné que la situation restait fragile.": "The minister stressed that the situation remained fragile.", "L'entreprise dispose de moyens importants.": "The company has considerable resources.", "Les deux documents s'accordent à dire que le télétravail modifie notre rapport au temps.": "Both documents agree that remote work changes our relationship with time.", "Contrairement à l'auteur du premier texte, celui du second estime que…": "Unlike the author of the first text, the author of the second considers that…", "Il ressort de ces documents que…": "What emerges from these documents is that…", "Force est de constater que le débat reste ouvert.": "One has to admit that the debate remains open.", "Certes, cette mesure a des avantages ; il n'en demeure pas moins qu'elle coûte cher.": "Admittedly, this measure has advantages; the fact remains that it is expensive.", "Dès lors, on peut se demander si cette solution est durable.": "We may therefore wonder whether this solution is sustainable."});
 const DRILL_EN={
 passe:["When I was little, I played football every Saturday.","Yesterday I worked on this file for three hours.","The weather was nice when we left.","I was reading when the phone rang.","She lived in Italy for two years.","Back then, we lived in a small flat.","Suddenly, it started to rain.","I was tired, so I went home.","When I arrived, they had already left.","While I was walking, it started to snow.","We went to the restaurant three times last week.","I never used to drink coffee before."],
 pronoms:["Did you see the film? — Yes, I saw it.","Did you talk to your mother? — Yes, I talked to her.","Do you want some coffee? — Yes, I'd like some.","Are you going to Lyon tomorrow? — Yes, I'm going (there).","Are you thinking about your exam? — Yes, I'm thinking about it.","Are you thinking about your sister? — Yes, I'm thinking about her.","He gives the keys to Marc. → He gives them to him.","She gave me some advice. → She gave me some.","How many brothers do you have? — I have two.","Give me the book! → Give it to me!","Did you write to your parents? — Yes, I wrote to them.","Are you going to buy these shoes? — Yes, I'm going to buy them.","Is there any bread? — Yes, there is some."],
@@ -1400,6 +1834,7 @@ connecteurs:["The project is expensive. However, it's useful.","I'm staying home
 raconter:["\"I'm tired.\" → He said he was tired.","\"I'll come.\" → She said she would come.","\"I've finished.\" → He said he had finished.","\"Are you coming?\" → He asked me if I was coming.","\"What are you doing?\" → He asked me what I was doing.","\"Come tomorrow!\" → He told me to come the next day.","He listens to the radio while cooking.","The house was built in 1900.","\"He was president\" (old written style). In everyday French this is…"],
 boss:["The letters (that) I wrote.","He's an excellent doctor.","My brother? He's a doctor.","I've lived here for three years.","I arrived three years ago.","I read this novel in two days."]
 };
+Object.assign(DRILL_EN,{"negation": ["He's stopped: he doesn't smoke any more.", "I didn't see anybody: the room was empty.", "I didn't understand anything.", "Nobody came to the meeting.", "I only have ten euros on me.", "There's no problem at all.", "She sings better than me.", "This cake is better than the other one.", "I have as much work as you.", "It's the most expensive city in France.", "The more I read, the more I learn.", "— I don't like the cold. — Me neither."], "prepositions": ["I've started learning the piano.", "Don't forget to close the window.", "He can't get to sleep.", "I hope to come this weekend.", "She asked me to help her.", "He managed to convince his boss.", "I decided to leave.", "I've been playing the guitar for ten years.", "He plays football on Sundays.", "She lives in Japan.", "We're leaving for Italy.", "He comes from the United States.", "— Are you thinking about your exam? — Yes, I think about it all the time.", "— Do you need your car? — No, I don't need it."], "causatif": ["I'm having my car repaired at a garage.", "He had his bike stolen.", "This film made me laugh.", "The guests? I showed them in.", "She had her hair cut yesterday.", "Does he speak English?", "What are you doing?", "Has she replied?", "This word isn't used any more.", "He dropped out of his studies."], "nuances": ["Even if it rained, we would go out.", "However hard I try, I can't do it.", "However intelligent he may be, he can't know everything.", "Whatever you say, I won't change my mind.", "Take an umbrella in case it rains.", "I'll come provided you're there.", "For lack of time, the project was abandoned.", "It rained a lot, so the road is closed.", "I'm disappointed, all the more so since he had promised.", "Speak up so that people can hear you.", "He left on the pretext that he was ill.", "With even a little encouragement, he'll make progress."], "relief": ["It was Marie who found the solution.", "It's tomorrow that everything will be decided.", "What surprises me is how calm he is.", "What we need is time.", "What I regret is not having tried.", "", "The rise in prices", "", "Perhaps he's right.", "We have therefore decided to postpone the meeting.", "When she got to the station, she called her mother."], "litteraire": ["He opened the door and saw a man.", "", "", "", "She was born in Lyon in 1890.", "They talked in silence.", "As soon as he had finished, he went out.", "", "", "", ""], "motjuste": ["He made a serious mistake.", "The president gave a speech.", "The police are conducting the investigation.", "The researchers put forward a hypothesis.", "This decision sparked controversy.", "\"That's not true!\" he retorted at once.", "The company has considerable resources.", "The economic situation is difficult this year.", "A storm is imminent.", "The burglars broke in.", "We need to catch up quickly.", "She took up the challenge successfully."], "dalf": ["", "", "", "", "", "", "", "", ""]});
 function addGlosses(root){
   (root||document).querySelectorAll("button.fr").forEach(b=>{
     if(b.dataset.glossed)return;const en=EN[b.textContent.trim()];if(!en)return;
@@ -1474,7 +1909,7 @@ function drill(el,getItems,opts={}){
     const it=items[idx],j=+b.dataset.j,ok=j===0;if(ok)score++;
     record(it,ok);
     el.querySelectorAll(".opt").forEach(o=>{o.disabled=true;if(+o.dataset.j===0)o.classList.add("right");else if(o===b)o.classList.add("wrong")});
-    const full=it.say||((it.q.includes("___")&&!/[«→]|I want/.test(it.q))?it.q.replace(/\s*\(.*?\)/g,"").replace("___",it.o[0]).replace(/' /g,"'"):"");
+    const full=it.say||((it.q.includes("___")&&!/[«→]|I want/.test(it.q))?it.q.replace(/\s*\(.*?\)/g,"").replace("___",it.o[0]==="(nothing)"?"":it.o[0]).replace(/\s{2,}/g," ").replace(/ ([.,])/g,"$1").replace(/' /g,"'"):"");
     const trBtn=el.querySelector('[data-act="tr"]'),trP=el.querySelector("[data-tr]");if(trBtn)trBtn.remove();if(trP)trP.remove();
     el.querySelector(".feedback").innerHTML=`<span class="verdict ${ok?"y":"n"}">${ok?"Correct":"Not quite"}</span>${esc(it.e)}
       ${full?`<div style="margin-top:6px">${fr(full)}</div>`:""}
@@ -1496,6 +1931,8 @@ const VOCAB_ALL=VOCAB.flatMap(g=>g.w.map(w=>({fr:w[0],en:w[1],t:g.t})));
 const VOCAB_EN=VOCAB_ALL.map(v=>v.en);
 BANKS.vocabulaire=VOCAB_ALL.map(v=>({q:`« ${v.fr} » means…`,o:[v.en,...pickOthers(VOCAB_EN,v.en,2)],e:`Topic: ${v.t}.`,say:v.fr}));
 const IDIOM_EN=IDIOMS.map(x=>x[1]);
+const IDIOMC_EN=IDIOMS_C.map(x=>x[1]);
+BANKS.expressionsc=IDIOMS_C.map(x=>({q:`« ${x[0]} » means…`,o:[x[1],...pickOthers(IDIOMC_EN,x[1],2)],e:`Word for word: "${x[2]}".`,say:x[0]}));
 BANKS.expressions=IDIOMS.map(x=>({q:`« ${x[0]} » means…`,o:[x[1],...pickOthers(IDIOM_EN,x[1],2)],e:`Word for word: "${x[2]}".`,say:x[0]}));
 /* frequent words: bank, list, known tracking */
 const FQ=Object.entries(FREQ).flatMap(([cat,ws])=>ws.map(w=>({fr:w[0],en:w[1],note:w[2]||"",cat})));
@@ -1537,6 +1974,7 @@ $("#fqList").addEventListener("change",e=>{
 renderFQ();
 
 $("#vocabGrid").innerHTML=VOCAB.map(g=>`<div class="card"><h3>${esc(g.t)}</h3><table class="vocab small"><tbody>${g.w.map(w=>`<tr><td>${fr(w[0])}</td><td>${esc(w[1])}</td></tr>`).join("")}</tbody></table></div>`).join("");
+$("#idiomGridC").innerHTML=IDIOMS_C.map(x=>`<div class="card idiom"><h3>${fr(x[0])}</h3><p style="margin:4px 0 2px">${esc(x[1])}</p><p class="lit" style="margin:0">literally "${esc(x[2])}"</p></div>`).join("");
 $("#idiomGrid").innerHTML=IDIOMS.map(x=>`<div class="card idiom"><h3>${fr(x[0])}</h3><p style="margin:4px 0 2px">${esc(x[1])}</p><p class="lit" style="margin:0">literally "${esc(x[2])}"</p></div>`).join("");
 
 /* ---------- all items ---------- */
@@ -1547,7 +1985,9 @@ const byId=id=>ALL.find(x=>x.k+":"+x.i===id);
 document.querySelectorAll("[data-drill]").forEach(el=>{
   const k=el.dataset.drill;
   if(k==="exam"){
-    drill(el,()=>shuffle(ALL.filter(x=>x.k!=="frequents")).slice(0,15),{pass:12,onDone:(s)=>{if(s>=12){setCleared("terminus",true);toast(`${s}/15 · Terminus cleared. Félicitations, niveau B en vue !`)}}});
+    drill(el,()=>shuffle(ALL.filter(x=>x.k!=="frequents"&&!CIDS.has(x.k))).slice(0,15),{pass:12,onDone:(s)=>{if(s>=12){setCleared("terminus",true);toast(`${s}/15 · Terminus cleared. Félicitations, niveau B en vue !`)}}});
+  }else if(k==="examc"){
+    drill(el,()=>shuffle(ALL.filter(x=>CIDS.has(x.k))).slice(0,15),{pass:12,onDone:(s)=>{if(s>=12){setCleared("terminusc",true);toast(`${s}/15 · Terminus C cleared. Chapeau bas !`)}}});
   }else if(k==="frequents"){
     drill(el,()=>{const pool=ALL.filter(x=>x.k==="frequents"),fresh=pool.filter(x=>!known.has(FQ[x.i].fr));return shuffle(fresh.length>=15?fresh:pool).slice(0,15)},
       {doneText:(s,n)=>s>=12?"Good. Tick the words you now know in the list above, and the next round will skip them.":"Missed words are saved to My mistakes. Go again for a new set."});
@@ -1559,7 +1999,10 @@ function dailyMix(n){
   const w=it=>{const a=acc(it.k);const base=a===null?2.2:1+(1-a)*4;const miss=state.mistakes.has(it.k+":"+it.i);
     // the big word list would swamp the mix: scale it down unless the word was missed
     const bulk=it.k==="frequents"&&!miss?(known.has(FQ[it.i].fr)?0.02:0.12):1;
-    return base*(miss?2:1)*bulk};
+    // C questions stay rare until you've tried a C station yourself
+    const cw=CIDS.has(it.k)&&!miss&&!triedC?0.15:1;
+    return base*(miss?2:1)*bulk*cw};
+  const triedC=[...CIDS].some(id=>state.stats[id]);
   const pool=ALL.map(it=>({it,w:w(it)})),out=[];
   while(out.length<n&&pool.length){
     const tot=pool.reduce((s,p)=>s+p.w,0);let r=Math.random()*tot,i=0;
@@ -1735,11 +2178,22 @@ function openTab(tab){
 }
 document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>openTab(t.dataset.tab)));
 
+/* ---------- station numbers and "Next" links follow the STATIONS order ---------- */
+STATIONS.forEach((st,i)=>{
+  const sec=document.getElementById(st.id);if(!sec)return;
+  const r=sec.querySelector(".roundel");if(r)r.textContent=i+1;
+  const nx=sec.querySelector(".station-foot .next");if(!nx)return;
+  const n=STATIONS[i+1];
+  nx.innerHTML=st.id==="terminus"?'Next: <a href="#ligneC">change to Ligne C →</a>':n?`Next: <a href="#${n.id}">${esc(n.name)}</a>`:'<a href="#passe">Back to station 1</a>';
+});
+(function(){const n=STATIONS.length;const ol=$("#route");if(ol){ol.style.gridTemplateColumns=`repeat(${n},minmax(78px,1fr))`;ol.style.minWidth=n*80+"px"}
+  const rt=$("#rmTotal");if(rt)rt.textContent=n;const sg=$("#routeSegs");if(sg)sg.style.gridTemplateColumns=`repeat(${n},1fr)`})();
+
 /* ---------- mobile navigation: station sheet + bottom bar ---------- */
 function renderMobileNav(){
   const list=$("#sheetList");if(!list)return;
   list.innerHTML=STATIONS.map((s,i)=>{const done=state.cleared.has(s.id),a=acc(s.id);
-    return `<li><a href="#${s.id}" data-close style="--c:${s.c}" class="${done?"done":""}${s.id===hereId?" here":""}"><span class="dot">${done?"✓":i+1}</span><span class="t"><b>${s.name}</b><small>${s.sub}</small></span><span class="lvl">${s.lv}</span>${a!==null?`<span class="pc">${Math.round(a*100)}%</span>`:""}</a></li>`}).join("");
+    return (s.id==="nuances"?'<li class="sep">Ligne C · C1 → C2</li>':"")+`<li><a href="#${s.id}" data-close style="--c:${s.c}" class="${done?"done":""}${s.id===hereId?" here":""}"><span class="dot">${done?"✓":i+1}</span><span class="t"><b>${s.name}</b><small>${s.sub}</small></span><span class="lvl">${s.lv}</span>${a!==null?`<span class="pc">${Math.round(a*100)}%</span>`:""}</a></li>`}).join("");
   const n=state.mistakes.size,b=$("#bbErr");if(b){b.textContent=n;b.hidden=!n}
   updateNavHere();
 }
@@ -1863,13 +2317,23 @@ const BM_PROMPTS={
       "Vous écrivez au maire de votre ville pour proposer un projet qui rendrait votre quartier plus écologique. (250 mots)",
       "Les réseaux sociaux rendent-ils les jeunes moins heureux ? Écrivez un article pour un magazine. (250 mots)",
       "Faut-il rendre les transports publics gratuits ? Donnez votre point de vue de façon nuancée. (250 mots)",
-      "Apprendre une langue étrangère est-il encore utile à l'heure de la traduction automatique ? (250 mots)"]
+      "Apprendre une langue étrangère est-il encore utile à l'heure de la traduction automatique ? (250 mots)"],
+  C1:["Essai argumenté : la croissance économique est-elle compatible avec la protection de l'environnement ? (250 mots)",
+      "Essai : faut-il limiter l'usage de l'intelligence artificielle à l'école ? (250 mots)",
+      "Courrier des lecteurs : vous réagissez à un article selon lequel lire des romans ne sert plus à rien. (250 mots)",
+      "Essai : le travail doit-il rester au centre de nos vies ? (250 mots)"],
+  C2:["Article argumenté : la mondialisation menace-t-elle la diversité culturelle ? (700 mots)",
+      "Tribune pour un grand quotidien : faut-il réformer en profondeur l'école ? (700 mots)",
+      "Discours devant un conseil municipal sur la place de la voiture en ville. (700 mots)"]
 };
+let bmLevel="B";
+const BM_TARGET={B1:160,B2:250,C1:250,C2:700};
 let bmTarget=160;
 document.querySelectorAll("[data-prompt]").forEach(b=>b.addEventListener("click",()=>{
   const lv=b.dataset.prompt,list=BM_PROMPTS[lv];
-  $("#bmPrompt").innerHTML=`<b>${lv}</b> · ${esc(list[Math.floor(Math.random()*list.length)])}`;bmTarget=lv==="B1"?160:250;runBM();
+  $("#bmPrompt").innerHTML=`<b>${lv}</b> · ${esc(list[Math.floor(Math.random()*list.length)])}`;bmTarget=BM_TARGET[lv];bmLevel=lv;runBM();
 }));
+const BM_C=["quand bien même","pour peu que","à condition que","au cas où","d'autant plus que","faute de","sous prétexte que","dans la mesure où","de sorte que","dès lors","encore que","ai beau","as beau","a beau","avons beau","avez beau","ont beau","quoi que","pourvu que","en admettant que","force est de constater","il n'en demeure pas moins","toujours est-il","n'empêche que","de surcroît","en l'occurrence","a fortiori","somme toute","quoi qu'il en soit","à cet égard","il convient de","eu égard à","au demeurant","en somme","dans cette optique","à l'inverse","il va sans dire","autrement dit","en d'autres termes","il ressort de","s'accordent à"];
 const BM={
   b1:["d'abord","ensuite","enfin","parce que","car","donc","alors","mais","par contre","par exemple","même si","en plus","aussi","du coup","après","puis"],
   b2:["cependant","pourtant","en revanche","alors que","tandis que","bien que","quoique","certes","malgré","puisque","étant donné que","vu que","grâce à","en raison de","par conséquent","c'est pourquoi","si bien que","ainsi","afin de","afin que","pour que","tout d'abord","en premier lieu","pour conclure","en conclusion","notamment","c'est-à-dire","en effet","de plus","en outre","par ailleurs","d'une part","d'autre part","non seulement","en définitive","néanmoins","toutefois","au contraire","quant à"],
@@ -1879,7 +2343,8 @@ const BM={
   over:{"très":"extrêmement, particulièrement","beaucoup":"énormément, de nombreux","chose":"élément, aspect","choses":"éléments, aspects","il y a":"il existe","faire":"réaliser, effectuer","bon":"efficace, pertinent","important":"essentiel, crucial","problème":"difficulté, enjeu","problèmes":"difficultés, enjeux","dire":"affirmer, expliquer","mettre":"placer, poser","truc":"élément, objet"}
 };
 const CAT={};
-[["subj","k-subj"],["op","k-op"],["b2","k-b2"],["b1","k-b1"],["rel","k-rel"]].forEach(([k,c])=>BM[k].forEach(p=>{if(!CAT[p])CAT[p]=c}));
+BM.c=BM_C;
+[["subj","k-subj"],["op","k-op"],["c","k-c"],["b2","k-b2"],["b1","k-b1"],["rel","k-rel"]].forEach(([k,c])=>BM[k].forEach(p=>{if(!CAT[p])CAT[p]=c}));
 Object.keys(BM.over).forEach(p=>CAT[p]="k-over");
 // subj triggers and opinions win over shorter overlaps because longer phrases match first
 const PHRASES=Object.keys(CAT).sort((a,b)=>b.length-a.length).map(p=>p.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"));
@@ -1896,14 +2361,30 @@ function runBM(){
     const tip=c==="k-over"?` title="Try: ${esc(BM.over[m.toLowerCase()])}"`:"";
     return `<mark class="${c}"${tip}>${m}</mark>`;
   });
+  const RELIEF=/(c'est (?:[^.,;!?]{1,40}?) (?:qui|que|qu')|ce (?:qui|que|qu'|dont) [^.!?]{1,80}?, c'est)/giu;
+  const reliefN=(raw.match(RELIEF)||[]).length;
+  const nomN=(raw.match(/\b[\p{L}]{4,}(?:tion|sion|ment|ité|ance|ence|ure)s?\b/giu)||[]).filter(w=>!/ment$/i.test(w)).length; // -ment is skipped: mostly adverbs
   $("#bmMarked").innerHTML=html||"<span class='muted'>Start typing…</span>";
   const n=c=>found[c]?found[c].size:0;
   const relB=[...(found["k-rel"]||[])].some(r=>!["qui","où"].includes(r));
   const avg=words/sentences;
-  const checks=[
+  const cMode=bmLevel[0]==="C";
+  const SUBJ_C=["encore que","à condition que","pour peu que","pourvu que","en admettant que","quoi que"];
+  const subjN=n("k-subj")+[...(found["k-c"]||[])].filter(x=>SUBJ_C.includes(x)).length;
+  const checks=cMode?[
+    [words>=bmTarget*.9,`Length: ${words} / ${bmTarget} words`],
+    [n("k-b1")+n("k-b2")+n("k-c")>=6,`At least 6 different linking words (${n("k-b1")+n("k-b2")+n("k-c")})`],
+    [n("k-c")>=3,`At least 3 C-level connectors (${n("k-c")})`],
+    [reliefN>=1,`Emphasis: c'est … qui/que or ce qui …, c'est (${reliefN})`],
+    [words>0&&nomN/Math.max(words,1)>=.03,`Nominalisations: nouns in -tion, -ité, -ance… (${nomN})`],
+    [subjN>=2,`At least 2 subjonctif triggers (${subjN})`],
+    [n("k-cond")>=1,"A conditionnel"],
+    [words>0&&avg>=15&&avg<=35,`Sentence length: ${words?avg.toFixed(0):0} words on average (aim for 15–35)`],
+    [words>0&&overCount/Math.max(words,1)<=.015,`Overused A2 words kept very low (${overCount})`]
+  ]:[
     [words>=bmTarget,`Length: ${words} / ${bmTarget} words`],
-    [n("k-b1")+n("k-b2")>=4,`At least 4 different linking words (${n("k-b1")+n("k-b2")})`],
-    [n("k-b2")>=2,`At least 2 B2-level linking words (${n("k-b2")})`],
+    [n("k-b1")+n("k-b2")+n("k-c")>=4,`At least 4 different linking words (${n("k-b1")+n("k-b2")+n("k-c")})`],
+    [n("k-b2")+n("k-c")>=2,`At least 2 B2-level linking words (${n("k-b2")+n("k-c")})`],
     [n("k-rel")>=2&&relB,"Relative clauses, including dont / ce qui / ce que / lequel"],
     [n("k-cond")>=1,"A conditionnel (hypothesis, suggestion, politeness)"],
     [n("k-subj")>=1,"A subjonctif trigger"],
@@ -1913,16 +2394,27 @@ function runBM(){
   ];
   const met=checks.filter(c=>c[0]).length;
   $("#bmChecks").innerHTML=checks.map(c=>`<li class="${c[0]?"ok":""}"><span class="st">${c[0]?"✓":""}</span><span>${c[1]}</span></li>`).join("");
-  $("#bmEst").textContent=!words?"–":met>=8?"B2 features":met>=6?"B1+ features":met>=4?"B1 features":"A2 features";
+  $("#bmEst").textContent=!words?"–":cMode?(met===checks.length&&bmLevel==="C2"?"C2 features":met>=8?"C1 features":met>=6?"B2+ features":"B2 features"):met>=8?"B2 features":met>=6?"B1+ features":met>=4?"B1 features":"A2 features";
   $("#bmWords").textContent=`${met} / ${checks.length} checks`;
   const tips=[];
-  if(n("k-b2")<2)tips.push("Swap a <em>mais</em> for <b>cependant</b> or <b>en revanche</b>, and a <em>parce que</em> for <b>puisque</b>.");
-  if(n("k-subj")<1)tips.push("Add a sentence with <b>il faut que</b> or <b>bien que</b> + subjonctif.");
+  if(cMode){
+    if(n("k-c")<3)tips.push("Add C connectors: <b>d'autant plus que</b>, <b>force est de constater que</b>, <b>il n'en demeure pas moins que</b>.");
+    if(!reliefN)tips.push("Open a paragraph with <b>Ce qui frappe, c'est…</b> or <b>C'est précisément … qui …</b>");
+    if(subjN<2)tips.push("Add a subjonctif: <b>pour peu que</b>, <b>encore que</b> or <b>si … que</b> + subjonctif.");
+    if(nomN/Math.max(words,1)<.03)tips.push("Turn a verb into a noun: <em>les prix augmentent</em> → <b>l'augmentation des prix</b>.");
+  }
+  if(!cMode&&n("k-b2")+n("k-c")<2)tips.push("Swap a <em>mais</em> for <b>cependant</b> or <b>en revanche</b>, and a <em>parce que</em> for <b>puisque</b>.");
+  if(!cMode&&n("k-subj")<1)tips.push("Add a sentence with <b>il faut que</b> or <b>bien que</b> + subjonctif.");
   if(n("k-cond")<1)tips.push("Add a hypothesis: <b>Si j'étais…, je proposerais…</b>");
   if(!relB)tips.push("Join two sentences with <b>dont</b> or <b>ce qui</b>.");
   if(overCount)tips.push("Hover the wavy-underlined words for stronger alternatives.");
   $("#bmTips").innerHTML=tips.length?"<b>Next upgrade:</b> "+tips.slice(0,2).join(" "):"";
 }
+document.querySelectorAll("[data-cgo]").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelector(`[data-prompt="${b.dataset.cgo}"]`).click();
+  const f=$("#bmIn").closest(".fold");if(f)f.classList.remove("collapsed");
+  $("#bmPrompt").scrollIntoView();
+}));
 const BM_SAMPLE="À mon avis, le télétravail présente de nombreux avantages. Tout d'abord, il permet de gagner du temps, puisque l'on ne perd plus deux heures dans les transports. De plus, les salariés dont les enfants sont petits peuvent mieux organiser leur journée.\n\nCependant, il faut que les entreprises fassent attention à l'isolement. Certains employés se sentent seuls, ce qui peut les rendre moins motivés. C'est un problème très important.\n\nSi j'étais directeur, je proposerais deux jours au bureau par semaine. Par conséquent, chacun garderait le lien avec l'équipe tout en profitant d'une certaine liberté.";
 $("#bmIn").value=store.get("frB.draft",BM_SAMPLE);
 let draftT;
