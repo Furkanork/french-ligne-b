@@ -382,13 +382,109 @@ body.sheet-open{overflow:hidden}
   .lvl{font-size:.74rem}
   .ff-tag{font-size:.74rem}
 }
+/* ---------- phone-only blocks (hidden on desktop) ---------- */
+.today,.route-mini,.jump-drill,.gl-list{display:none}
+@media (max-width:700px){
+  /* 1. first screen: what to do today */
+  .hero .kicker{margin-bottom:10px}
+  .hero h1.plate{font-size:2.3rem;box-shadow:inset 0 0 0 6px var(--plate),inset 0 0 0 8px var(--plate-ink),0 3px 0 rgba(0,0,0,.2)}
+  .hero .lede,.hero .facts,.hero .check{display:none}
+  body.show-about .hero .lede{display:block;margin-top:16px}
+  body.show-about .hero .facts{display:grid}
+  body.show-about .hero .check{display:block}
+  .today{display:grid;gap:10px;margin:18px 0 14px}
+  .today-go{display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:10px;padding:14px 16px;border-radius:14px;background:var(--card);border:2px solid var(--ink);color:var(--ink);text-decoration:none;box-shadow:4px 4px 0 var(--plate)}
+  .today-go small{grid-column:1;font-family:var(--display);font-stretch:85%;font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:.75rem;color:var(--muted)}
+  .today-go b{grid-column:1;font-family:var(--display);font-stretch:85%;font-size:1.35rem;line-height:1.15}
+  .today-go span{grid-column:2;grid-row:1/3;font-size:1.6rem;font-weight:700}
+  .today-mix{cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;padding:14px 16px;border-radius:14px;border:0;background:var(--ink);color:var(--card);text-align:left}
+  .today-mix b{font-family:var(--display);font-stretch:85%;font-size:1.25rem}
+  .today-mix small{font-size:.88rem;opacity:.85}
+  .today-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:.8rem;color:var(--muted);line-height:1.25;text-align:center}
+  .today-stats>span{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:8px 4px}
+  .today-stats b{display:block;font-family:var(--display);font-size:1.3rem;color:var(--ink);font-variant-numeric:tabular-nums}
+  .today-stats span span{display:inline;padding:0;border:0;background:none;font-size:inherit}
+  .about-btn{cursor:pointer;justify-self:start;min-height:44px;border:0;background:none;color:var(--muted);font:inherit;font-size:.92rem;text-decoration:underline;text-underline-offset:3px;padding:0 2px}
+
+  /* 2. compact route strip */
+  .route{padding:12px}
+  .route-title,.route ol{display:none}
+  .route-mini{display:flex;flex-direction:column;gap:8px;width:100%;cursor:pointer;border:0;background:none;padding:2px 0;text-align:left;color:var(--ink);font:inherit;min-height:44px}
+  .route-mini .segs{display:grid;grid-template-columns:repeat(13,1fr);gap:3px;width:100%}
+  .route-mini .segs i{height:10px;border-radius:3px;background:color-mix(in srgb,var(--c) 30%,transparent);border:1.5px solid var(--c)}
+  .route-mini .segs i.done{background:var(--c)}
+  .route-mini .rm-txt{font-size:.92rem;color:var(--muted)}
+  .route-mini .rm-txt b{color:var(--ink)}
+
+  /* 3. fold-outs + jump to drill */
+  .fold .fh{cursor:pointer}
+  .fold .fh-last{position:relative;padding-right:30px}
+  .fold .fh-last::after{content:"";position:absolute;right:4px;top:50%;width:9px;height:9px;margin-top:-7px;border-right:2.5px solid currentColor;border-bottom:2.5px solid currentColor;transform:rotate(45deg);transition:transform .2s}
+  .fold:not(.collapsed) .fh-last::after{transform:rotate(-135deg);margin-top:-2px}
+  .fold.collapsed>:not(.fh){display:none!important}
+  .card.fold.collapsed{padding-top:12px;padding-bottom:12px}
+  .card.fold.collapsed h3.fh{margin-bottom:0}
+  .tool.fold .tool-head.fh-last::after{right:14px}
+  .jump-drill{display:inline-flex;align-items:center;cursor:pointer;min-height:40px;padding:0 14px;border-radius:999px;border:2px solid var(--line);background:var(--card);color:var(--ink);font-family:var(--display);font-stretch:85%;font-weight:700;font-size:.92rem}
+
+  /* 4. translations on their own line; inline word lists become two columns */
+  .gloss.sent{display:block;margin:.15em 0 0;font-size:.92em}
+  .gloss.own-line{display:block;margin-left:0}
+  .gl-src{display:none}
+  .gl-list{display:block;margin:0 0 .8em}
+  .gl-label{font-weight:700;margin-bottom:4px}
+  .gl-list dl{margin:0;display:grid;grid-template-columns:1fr;border-top:1px solid var(--rule)}
+  .gl-list dl>div{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:10px;padding:6px 0;border-bottom:1px solid var(--rule)}
+  .gl-list dt{font-weight:600}
+  .gl-list dd{margin:0;font-size:.95em}
+  body.no-en .gl-list dd{display:block;visibility:hidden}
+
+  /* 5. drill "Next" stays in thumb reach */
+  .drill-next{margin-top:14px;scroll-margin-bottom:calc(80px + env(safe-area-inset-bottom))}
+  .drill-next .btn{width:100%;min-height:52px;font-size:1.1rem}
+
+  /* 6. word list: search + categories pinned while scrolling */
+  .fq-controls{position:sticky;top:52px;z-index:4;background:var(--card);margin:-14px -14px 0;padding:12px 14px 10px;border-bottom:1px solid var(--rule);border-radius:10px 10px 0 0}
+  .fq-controls .row{gap:8px}
+  #fqCats{flex-wrap:nowrap;overflow-x:auto;width:100%;padding-bottom:4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  #fqCats::-webkit-scrollbar{display:none}
+  #fqCats .chip{flex:none;white-space:nowrap}
+}
+@media (min-width:701px){.drill-next{margin-top:10px}}
+@media (max-width:700px) and (max-height:500px){
+  .linebar .wrap{height:44px}
+  html{scroll-padding-top:54px}
+  .nav-here,.en-toggle{min-height:34px}
+  .bottombar button{flex-direction:row;gap:8px;min-height:44px}
+  .bottombar svg{width:20px;height:20px}
+  .bb-n{top:2px}
+  body{padding-bottom:calc(50px + env(safe-area-inset-bottom))}
+  .fq-controls{top:44px}
+  .drill-next{scroll-margin-bottom:calc(60px + env(safe-area-inset-bottom))}
+}
+
 </style>
 </head>
 <body>
 
+<nav class="linebar" aria-label="Stations">
+  <div class="wrap">
+    <span class="name">Ligne B</span>
+    <button class="nav-here" type="button" id="navHere" aria-haspopup="dialog" aria-controls="sheet"><span id="navHereTxt">All stations</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <ol class="stops" id="stops"></ol>
+    <button class="en-toggle" type="button" id="enToggle" aria-pressed="true" title="Show or hide English translations">English: on</button>
+  </div>
+</nav>
+
 <header class="hero wrap">
   <p class="kicker">Ligne B · A2 → B1 → B2</p>
   <h1 class="plate">Français<small>mode facile · niveau B</small></h1>
+  <div class="today" id="today">
+    <a class="today-go" id="todayGo" href="#passe"><small id="todayLbl">Start here</small><b id="todayName">1. Le passé</b><span aria-hidden="true">→</span></a>
+    <button class="today-mix" type="button" data-go="practice"><b>Today's practice</b><small id="todayMeta">10 questions · about 10 minutes</small></button>
+    <div class="today-stats"><span><b id="tsCleared">0</b>/<span id="tsTotal">13</span> stations</span><span><b id="tsErr">0</b> mistakes to fix</span><span><b id="tsDone">0</b>/10 today</span></div>
+    <button class="about-btn" type="button" id="aboutBtn" aria-expanded="false">About this course ▾</button>
+  </div>
   <p class="lede">At A2 you can get by. B1 means you can tell a story, give your reasons and handle almost any everyday situation. B2 means you can argue a point and follow native speakers without strain. A small set of structures does most of that work. This line takes you through them in the order that pays off fastest. Every station ends with a drill; your mistakes are saved and come back in daily practice until you get them right.</p>
   <ul class="facts">
     <li><b>B1</b>Tell what happened, explain plans, give reasons and opinions.</li>
@@ -400,6 +496,7 @@ body.sheet-open{overflow:hidden}
   <nav class="route" aria-label="Route map">
     <div class="route-title"><span>Plan de ligne</span><span class="muted small"><strong id="clearedCount">0</strong> of <span id="stTotal">12</span> stations cleared · % = your drill accuracy · saved in this browser</span></div>
     <ol id="route"></ol>
+    <button class="route-mini" type="button" data-go="stations"><span class="segs" id="routeSegs"></span><span class="rm-txt"><b id="rmCleared">0</b> of 13 cleared · <u>See all stations</u></span></button>
   </nav>
 </header>
 
@@ -421,14 +518,7 @@ body.sheet-open{overflow:hidden}
   </div>
 </section>
 
-<nav class="linebar" aria-label="Stations">
-  <div class="wrap">
-    <span class="name">Ligne B</span>
-    <button class="nav-here" type="button" id="navHere" aria-haspopup="dialog" aria-controls="sheet"><span id="navHereTxt">All stations</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    <ol class="stops" id="stops"></ol>
-    <button class="en-toggle" type="button" id="enToggle" aria-pressed="true" title="Show or hide English translations">English: on</button>
-  </div>
-</nav>
+
 
 <nav class="bottombar" aria-label="Quick menu">
   <button type="button" data-go="practice"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg>Practice</button>
@@ -778,6 +868,7 @@ body.sheet-open{overflow:hidden}
   </div>
 
   <div class="card">
+    <div class="fq-controls">
     <div class="row" style="justify-content:space-between;align-items:flex-end">
       <div style="flex:1 1 260px">
         <label class="lab" for="fqSearch">Search in French or English</label>
@@ -791,6 +882,7 @@ body.sheet-open{overflow:hidden}
     <div class="row" style="margin-top:12px;justify-content:space-between">
       <div class="chips" id="fqCats" style="margin:0"></div>
       <label class="small" style="display:flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox" id="fqHide" class="big-check"> Hide words I know</label>
+    </div>
     </div>
     <p class="small muted" style="margin:10px 0 0">Tick a word once you'd recognise it in a text. Click the French to hear it. <span class="ff-tag">False friend</span> marks words that look like English but mean something else.</p>
     <div class="fq-list" id="fqList"></div>
@@ -1311,7 +1403,7 @@ boss:["The letters (that) I wrote.","He's an excellent doctor.","My brother? He'
 function addGlosses(root){
   (root||document).querySelectorAll("button.fr").forEach(b=>{
     if(b.dataset.glossed)return;const en=EN[b.textContent.trim()];if(!en)return;
-    b.dataset.glossed="1";b.insertAdjacentHTML("afterend",`<span class="gloss">(${esc(en)})</span>`);
+    b.dataset.glossed="1";b.insertAdjacentHTML("afterend",`<span class="gloss sent">(${esc(en)})</span>`);
   });
 }
 function setEnglish(on){
@@ -1336,6 +1428,7 @@ function renderProgress(){
   $("#stops").innerHTML=STATIONS.map((s,i)=>`<li><a href="#${s.id}" style="--c:${s.c}" class="${state.cleared.has(s.id)?"done":""}${s.id===hereId?" here":""}" data-id="${s.id}" title="${i+1}. ${s.name}"><i></i><span>${s.name}</span></a></li>`).join("");
   $("#clearedCount").textContent=state.cleared.size;
   renderMobileNav();
+  if(typeof renderToday==="function"&&$("#tsDone"))try{renderToday()}catch(e){}
   document.querySelectorAll(".clear-btn").forEach(b=>{const on=state.cleared.has(b.dataset.station);b.setAttribute("aria-pressed",on);b.textContent=on?"✓ Station cleared":"Mark station cleared"});
 }
 function setCleared(id,on){on?state.cleared.add(id):state.cleared.delete(id);save();renderProgress()}
@@ -1346,8 +1439,8 @@ document.addEventListener("click",e=>{
   if(state.cleared.has(id))toast(state.cleared.size===n?`Ligne B complète ! All ${n} stations cleared.`:`Station cleared · ${state.cleared.size} of ${n}`);
 });
 if("IntersectionObserver" in window){
-  const io=new IntersectionObserver(ents=>ents.forEach(en=>{if(en.isIntersecting){hereId=en.target.id;document.querySelectorAll(".stops a").forEach(a=>a.classList.toggle("here",a.dataset.id===hereId));updateNavHere()}}),{rootMargin:"-45% 0px -50% 0px"});
-  document.querySelectorAll(".station").forEach(s=>io.observe(s));
+  const io=new IntersectionObserver(ents=>ents.forEach(en=>{if(en.isIntersecting){hereId=en.target.id;document.querySelectorAll(".stops a").forEach(a=>a.classList.toggle("here",a.dataset.id===hereId));updateNavHere();rememberHere()}}),{rootMargin:"-45% 0px -50% 0px"});
+  document.querySelectorAll(".station,#entrainement,header.hero").forEach(s=>io.observe(s));
 }
 
 /* ---------- drill engine ---------- */
@@ -1386,7 +1479,7 @@ function drill(el,getItems,opts={}){
     el.querySelector(".feedback").innerHTML=`<span class="verdict ${ok?"y":"n"}">${ok?"Correct":"Not quite"}</span>${esc(it.e)}
       ${full?`<div style="margin-top:6px">${fr(full)}</div>`:""}
       ${it.en?`<p class="gloss block">${esc(it.en)}</p>`:""}
-      <div style="margin-top:10px"><button class="btn solid" type="button" data-act="next">${idx+1<items.length?"Next":"See score"}</button></div>`;
+      <div class="drill-next"><button class="btn solid" type="button" data-act="next">${idx+1<items.length?"Next":"See score"}</button></div>`;
     el.querySelector('[data-act="next"]').focus({preventScroll:true});
   });
   start();
@@ -1653,7 +1746,7 @@ function renderMobileNav(){
 function updateNavHere(){
   const t=$("#navHereTxt");if(!t)return;
   const i=STATIONS.findIndex(s=>s.id===hereId);
-  t.textContent=i<0?"All stations":`${i+1}. ${STATIONS[i].name}`;
+  t.textContent=hereId==="entrainement"?"Today's practice":i<0?"All stations":`${i+1}. ${STATIONS[i].name}`;
   document.querySelectorAll("#sheetList a").forEach(a=>a.classList.toggle("here",a.getAttribute("href")==="#"+hereId));
 }
 const sheet=$("#sheet");
@@ -1671,6 +1764,89 @@ document.querySelector(".bottombar").addEventListener("click",e=>{
   if(!cur||cur.dataset.tab!==want)openTab(want);
   $("#entrainement").scrollIntoView();
 });
+
+/* ---------- phone layout helpers ---------- */
+const MOBILE=matchMedia("(max-width:700px)");
+/* today card: continue where you left off */
+function renderToday(){
+  if(!$("#today"))return;
+  const last=store.get("lb-last",null);
+  const i=Math.max(0,STATIONS.findIndex(s=>s.id===last));
+  const st=STATIONS[i];
+  $("#todayGo").href="#"+st.id;
+  $("#todayLbl").textContent=last?"Continue":"Start here";
+  $("#todayName").textContent=`${i+1}. ${st.name}`;
+  $("#tsCleared").textContent=state.cleared.size;$("#tsTotal").textContent=STATIONS.length;
+  $("#tsErr").textContent=state.mistakes.size;
+  const d=store.get("lb-day",{date:"",n:0});const today=new Date().toDateString();
+  $("#tsDone").textContent=d.date===today?Math.min(d.n,10):0;
+  $("#todayMeta").textContent=d.date===today&&d.n>=10?"Done for today ✓ · keep going if you like":"10 questions · about 10 minutes";
+  $("#rmCleared").textContent=state.cleared.size;
+  $("#routeSegs").innerHTML=STATIONS.map(s=>`<i style="--c:${s.c}" class="${state.cleared.has(s.id)?"done":""}"></i>`).join("");
+}
+/* count answered questions per day */
+document.addEventListener("click",e=>{
+  if(!e.target.closest(".opt")||e.target.closest(".opt").disabled)return;
+  const today=new Date().toDateString();const d=store.get("lb-day",{date:"",n:0});
+  store.set("lb-day",d.date===today?{date:today,n:d.n+1}:{date:today,n:1});
+  setTimeout(renderToday,0);
+},true);
+$("#today").addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(b){e.preventDefault();document.querySelector('.bottombar [data-go="practice"]').click()}});
+$(".route-mini").addEventListener("click",openSheet);
+$("#aboutBtn").addEventListener("click",()=>{const on=document.body.classList.toggle("show-about");$("#aboutBtn").setAttribute("aria-expanded",on);$("#aboutBtn").textContent=on?"Hide intro ▴":"About this course ▾"});
+
+/* fold-out sections inside stations (collapsed on phones only) */
+document.querySelectorAll(".station").forEach(st=>{
+  if(!st.querySelector(".card.key"))return;          // stations that are one big tool stay as they are
+  const folds=[...st.querySelectorAll(".card:not(.key)"),...[...st.querySelectorAll(".tool")].filter(t=>!t.querySelector("[data-drill]"))];
+  folds.forEach(f=>{
+    if(f.closest(".hub"))return;
+    let heads;
+    if(f.classList.contains("tool"))heads=[f.querySelector(".tool-head")];
+    else{heads=[];for(const c of f.children){if(c.matches(".eyebrow,h3")&&heads.length<2&&!(heads.length&&heads[0].tagName==="H3"))heads.push(c);else break}if(!heads.length)return}
+    f.classList.add("fold","collapsed");
+    heads.forEach(h=>h.classList.add("fh"));
+    const last=heads[heads.length-1];last.classList.add("fh-last");
+    heads.forEach(h=>{h.setAttribute("role","button");h.tabIndex=0;h.setAttribute("aria-expanded","false")});
+    const toggle=()=>{if(!MOBILE.matches)return;const c=f.classList.toggle("collapsed");heads.forEach(h=>h.setAttribute("aria-expanded",!c))};
+    heads.forEach(h=>{h.addEventListener("click",toggle);h.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();toggle()}})});
+  });
+  const drillEl=st.querySelector("[data-drill]");
+  if(drillEl){
+    const b=document.createElement("button");b.type="button";b.className="jump-drill";b.textContent="Jump to drill ↓";
+    b.addEventListener("click",()=>drillEl.closest(".tool").scrollIntoView());
+    st.querySelector(".station-head").appendChild(b);
+  }
+});
+/* word lists written inline ("souvent often, hier yesterday…") become a two-column list on phones */
+document.querySelectorAll("p").forEach(p=>{
+  const gl=p.querySelectorAll(":scope > .gloss:not(.block):not(.sent)");
+  if(gl.length<3||p.closest("table"))return;
+  const rows=[];let label="",buf="";
+  p.childNodes.forEach(n=>{
+    if(n.nodeType===1&&n.matches("b,strong")&&!rows.length&&!buf.trim()){label=n.textContent;return}
+    if(n.nodeType===1&&n.classList.contains("gloss")&&!n.classList.contains("block")){
+      rows.push([buf.replace(/^[\s,;·]+|[\s,;·]+$/g,"").trim(),n.textContent.trim()]);buf="";return}
+    buf+=n.textContent;
+  });
+  const tail=buf.replace(/^[\s,;·.]+|[\s,;·]+$/g,"").trim();
+  if(rows.some(r=>!r[0]))return;
+  const d=document.createElement("div");d.className="gl-list "+p.className;
+  d.innerHTML=(label?`<div class="gl-label">${esc(label.replace(/:$/,""))}</div>`:"")+
+    `<dl>${rows.map(r=>`<div><dt>${esc(r[0])}</dt><dd class="gloss">${esc(r[1])}</dd></div>`).join("")}</dl>`+(tail?`<p class="small muted">${esc(tail)}</p>`:"");
+  p.classList.add("gl-src");p.after(d);
+});
+/* a single translation in a list item or table cell goes on its own line (phones) */
+document.querySelectorAll("li,td").forEach(c=>{const g=c.querySelectorAll(":scope > .gloss:not(.block)");if(g.length===1)g[0].classList.add("own-line")});
+/* remember the station you're in */
+function rememberHere(){if(STATIONS.some(s=>s.id===hereId))store.set("lb-last",hereId)}
+/* after answering on a phone, bring the explanation into view */
+document.addEventListener("click",e=>{
+  const o=e.target.closest(".opt");if(!o||!MOBILE.matches)return;
+  setTimeout(()=>{const n=o.closest(".tool-body,#hubPanel")?.querySelector(".drill-next");if(n)n.scrollIntoView({block:"nearest"})},60);
+});
+renderToday();
+
 /* hide the bottom bar while typing so it never covers the keyboard area */
 document.addEventListener("focusin",e=>{if(e.target.matches("input[type=text],textarea"))document.body.classList.add("typing")});
 document.addEventListener("focusout",()=>document.body.classList.remove("typing"));
