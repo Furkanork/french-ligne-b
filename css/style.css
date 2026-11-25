@@ -462,3 +462,16 @@ mark.k-relief{background:color-mix(in srgb,#C0392B 30%,transparent)}
 footer .backup{max-width:640px;margin:0 auto 18px;text-align:left}
 .bk-remind{display:block;padding:10px 14px;border-radius:10px;background:var(--hi);color:var(--ink);font-size:.92rem;text-decoration:none;font-weight:600}
 .bk-remind[hidden]{display:none}
+
+/* flashcards */
+.fc{border:2px solid var(--rule);border-radius:12px;padding:18px 16px;text-align:center;margin:4px 0 14px;background:var(--bg)}
+.fc-dir{font-family:var(--display);font-stretch:85%;font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:.75rem;color:var(--muted);margin:0 0 10px}
+.fc-front,.fc-back{font-size:1.35rem;line-height:1.4}
+.fc-back{margin-top:12px;padding-top:12px;border-top:1px dashed var(--rule)}
+.fc-en{font-style:italic}
+.fc-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.fc-actions .btn.solid{grid-column:1/-1;min-height:50px}
+.fc-g{display:flex;flex-direction:column;align-items:center;min-height:56px;justify-content:center}
+.fc-g small{font-family:var(--body);font-weight:400;font-size:.78rem;opacity:.8}
+.fc-g.again{border-color:var(--bad)}.fc-g.good{border-color:var(--ok)}
+.today-stats{grid-template-columns:repeat(4,1fr)!important}

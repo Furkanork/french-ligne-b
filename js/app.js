@@ -15,7 +15,15 @@ const state={
   stats:hotData.stats||store.get("frB.stats",{}),          // {stationId:{a:attempts,c:correct}}
   mistakes:new Set(hotData.mistakes||store.get("frB.mistakes",[])) // "bank:index"
 };
-const save=()=>{store.set("frB.cleared",[...state.cleared]);store.set("frB.stats",state.stats);store.set("frB.mistakes",[...state.mistakes])};
+/* ---------- day numbers (local calendar days) ---------- */
+const dayNum=(t=new Date())=>Math.floor(Date.UTC(t.getFullYear(),t.getMonth(),t.getDate())/864e5);
+const dayLabel=d=>{const n=d-dayNum();return n<=0?"today":n===1?"tomorrow":`in ${n} days`};
+/* mistakes come back on a schedule: now → +1 day → +3 days, then they're done */
+const mistSched=store.get("lb-mist",{});
+state.mistakes.forEach(id=>{if(!mistSched[id])mistSched[id]={b:0,d:dayNum()}});
+const MIST_GAP=[1,3];
+const mistDue=()=>[...state.mistakes].filter(id=>(mistSched[id]||{d:0}).d<=dayNum());
+const save=()=>{store.set("lb-mist",mistSched);store.set("frB.cleared",[...state.cleared]);store.set("frB.stats",state.stats);store.set("frB.mistakes",[...state.mistakes])};
 try{hot&&hot.snapshot(()=>({cleared:[...state.cleared],stats:state.stats,mistakes:[...state.mistakes]}))}catch(e){}
 const acc=k=>{const s=state.stats[k];return s&&s.a?s.c/s.a:null};
 
@@ -57,7 +65,8 @@ let hereId=null;
 function renderProgress(){
   $("#route").innerHTML=STATIONS.map((s,i)=>`<li style="--c:${s.c}" class="${state.cleared.has(s.id)?"done":""}"><a href="#${s.id}"><span class="dot">${state.cleared.has(s.id)?"✓":i+1}</span><span class="lbl">${s.name}</span><span class="sub">${s.sub}</span><span class="lvl">${s.lv}</span>${acc(s.id)!==null?`<span class="m"><b>${Math.round(acc(s.id)*100)}%</b> of ${state.stats[s.id].a}</span>`:""}</a></li>`).join("");
   $("#stTotal").textContent=STATIONS.length;
-  const en=$("#errN");if(en)en.textContent=state.mistakes.size;
+  const en=$("#errN");if(en)en.textContent=mistDue().length;
+  const cn=$("#cardsN");if(cn&&typeof srsCounts==="function")cn.textContent=srsCounts().total;
   const hint=$("#hubHint");
   if(hint){
     const tried=STATIONS.filter(s=>state.stats[s.id]&&state.stats[s.id].a>=3).sort((a,b)=>acc(a.id)-acc(b.id));
@@ -126,7 +135,15 @@ function drill(el,getItems,opts={}){
 }
 function record(it,ok){
   const s=state.stats[it.k]||(state.stats[it.k]={a:0,c:0});s.a++;if(ok)s.c++;
-  const id=it.k+":"+it.i;ok?state.mistakes.delete(id):state.mistakes.add(id);
+  const id=it.k+":"+it.i,today=dayNum();
+  if(!ok){state.mistakes.add(id);mistSched[id]={b:0,d:today}}
+  else if(state.mistakes.has(id)){
+    const m=mistSched[id]||{b:0,d:today};
+    if(m.d<=today){                       // only a due review moves it on
+      if(m.b>=MIST_GAP.length){state.mistakes.delete(id);delete mistSched[id]}
+      else mistSched[id]={b:m.b+1,d:today+MIST_GAP[m.b]};
+    }
+  }
   save();renderProgress();
 }
 
@@ -374,11 +391,80 @@ function sprint(el){
 }
 
 /* ---------- practice hub ---------- */
+function mistEmpty(){
+  const later=[...state.mistakes].map(id=>(mistSched[id]||{d:0}).d).filter(d=>d>dayNum()).sort((a,b)=>a-b);
+  return later.length?`<p><b>Nothing due right now.</b> ${later.length} mistake${later.length>1?"s are":" is"} scheduled to come back, the next one ${dayLabel(later[0])}. A mistake leaves the list once you've answered it right three times: now, the next day, and three days later.</p>`
+    :"<p><b>No saved mistakes.</b> Every question you miss lands here and comes back on a schedule (now, the next day, three days later) until it sticks.</p>"}
+
+/* ---------- flashcards: spaced repetition for words, phrases and idioms ---------- */
+const SRS_GAP=[0,1,3,7,16,35,90];            // days until the next review, by box
+const srs=store.get("lb-srs",{});            // id -> {b:box, d:due day}
+const srsCfg=store.get("lb-srs-cfg",{perDay:10,date:0,newToday:0});
+const CARDS=[
+  ...FQ.map(w=>({id:"w:"+w.fr,fr:w.fr,en:w.en,src:"Mots fréquents"})),
+  ...VOCAB_ALL.map(v=>({id:"v:"+v.fr,fr:v.fr,en:v.en,src:"Vocabulaire · "+v.t})),
+  ...IDIOMS.map(x=>({id:"i:"+x[0],fr:x[0],en:x[1],src:"Expressions"})),
+  ...IDIOMS_C.map(x=>({id:"c:"+x[0],fr:x[0],en:x[1],src:"Expressions C"}))];
+const cardById=Object.fromEntries(CARDS.map(c=>[c.id,c]));
+function srsNewLeft(){const t=dayNum();if(srsCfg.date!==t){srsCfg.date=t;srsCfg.newToday=0}return Math.max(0,srsCfg.perDay-srsCfg.newToday)}
+function srsCounts(){
+  const t=dayNum(),due=Object.entries(srs).filter(([id,c])=>c.d<=t&&cardById[id]).length;
+  const fresh=Math.min(srsNewLeft(),CARDS.filter(c=>!srs[c.id]&&!(c.id[0]==="w"&&known.has(c.fr))).length);
+  return {due,fresh,total:due+fresh};
+}
+function srsSave(){store.set("lb-srs",srs);store.set("lb-srs-cfg",srsCfg)}
+function flashcards(el){
+  const t=dayNum();
+  const due=Object.entries(srs).filter(([id,c])=>c.d<=t&&cardById[id]).sort((a,b)=>a[1].d-b[1].d).map(([id])=>cardById[id]);
+  const fresh=CARDS.filter(c=>!srs[c.id]&&!(c.id[0]==="w"&&known.has(c.fr))).slice(0,srsNewLeft());
+  const queue=[...due,...fresh];let done=0,shown=false;
+  function next(){
+    if(!queue.length){
+      const upcoming=Object.values(srs).filter(c=>c.d===t+1).length;
+      el.innerHTML=`<div class="score">${done ? "✓" : "–"}</div><p style="margin-top:8px">${done?`Done for today: ${done} card${done>1?"s":""} reviewed.`:"No cards due right now."} ${upcoming?`${upcoming} card${upcoming>1?"s":""} come back tomorrow.`:""}</p>
+        <p class="small muted">New cards per day: <select id="srsPer">${[5,10,20,30].map(n=>`<option ${n===srsCfg.perDay?"selected":""}>${n}</option>`).join("")}</select> · ${Object.keys(srs).length} of ${CARDS.length} cards started</p>`;
+      $("#srsPer").addEventListener("change",e=>{srsCfg.perDay=+e.target.value;srsSave();renderProgress();flashcards(el)});
+      renderProgress();return;
+    }
+    const c=queue[0],st=srs[c.id],reverse=st&&st.b>=3;shown=false;
+    el.innerHTML=`<div class="drill-top"><span>${st?"Review":"New card"} · ${esc(c.src)}</span><span>${queue.length} left</span></div>
+      <div class="fc">
+        <p class="fc-dir">${reverse?"Say it in French":"What does it mean?"}</p>
+        <div class="fc-front">${reverse?`<span class="fc-en">${esc(c.en)}</span>`:fr(c.fr)}</div>
+        <div class="fc-back" hidden>${reverse?fr(c.fr):`<span class="fc-en">${esc(c.en)}</span>`}</div>
+      </div>
+      <div class="fc-actions"><button class="btn solid" type="button" data-fc="show">Show answer</button></div>`;
+    if(!reverse)speak(c.fr);
+  }
+  function grade(g){
+    const c=queue.shift(),st=srs[c.id];
+    if(!st){srsCfg.newToday++}
+    const b=st?st.b:0;
+    if(g==="again"){srs[c.id]={b:1,d:t+1};if(!c.again){c.again=1;queue.push(c)}}
+    else if(c.again){srs[c.id]={b:1,d:t+1}}   // failed earlier in this session: see it again tomorrow
+    else{const nb=Math.min(SRS_GAP.length-1,(g==="easy"?b+2:b+1)||1);srs[c.id]={b:nb,d:t+SRS_GAP[nb]}}
+    done++;srsSave();next();
+  }
+  el.onclick=e=>{
+    const a=e.target.closest("[data-fc]");if(!a)return;
+    if(a.dataset.fc==="show"){
+      el.querySelector(".fc-back").hidden=false;const c=queue[0],st=srs[c.id],b=st?st.b:0;
+      if(st&&st.b>=3)speak(c.fr);
+      const gb=Math.min(SRS_GAP.length-1,b+1||1),eb=Math.min(SRS_GAP.length-1,b+2);
+      el.querySelector(".fc-actions").innerHTML=`<button class="btn fc-g again" type="button" data-fc="again">Again<small>tomorrow</small></button>
+        <button class="btn fc-g good" type="button" data-fc="good">Got it<small>${dayLabel(t+SRS_GAP[gb])}</small></button>
+        <button class="btn fc-g easy" type="button" data-fc="easy">Easy<small>${dayLabel(t+SRS_GAP[eb])}</small></button>`;
+    }else grade(a.dataset.fc);
+  };
+  next();
+}
+
 function openTab(tab){
   document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected",t.dataset.tab===tab));
   const panel=$("#hubPanel");panel.innerHTML="<div></div>";const el=panel.firstChild;
   if(tab==="mix")drill(el,()=>dailyMix(10),{doneText:(s,n)=>s>=8?"Strong session. Come back tomorrow for a new mix.":"Your misses are in <b>Mes erreurs</b>. Clear them before tomorrow's mix."});
-  else if(tab==="err")drill(el,()=>shuffle([...state.mistakes].map(byId).filter(Boolean)),{empty:"<p><b>No saved mistakes.</b> Every question you miss in any drill lands here, and leaves once you answer it correctly.</p>",doneText:()=>state.mistakes.size?`${state.mistakes.size} still to fix. Go again or read their stations.`:"Mistakes list cleared. Bravo !"});
+  else if(tab==="cards")flashcards(el);
+  else if(tab==="err")drill(el,()=>shuffle(mistDue().map(byId).filter(Boolean)),{empty:mistEmpty(),doneText:()=>state.mistakes.size?`${state.mistakes.size} still to fix. Go again or read their stations.`:"Mistakes list cleared. Bravo !"});
   else sprint(el);
 }
 document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>openTab(t.dataset.tab)));
@@ -399,7 +485,7 @@ function renderMobileNav(){
   const list=$("#sheetList");if(!list)return;
   list.innerHTML=STATIONS.map((s,i)=>{const done=state.cleared.has(s.id),a=acc(s.id);
     return (s.id==="nuances"?'<li class="sep">Ligne C · C1 → C2</li>':"")+`<li><a href="#${s.id}" data-close style="--c:${s.c}" class="${done?"done":""}${s.id===hereId?" here":""}"><span class="dot">${done?"✓":i+1}</span><span class="t"><b>${s.name}</b><small>${s.sub}</small></span><span class="lvl">${s.lv}</span>${a!==null?`<span class="pc">${Math.round(a*100)}%</span>`:""}</a></li>`}).join("");
-  const n=state.mistakes.size,b=$("#bbErr");if(b){b.textContent=n;b.hidden=!n}
+  const n=mistDue().length,b=$("#bbErr");if(b){b.textContent=n;b.hidden=!n}
   updateNavHere();
 }
 function updateNavHere(){
@@ -436,10 +522,12 @@ function renderToday(){
   $("#todayLbl").textContent=last?"Continue":"Start here";
   $("#todayName").textContent=`${i+1}. ${st.name}`;
   $("#tsCleared").textContent=state.cleared.size;$("#tsTotal").textContent=STATIONS.length;
-  $("#tsErr").textContent=state.mistakes.size;
+  $("#tsErr").textContent=mistDue().length;
+  $("#tsCards").textContent=srsCounts().total;
   const d=store.get("lb-day",{date:"",n:0});const today=new Date().toDateString();
   $("#tsDone").textContent=d.date===today?Math.min(d.n,10):0;
-  $("#todayMeta").textContent=d.date===today&&d.n>=10?"Done for today ✓ · keep going if you like":"10 questions · about 10 minutes";
+  const sc=srsCounts();
+  $("#todayMeta").textContent=(d.date===today&&d.n>=10?"Done for today ✓":"10 questions · about 10 minutes")+(sc.total?` · ${sc.total} flashcards due`:"");
   $("#rmCleared").textContent=state.cleared.size;
   if(typeof bkShow==="function")try{bkShow()}catch(e){}
   $("#routeSegs").innerHTML=STATIONS.map(s=>`<i style="--c:${s.c}" class="${state.cleared.has(s.id)?"done":""}"></i>`).join("");

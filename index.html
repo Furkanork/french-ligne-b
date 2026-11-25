@@ -33,7 +33,7 @@
   <div class="today" id="today">
     <a class="today-go" id="todayGo" href="#passe"><small id="todayLbl">Start here</small><b id="todayName">1. Le passé</b><span aria-hidden="true">→</span></a>
     <button class="today-mix" type="button" data-go="practice"><b>Today's practice</b><small id="todayMeta">10 questions · about 10 minutes</small></button>
-    <div class="today-stats"><span><b id="tsCleared">0</b>/<span id="tsTotal">13</span> stations</span><span><b id="tsErr">0</b> mistakes to fix</span><span><b id="tsDone">0</b>/10 today</span></div>
+    <div class="today-stats"><span><b id="tsCleared">0</b>/<span id="tsTotal">13</span> stations</span><span><b id="tsErr">0</b> mistakes due</span><span><b id="tsCards">0</b> cards due</span><span><b id="tsDone">0</b>/10 today</span></div>
     <a class="bk-remind" id="bkRemind" href="#backup" hidden>Back up your progress: last backup <span id="bkAge">never</span> →</a>
     <button class="about-btn" type="button" id="aboutBtn" aria-expanded="false">About this course ▾</button>
   </div>
@@ -62,6 +62,7 @@
       </div>
       <div class="tabs" role="tablist" aria-label="Practice mode">
         <button class="tab" role="tab" type="button" data-tab="mix" aria-selected="true">Daily mix · 10</button>
+        <button class="tab" role="tab" type="button" data-tab="cards" aria-selected="false">Flashcards · <span id="cardsN">0</span></button>
         <button class="tab" role="tab" type="button" data-tab="err" aria-selected="false">My mistakes · <span id="errN">0</span></button>
         <button class="tab" role="tab" type="button" data-tab="sprint" aria-selected="false">Conjugation sprint</button>
       </div>
