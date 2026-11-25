@@ -76,6 +76,14 @@ function serve() {
     await ctx.close();
   }
 
+  /* ---------- 1b. every file the page loads is in the offline cache list ---------- */
+  {
+    const html = fs.readFileSync(path.join(ROOT, "index.html"), "utf8"), sw = fs.readFileSync(path.join(ROOT, "sw.js"), "utf8");
+    const files = [...html.matchAll(/<(?:script|link)[^>]+(?:src|href)="((?:js|css)\/[^"]+)"/g)].map(m => m[1]);
+    const missing = files.filter(f => !sw.includes(`"./${f}"`));
+    ok(!missing.length, `Offline cache lists all ${files.length} scripts and stylesheets`, missing.join(", "));
+  }
+
   /* ---------- 2. phone layouts ---------- */
   for (const dev of ["iPhone 13", "Pixel 7"]) {
     const { ctx, p } = await page({ ...devices[dev] });

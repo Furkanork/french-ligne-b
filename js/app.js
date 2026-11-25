@@ -174,6 +174,7 @@ function drill(el,getItems,opts={}){
 }
 function record(it,ok){
   const s=state.stats[it.k]||(state.stats[it.k]={a:0,c:0});s.a++;if(ok)s.c++;
+  if(it.noMist){save();renderProgress();return}
   const id=it.k+":"+it.i,today=dayNum();
   if(!ok){state.mistakes.add(id);mistSched[id]={b:0,d:today}}
   else if(state.mistakes.has(id)){
@@ -881,6 +882,41 @@ runBM();
     <div class="model-text">${m.text.map(p=>`<p>${esc(p)}</p>`).join("")}<button class="btn tr-btn" type="button" data-sayall="${esc(m.text.join(" "))}">▶ Listen to the whole text</button></div>
     <span class="eyebrow">Why it reaches ${esc(m.lv.replace("DELF ",""))}</span><ul class="small">${m.why.map(w=>`<li>${esc(w)}</li>`).join("")}</ul></details>`).join("");
   document.addEventListener("click",e=>{const b=e.target.closest("[data-sayall]");if(b)speak(b.dataset.sayall)});
+})();
+
+/* ---------- Lecture: reading texts with questions ---------- */
+(function(){
+  const box=$("#readings");if(!box)return;
+  box.innerHTML=READINGS.map((r,n)=>`<div class="card reading">
+    <span class="eyebrow">${esc(r.lv)} · ${esc(r.genre)}</span><h3>${esc(r.title)}</h3>
+    <div class="read-text">${r.text.map(p=>`<p>${esc(p)}</p>`).join("")}</div>
+    <div class="row"><button class="btn tr-btn" type="button" data-sayall="${esc(r.text.join(" "))}">▶ Listen</button></div>
+    <details class="small" style="margin-top:8px"><summary style="cursor:pointer">Glossary</summary><ul>${r.gloss.map(g=>`<li><b>${esc(g[0])}</b>: ${esc(g[1])}</li>`).join("")}</ul></details>
+    <div class="tool" style="margin-top:12px"><div class="tool-head"><span class="tag">Questions</span> ${r.qs.length} questions</div><div class="tool-body" data-reading="${n}"></div></div>
+  </div>`).join("");
+  box.querySelectorAll("[data-reading]").forEach(el=>{const r=READINGS[+el.dataset.reading];
+    drill(el,()=>r.qs.map((q,i)=>Object.assign({k:"lecture",i:+el.dataset.reading*10+i,tag:r.title,noMist:true},q)),{doneText:(s,n)=>s===n?"Full marks. You read this at its level.":"Re-read the paragraph each explanation quotes, then try again."})});
+})();
+/* ---------- DALF synthesis practice ---------- */
+(function(){
+  const el=$("#synth");if(!el)return;const S=SYNTH;
+  el.innerHTML=`<p class="prompt"><b>Topic: ${esc(S.topic)}.</b> ${esc(S.task)}</p>
+    ${S.docs.map(d=>`<details class="model" open><summary><b>${esc(d.src)}</b></summary><p class="read-text" style="margin-top:8px">${esc(d.text)}</p></details>`).join("")}
+    <label class="lab" for="synIn" style="margin-top:10px">Your synthesis (start with a title)</label>
+    <textarea id="synIn" style="min-height:180px" spellcheck="false">${esc(store.get("lb-synth",""))}</textarea>
+    <div class="accents" data-for="synIn">${TYPE_ACCENTS.map(a=>`<button class="acc" type="button" tabindex="-1">${a}</button>`).join("")}</div>
+    <p class="small muted" id="synCount" style="margin:6px 0"></p>
+    <button class="btn solid" type="button" id="synShow">Compare with a model synthesis</button>
+    <div id="synModel" hidden>
+      <span class="eyebrow" style="margin-top:12px">Model synthesis</span>
+      <div class="rw-text"><p><b>${esc(S.modelTitle)}</b></p><p style="margin:0">${esc(S.model)}</p></div>
+      <span class="eyebrow" style="margin-top:10px">Check yours against this list</span>
+      <ul class="checks">${S.checks.map(c=>`<li><label style="display:flex;gap:8px;cursor:pointer"><input type="checkbox"> <span>${esc(c)}</span></label></li>`).join("")}</ul>
+      <p class="small muted">Ticking the list is a self-check. For a real C1 grade, a teacher has to read it.</p>
+    </div>`;
+  const count=()=>{const v=$("#synIn").value,w=(v.match(/[\p{L}'-]+/gu)||[]).length;$("#synCount").textContent=`${w} words · target about ${S.target} (±10%)`;store.set("lb-synth",v)};
+  $("#synIn").addEventListener("input",count);count();
+  $("#synShow").addEventListener("click",()=>{$("#synModel").hidden=false;$("#synShow").remove()});
 })();
 
 /* ---------- reset ---------- */

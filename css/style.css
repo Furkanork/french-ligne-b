@@ -510,3 +510,8 @@ footer .backup{max-width:640px;margin:0 auto 18px;text-align:left}
 .model summary{cursor:pointer}
 .model-text{background:var(--bg);border-radius:8px;padding:12px 14px;margin:10px 0}
 .model-text p{margin:0 0 .7em}
+
+/* reading */
+.read-text p{margin:0 0 .8em;line-height:1.75}
+p.read-text{line-height:1.75}
+.reading .tool{border-width:1.5px}

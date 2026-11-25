@@ -23,6 +23,7 @@ const STATIONS=[
   {id:"litteraire",name:"Temps littéraires",sub:"passé simple",lv:"C1–C2",c:"#34495E"},
   {id:"motjuste",name:"Le mot juste",sub:"precise verbs",lv:"C1–C2",c:"#9A7D0A"},
   {id:"expressionsc",name:"Expressions C",sub:"20 idioms",lv:"C1–C2",c:"#D35400"},
+  {id:"lecture",name:"Lecture",sub:"read and understand",lv:"B2–C1",c:"#2E86C1"},
   {id:"dalf",name:"Atelier DALF",sub:"synthèse, essai",lv:"C1–C2",c:"#1B4F72"},
   {id:"terminusc",name:"Terminus C",sub:"C mock exam",lv:"C2",c:"#1a1a1a"}
 ];

@@ -817,6 +817,7 @@
   <p class="kicker">Correspondance · change here for</p>
   <h2 class="plate">Ligne C</h2>
   <p class="payoff"><b>C1</b>: you understand long, demanding texts and what they imply, and you express yourself fluently and precisely. <b>C2</b>: you understand almost everything you hear or read, and you can render fine shades of meaning. Same method as Ligne B: the structures that make the biggest difference, first.</p>
+  <p class="check"><b>Honest note</b>Ligne C is <strong>reference and review</strong>. It maps what C1 and C2 demand, drills the forms, and gives you reading, synthesis and writing practice with model answers. What actually gets you to C1 is hundreds of hours of reading and listening to real French, plus writing that a teacher corrects. Terminus C has a weekly plan for that.</p>
 </section>
 <section class="station" id="nuances" style="--line:#0B7A75;--line-ink:#fff">
   <span class="roundel"></span>
@@ -997,6 +998,16 @@
   <div class="tool" style="margin-top:16px"><div class="tool-head"><span class="tag">Drill</span> Decode the C idiom</div><div class="tool-body" data-drill="expressionsc"></div></div>
   <div class="station-foot"><button class="clear-btn" data-station="expressionsc" aria-pressed="false">Mark station cleared</button><span class="next"></span></div>
 </section>
+<section class="station" id="lecture" style="--line:#2E86C1;--line-ink:#fff">
+  <span class="roundel"></span>
+  <div class="station-head">
+    <h2 class="plate">Lecture</h2>
+    <p class="payoff">C1 reading means following an argument, catching what's implied and handling literary tenses. <b>Three original texts, from B2 to C1, each with questions on meaning, implication and language.</b> Read once without help, answer, then check the glossary and listen.</p>
+  </div>
+  <div class="stack" id="readings"></div>
+  <div class="station-foot"><button class="clear-btn" data-station="lecture" aria-pressed="false">Mark station cleared</button><span class="next"></span></div>
+</section>
+
 <section class="station" id="dalf" style="--line:#1B4F72;--line-ink:#fff">
   <span class="roundel"></span>
   <div class="station-head">
@@ -1057,6 +1068,11 @@
     </div>
   </div>
 
+  <div class="tool" style="margin-top:16px">
+    <div class="tool-head"><span class="tag">Atelier</span> Synthesis practice</div>
+    <div class="tool-body" id="synth"></div>
+  </div>
+
   <div class="tool" style="margin-top:16px"><div class="tool-head"><span class="tag">Drill</span> DALF know-how</div><div class="tool-body" data-drill="dalf"></div></div>
   <div class="station-foot"><button class="clear-btn" data-station="dalf" aria-pressed="false">Mark station cleared</button><span class="next"></span></div>
 </section>
@@ -1113,6 +1129,7 @@
 <script src="js/data/drills-more.js"></script>
 <script src="js/data/english.js"></script>
 <script src="js/data/writing.js"></script>
+<script src="js/data/reading.js"></script>
 <script src="js/app.js"></script>
 <script>
 if ("serviceWorker" in navigator && location.protocol !== "file:") {
