@@ -1,6 +1,8 @@
 // Offline support: keep the app shell cached; refresh it in the background when online.
-const CACHE = "ligne-b-v6";
-const SHELL = ["./", "./index.html", "./manifest.json", "./icons/icon-192.png", "./icons/icon-512.png"];
+const CACHE = "ligne-b-v7";
+const SHELL = ["./", "./index.html", "./manifest.json", "./css/style.css", "./js/app.js",
+  "./js/data/stations.js", "./js/data/words.js", "./js/data/drills.js", "./js/data/english.js", "./js/data/writing.js",
+  "./icons/icon-192.png", "./icons/icon-512.png"];
 
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
