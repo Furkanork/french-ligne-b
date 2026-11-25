@@ -475,6 +475,10 @@ mark.k-relief{background:color-mix(in srgb,#C0392B 30%,transparent)}
 /* new stations: cards holding a 3-column table span the full row */
 #negation .grid>.card:has(thead th:nth-child(3)),#prepositions .grid>.card:has(thead th:nth-child(3)),#causatif .grid>.card:has(thead th:nth-child(3)),#nuances .grid>.card:has(thead th:nth-child(3)),#relief .grid>.card:has(thead th:nth-child(3)),#litteraire .grid>.card:has(thead th:nth-child(3)),#motjuste .grid>.card:has(thead th:nth-child(3)){grid-column:1/-1}
 .sheet-head{z-index:5}
+/* backup */
+footer .backup{max-width:640px;margin:0 auto 18px;text-align:left}
+.bk-remind{display:block;padding:10px 14px;border-radius:10px;background:var(--hi);color:var(--ink);font-size:.92rem;text-decoration:none;font-weight:600}
+.bk-remind[hidden]{display:none}
 </style>
 </head>
 <body>
@@ -495,6 +499,7 @@ mark.k-relief{background:color-mix(in srgb,#C0392B 30%,transparent)}
     <a class="today-go" id="todayGo" href="#passe"><small id="todayLbl">Start here</small><b id="todayName">1. Le passé</b><span aria-hidden="true">→</span></a>
     <button class="today-mix" type="button" data-go="practice"><b>Today's practice</b><small id="todayMeta">10 questions · about 10 minutes</small></button>
     <div class="today-stats"><span><b id="tsCleared">0</b>/<span id="tsTotal">13</span> stations</span><span><b id="tsErr">0</b> mistakes to fix</span><span><b id="tsDone">0</b>/10 today</span></div>
+    <a class="bk-remind" id="bkRemind" href="#backup" hidden>Back up your progress: last backup <span id="bkAge">never</span> →</a>
     <button class="about-btn" type="button" id="aboutBtn" aria-expanded="false">About this course ▾</button>
   </div>
   <p class="lede">At A2 you can get by. B1 means you can tell a story, give your reasons and handle almost any everyday situation. B2 means you can argue a point and follow native speakers without strain. A small set of structures does most of that work. This line takes you through them in the order that pays off fastest. Every station ends with a drill; your mistakes are saved and come back in daily practice until you get them right.</p>
@@ -1517,6 +1522,22 @@ mark.k-relief{background:color-mix(in srgb,#C0392B 30%,transparent)}
 
 <footer>
   <p>Ligne B · Click any underlined French to hear it in your device's French voice, if it has one.</p>
+  <div class="backup card" id="backup">
+    <span class="eyebrow">Your progress</span>
+    <h3>Back up, or move to another device</h3>
+    <p class="small">Progress is saved only in this browser. Clearing it or changing phones erases it, so keep a backup.</p>
+    <div class="row">
+      <button class="btn solid" type="button" id="bkFile">Save backup file</button>
+      <button class="btn" type="button" id="bkCopy">Copy backup code</button>
+      <label class="btn" for="bkPick" style="display:inline-flex;align-items:center">Restore from file</label>
+      <input type="file" id="bkPick" accept=".json,application/json,text/plain" hidden>
+    </div>
+    <details style="margin-top:10px"><summary class="small" style="cursor:pointer">Restore from a pasted code</summary>
+      <textarea id="bkCode" style="min-height:90px;margin-top:8px" placeholder="Paste your backup code here"></textarea>
+      <button class="btn" type="button" id="bkRestore" style="margin-top:6px">Restore this code</button>
+    </details>
+    <p class="small muted" id="bkLast" style="margin:10px 0 0"></p>
+  </div>
   <p><button class="btn" type="button" id="resetAll">Erase all my progress</button></p>
 </footer>
 <div class="toast" id="toast" role="status"></div>
@@ -2238,6 +2259,7 @@ function renderToday(){
   $("#tsDone").textContent=d.date===today?Math.min(d.n,10):0;
   $("#todayMeta").textContent=d.date===today&&d.n>=10?"Done for today ✓ · keep going if you like":"10 questions · about 10 minutes";
   $("#rmCleared").textContent=state.cleared.size;
+  if(typeof bkShow==="function")try{bkShow()}catch(e){}
   $("#routeSegs").innerHTML=STATIONS.map(s=>`<i style="--c:${s.c}" class="${state.cleared.has(s.id)?"done":""}"></i>`).join("");
 }
 /* count answered questions per day */
@@ -2303,9 +2325,49 @@ document.addEventListener("click",e=>{
 });
 renderToday();
 
+/* ---------- progress backup ---------- */
+const BK_KEYS=k=>/^(frB\.|lb-)/.test(k)&&k!=="lb-backup";
+function bkCollect(){const data={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(BK_KEYS(k))data[k]=localStorage.getItem(k)}
+  return {app:"ligne-b",v:1,date:new Date().toISOString(),data}}
+const b64e=s=>btoa(unescape(encodeURIComponent(s))),b64d=s=>decodeURIComponent(escape(atob(s.replace(/\s+/g,""))));
+function bkMark(){store.set("lb-backup",Date.now());bkShow()}
+function bkShow(){
+  const t=store.get("lb-backup",0),el=$("#bkLast");
+  const days=t?Math.floor((Date.now()-t)/864e5):null;
+  if(el)el.textContent=t?`Last backup: ${new Date(t).toLocaleDateString()}${days?` (${days} day${days>1?"s":""} ago)`:" (today)"}.`:"No backup yet.";
+  const hasProgress=state.cleared.size||Object.keys(state.stats).length||known.size;
+  const r=$("#bkRemind");if(r){r.hidden=!(hasProgress&&(days===null||days>=7));$("#bkAge").textContent=days===null?"never":`${days} days ago`}
+}
+function bkApply(obj){
+  if(!obj||obj.app!=="ligne-b"||typeof obj.data!=="object")throw new Error("This isn't a Ligne B backup.");
+  const n=Object.keys(obj.data).length;
+  if(!confirm(`Restore the backup from ${new Date(obj.date).toLocaleString()}? It replaces the progress in this browser (${n} items).`))return;
+  Object.keys(localStorage).filter(BK_KEYS).forEach(k=>localStorage.removeItem(k));
+  Object.entries(obj.data).forEach(([k,v])=>{if(BK_KEYS(k))localStorage.setItem(k,v)});
+  store.set("lb-backup",Date.now());location.reload();
+}
+$("#bkFile").addEventListener("click",()=>{
+  const blob=new Blob([JSON.stringify(bkCollect())],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`ligne-b-progress-${new Date().toISOString().slice(0,10)}.json`;
+  document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000);bkMark();toast("Backup file saved");
+});
+$("#bkCopy").addEventListener("click",async()=>{
+  const code=b64e(JSON.stringify(bkCollect()));
+  try{await navigator.clipboard.writeText(code);toast("Backup code copied. Paste it somewhere safe, like a note or an email to yourself.")}
+  catch(e){$("#bkCode").value=code;$("#bkCode").closest("details").open=true;$("#bkCode").select();toast("Copy the code from the box below")}
+  bkMark();
+});
+$("#bkPick").addEventListener("change",async e=>{const f=e.target.files[0];if(!f)return;
+  try{bkApply(JSON.parse(await f.text()))}catch(err){toast(err.message.includes("Ligne B")?err.message:"That file couldn't be read as a backup.")}e.target.value=""});
+$("#bkRestore").addEventListener("click",()=>{const v=$("#bkCode").value.trim();if(!v)return;
+  try{bkApply(JSON.parse(v[0]==="{"?v:b64d(v)))}catch(err){toast(err.message.includes("Ligne B")?err.message:"That code isn't a valid backup.")}});
+bkShow();
+
 /* hide the bottom bar while typing so it never covers the keyboard area */
 document.addEventListener("focusin",e=>{if(e.target.matches("input[type=text],textarea"))document.body.classList.add("typing")});
-document.addEventListener("focusout",()=>document.body.classList.remove("typing"));
+let typingT;
+document.addEventListener("focusin",()=>clearTimeout(typingT));
+document.addEventListener("focusout",()=>{clearTimeout(typingT);typingT=setTimeout(()=>{if(!document.activeElement||!document.activeElement.matches("input[type=text],textarea"))document.body.classList.remove("typing")},400)});
 openTab("mix");
 
 /* ---------- B-mètre ---------- */
