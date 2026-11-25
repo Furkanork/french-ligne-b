@@ -851,6 +851,38 @@ let draftT;
 $("#bmIn").addEventListener("input",()=>{runBM();clearTimeout(draftT);draftT=setTimeout(()=>store.set("frB.draft",$("#bmIn").value),400)});
 runBM();
 
+/* ---------- level-up rewrites and model texts ---------- */
+(function(){
+  const el=$("#rewrites");if(!el)return;let i=0;
+  function show(){
+    const r=REWRITES[i],draft=store.get("lb-rw",{})[i]||"";
+    el.innerHTML=`<div class="row" style="margin-bottom:8px">${REWRITES.map((x,j)=>`<button class="chip" type="button" data-rw="${j}" aria-pressed="${j===i}">${esc(x.lv)}</button>`).join("")}</div>
+      <p class="prompt"><b>${esc(r.lv)}.</b> ${esc(r.task)}</p>
+      <p class="rw-from">${esc(r.from)}</p>
+      <label class="lab" for="rwIn">Your version</label>
+      <textarea id="rwIn" style="min-height:120px" spellcheck="false">${esc(draft)}</textarea>
+      <div class="accents" data-for="rwIn">${TYPE_ACCENTS.map(a=>`<button class="acc" type="button" tabindex="-1">${a}</button>`).join("")}</div>
+      <button class="btn solid" type="button" data-rwshow style="margin-top:10px">Compare with a model answer</button>
+      <div class="rw-model" hidden>
+        <span class="eyebrow" style="margin-top:12px">One possible answer</span>
+        <p class="rw-text">${esc(r.model)} <button class="btn tr-btn" type="button" data-sayall="${esc(r.model)}">▶ Listen</button></p>
+        <span class="eyebrow">What makes it level up</span>
+        <ul class="small">${r.notes.map(n=>`<li>${esc(n)}</li>`).join("")}</ul>
+        <p class="small muted">Yours doesn't have to match. Check that it uses the same moves; for correct grammar, ask a teacher or tandem partner.</p>
+      </div>`;
+  }
+  el.addEventListener("click",e=>{
+    const c=e.target.closest("[data-rw]");if(c){i=+c.dataset.rw;show();return}
+    if(e.target.closest("[data-rwshow]")){el.querySelector(".rw-model").hidden=false;e.target.closest("[data-rwshow]").remove()}
+  });
+  el.addEventListener("input",e=>{if(e.target.id==="rwIn"){const d=store.get("lb-rw",{});d[i]=e.target.value;store.set("lb-rw",d)}});
+  show();
+  $("#models").innerHTML=MODELS.map(m=>`<details class="model"><summary><b>${esc(m.lv)}</b> · ${esc(m.task)}</summary>
+    <div class="model-text">${m.text.map(p=>`<p>${esc(p)}</p>`).join("")}<button class="btn tr-btn" type="button" data-sayall="${esc(m.text.join(" "))}">▶ Listen to the whole text</button></div>
+    <span class="eyebrow">Why it reaches ${esc(m.lv.replace("DELF ",""))}</span><ul class="small">${m.why.map(w=>`<li>${esc(w)}</li>`).join("")}</ul></details>`).join("");
+  document.addEventListener("click",e=>{const b=e.target.closest("[data-sayall]");if(b)speak(b.dataset.sayall)});
+})();
+
 /* ---------- reset ---------- */
 let resetArmed=false;
 $("#resetAll").addEventListener("click",e=>{

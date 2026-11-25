@@ -502,3 +502,11 @@ footer .backup{max-width:640px;margin:0 auto 18px;text-align:left}
 .real-fr summary::after{content:"▾";margin-left:auto}
 .real-fr[open] summary::after{content:"▴"}
 .real-fr ul{padding-left:1.1em;margin:.3em 0}
+
+/* rewrites + model texts */
+.rw-from{background:var(--bg);border-radius:8px;padding:10px 12px;font-style:italic}
+.rw-text{background:color-mix(in srgb,var(--ok) 10%,var(--card));border-left:5px solid var(--ok);border-radius:6px;padding:10px 12px}
+.model{border-top:1px solid var(--rule);padding:10px 0}
+.model summary{cursor:pointer}
+.model-text{background:var(--bg);border-radius:8px;padding:12px 14px;margin:10px 0}
+.model-text p{margin:0 0 .7em}
