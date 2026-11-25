@@ -63,6 +63,7 @@
       <div class="tabs" role="tablist" aria-label="Practice mode">
         <button class="tab" role="tab" type="button" data-tab="mix" aria-selected="true">Daily mix · 10</button>
         <button class="tab" role="tab" type="button" data-tab="cards" aria-selected="false">Flashcards · <span id="cardsN">0</span></button>
+        <button class="tab" role="tab" type="button" data-tab="listen" aria-selected="false">Listening</button>
         <button class="tab" role="tab" type="button" data-tab="err" aria-selected="false">My mistakes · <span id="errN">0</span></button>
         <button class="tab" role="tab" type="button" data-tab="sprint" aria-selected="false">Conjugation sprint</button>
       </div>
@@ -70,6 +71,25 @@
     <p class="small muted ans-mode">Answers: <select id="ansMode"><option value="auto">tap first, then type once you know them</option><option value="typed">always type</option><option value="mc">always tap</option></select></p>
     <div id="hubPanel" style="margin-top:8px" role="tabpanel"></div>
   </div>
+  <details class="card real-fr" id="realFrench">
+    <summary><span class="eyebrow" style="margin:0">The other 80%</span> <b>Real French to listen to</b> · <span class="small" id="listenLog"></span></summary>
+    <p class="small" style="margin-top:10px">The app's voice is synthetic: fine for dictation, but your ear needs real speakers. Pick one thing at your level, listen most days, and log it here.</p>
+    <div class="grid" style="margin-top:6px">
+      <div><span class="eyebrow">B1</span><ul class="small">
+        <li><b>Journal en français facile</b> (RFI, rfi.fr): 10-minute daily news, slow and clear, with transcripts</li>
+        <li><b>TV5Monde Apprendre</b> (apprendre.tv5monde.com): short videos with exercises, by level</li>
+        <li><b>InnerFrench</b> podcast (innerfrench.com): natural French spoken a little slower</li></ul></div>
+      <div><span class="eyebrow">B2</span><ul class="small">
+        <li><b>Easy French</b> on YouTube: street interviews with French and English subtitles</li>
+        <li><b>franceinfo</b> (francetvinfo.fr): news at normal speed</li>
+        <li><b>Arte</b> (arte.tv): documentaries, many with French subtitles</li></ul></div>
+      <div><span class="eyebrow">C1–C2</span><ul class="small">
+        <li><b>France Culture</b> (radiofrance.fr): debates, documentaries, interviews</li>
+        <li><b>France Inter</b> (radiofrance.fr): talk radio, humour, current affairs</li>
+        <li>Films and series <b>without subtitles</b>, then with French subtitles to check</li></ul></div>
+    </div>
+    <div class="row" style="margin-top:6px"><span class="small">I listened to real French for:</span><button class="btn" type="button" data-addmin="10">10 min</button><button class="btn" type="button" data-addmin="20">20 min</button><button class="btn" type="button" data-addmin="45">45 min</button></div>
+  </details>
 </section>
 
 

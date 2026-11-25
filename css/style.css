@@ -487,3 +487,18 @@ footer .backup{max-width:640px;margin:0 auto 18px;text-align:left}
 .ans-mode select{font:inherit;font-size:.9rem;max-width:100%}
 
 @media (max-width:700px){.typed+.accents .acc{min-width:40px;min-height:40px;font-size:1rem;padding:0}.typed+.accents{gap:5px}}
+
+/* listening */
+.listen-modes{margin-bottom:10px;align-items:center}
+.listen-warn{background:var(--hi);border-radius:8px;padding:8px 10px}
+.big-play{min-width:120px}
+.dict-marked{font-size:1.15rem;line-height:1.8}
+.w-ok{color:var(--ok);font-weight:700}
+.w-acc{color:#b26a00;font-weight:700;text-decoration:underline dotted}
+.w-miss{color:var(--bad);font-weight:700;text-decoration:underline wavy}
+.real-fr{margin-top:14px}
+.real-fr summary{cursor:pointer;list-style:none;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
+.real-fr summary::-webkit-details-marker{display:none}
+.real-fr summary::after{content:"▾";margin-left:auto}
+.real-fr[open] summary::after{content:"▴"}
+.real-fr ul{padding-left:1.1em;margin:.3em 0}

@@ -65,6 +65,13 @@ function serve() {
     });
     ok(!r.probs.length, "Content: every drill, station and translation table is consistent", r.probs.slice(0, 8).join("\n      "));
     ok(!r.missingEN.length, "Content: every example sentence has an English translation", r.missingEN.slice(0, 8).join(" | "));
+    const marking = await p.evaluate(() => {
+      const t = LigneB.checkTyped, it = { type: "typed", a: ["Il me les a données."] };
+      const d = LigneB.compareWords("Quand j'étais petit, je jouais au foot.", "quand j'etais petit je jouais foot");
+      return [t(it, "il me les a données") === "right", t(it, "Il me les a donnees.") === "accent", t(it, "Il me les a donné.") === "wrong",
+              d.right === 6 && d.res.filter(x => x.s === "acc").length === 1 && d.res.filter(x => x.s === "miss").length === 1];
+    });
+    ok(marking.every(Boolean), "Typed-answer and dictation marking (accents, agreement, missed words)", JSON.stringify(marking));
     ok(!p.errs.length, "No script errors on load (desktop)", p.errs.join("; "));
     await ctx.close();
   }

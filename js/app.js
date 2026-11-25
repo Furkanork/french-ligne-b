@@ -33,12 +33,12 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 const fr=t=>`<button class="fr" data-say="${esc(t)}">${esc(t)}</button>`;
 let toastT;
 function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("show"),2800)}
-function speak(text){
+function speak(text,rate){
   try{
     const s=window.speechSynthesis;if(!s||!window.SpeechSynthesisUtterance)throw 0;
     s.cancel();
     const u=new SpeechSynthesisUtterance(text.replace(/[«»…→]/g," ").replace(/\(.*?\)/g," "));
-    u.lang="fr-FR";u.rate=.9;
+    u.lang="fr-FR";u.rate=rate||.9;
     const v=s.getVoices().find(v=>/^fr(-|_|$)/i.test(v.lang));if(v)u.voice=v;
     s.speak(u);
   }catch(e){toast("Audio isn't available in this browser.")}
@@ -498,16 +498,100 @@ function flashcards(el){
   next();
 }
 
+/* ---------- listening: dictation and listen-and-choose ---------- */
+const hasFrVoice=()=>{try{return speechSynthesis.getVoices().some(v=>/^fr(-|_|$)/i.test(v.lang))}catch(e){return false}};
+const LISTEN_POOL=Object.entries(EN).filter(([f])=>/[.!?]$/.test(f)&&!/…/.test(f)&&f.split(/\s+/).length>=3&&f.split(/\s+/).length<=14);
+const tokens=s=>(String(s).normalize("NFC").toLowerCase().replace(/[’`]/g,"'").match(/[\p{L}\p{N}]+'?/gu)||[]);
+/* word-by-word comparison (longest common subsequence, ignoring accents for matching) */
+function compareWords(target,typed){
+  const A=tokens(target),B=tokens(typed),n=A.length,m=B.length,K=x=>noAcc(x);
+  const L=Array.from({length:n+1},()=>new Array(m+1).fill(0));
+  for(let i=n-1;i>=0;i--)for(let j=m-1;j>=0;j--)L[i][j]=K(A[i])===K(B[j])?L[i+1][j+1]+1:Math.max(L[i+1][j],L[i][j+1]);
+  const res=[];let i=0,j=0;
+  while(i<n){
+    if(j<m&&K(A[i])===K(B[j])){res.push({w:A[i],s:A[i]===B[j]?"ok":"acc",typed:B[j]});i++;j++}
+    else if(j<m&&L[i][j+1]>=L[i+1][j])j++;
+    else{res.push({w:A[i],s:"miss"});i++}
+  }
+  return {res,right:res.filter(r=>r.s==="ok").length,total:n,extra:m-res.filter(r=>r.s!=="miss").length};
+}
+window.LigneB.compareWords=compareWords;
+function listening(el){
+  let mode=store.get("lb-lmode","dict"),rate=store.get("lb-rate",.85),cur,done=false;
+  const voiceNote=()=>hasFrVoice()?"":`<p class="small listen-warn">Your device doesn't seem to have a French voice, so audio may be missing or in the wrong accent. On Android: Settings → System → Languages → Text-to-speech, and add French. On iPhone: Settings → Accessibility → Spoken Content → Voices → French.</p>`;
+  function frame(body){
+    el.innerHTML=`<div class="row listen-modes"><button class="chip" type="button" data-lm="dict" aria-pressed="${mode==="dict"}">Dictation</button><button class="chip" type="button" data-lm="choose" aria-pressed="${mode==="choose"}">Listen and choose</button>
+      <label class="small muted" style="margin-left:auto">Speed <select id="lRate"><option value=".65" ${rate<.7?"selected":""}>slow</option><option value=".85" ${rate>=.7&&rate<.95?"selected":""}>normal</option><option value="1.05" ${rate>=.95?"selected":""}>fast</option></select></label></div>
+      ${voiceNote()}${body}`;
+    $("#lRate").addEventListener("change",e=>{rate=+e.target.value;store.set("lb-rate",rate)});
+  }
+  function next(){
+    done=false;cur=LISTEN_POOL[Math.floor(Math.random()*LISTEN_POOL.length)];
+    if(mode==="dict"){
+      frame(`<p class="drill-q">Listen, then type exactly what you hear.</p>
+        <div class="row"><button class="btn solid big-play" type="button" data-l="play">▶ Play</button><button class="btn" type="button" data-l="slow">Play slowly</button></div>
+        <textarea id="lIn" class="typed-in" style="min-height:80px;margin-top:10px" placeholder="Type the sentence" autocapitalize="off" spellcheck="false"></textarea>
+        <div class="accents" data-for="lIn">${TYPE_ACCENTS.map(a=>`<button class="acc" type="button" tabindex="-1">${a}</button>`).join("")}</div>
+        <div class="row" style="margin-top:10px"><button class="btn solid" type="button" data-l="check">Check</button><button class="btn" type="button" data-l="skip">Show me</button></div>
+        <div class="feedback" aria-live="polite"></div>`);
+    }else{
+      const wrong=shuffle(LISTEN_POOL.filter(p=>p!==cur)).slice(0,2).map(p=>p[1]);
+      frame(`<p class="drill-q">Listen, then pick what it means.</p>
+        <div class="row"><button class="btn solid big-play" type="button" data-l="play">▶ Play</button><button class="btn" type="button" data-l="slow">Play slowly</button></div>
+        <div class="opts" style="margin-top:12px">${shuffle([cur[1],...wrong]).map(o=>`<button class="opt" type="button" data-ch="${esc(o)}">${esc(o)}</button>`).join("")}</div>
+        <div class="feedback" aria-live="polite"></div>`);
+    }
+    speak(cur[0],rate);
+  }
+  function showResult(typed){
+    done=true;
+    const r=compareWords(cur[0],typed||"");
+    const marked=r.res.map(x=>x.s==="ok"?`<span class="w-ok">${esc(x.w)}</span>`:x.s==="acc"?`<span class="w-acc" title="you typed ${esc(x.typed)}">${esc(x.w)}</span>`:`<span class="w-miss">${esc(x.w)}</span>`).join(" ");
+    const score=typed?`<span class="verdict ${r.right===r.total&&!r.extra?"y":"n"}">${r.right} / ${r.total} words</span>`:"";
+    el.querySelector(".feedback").innerHTML=`${score}${typed?`<p class="small muted" style="margin:6px 0">Green: right · amber: accent missing · red: missed${r.extra?` · ${r.extra} extra word${r.extra>1?"s":""} you typed`:""}</p><p class="dict-marked">${marked}</p>`:""}
+      <p style="margin-top:8px">${fr(cur[0])}</p><p class="gloss block">${esc(cur[1])}</p>
+      <div class="drill-next"><button class="btn solid" type="button" data-l="next">Next sentence</button></div>`;
+    logListen(.5);
+  }
+  el.onclick=e=>{
+    const m=e.target.closest("[data-lm]");if(m){mode=m.dataset.lm;store.set("lb-lmode",mode);next();return}
+    const a=e.target.closest("[data-l]");const ch=e.target.closest("[data-ch]");
+    if(ch&&!done){done=true;const ok=ch.dataset.ch===cur[1];
+      el.querySelectorAll("[data-ch]").forEach(o=>{o.disabled=true;if(o.dataset.ch===cur[1])o.classList.add("right");else if(o===ch)o.classList.add("wrong")});
+      el.querySelector(".feedback").innerHTML=`<span class="verdict ${ok?"y":"n"}">${ok?"Correct":"Not quite"}</span><p style="margin-top:6px">${fr(cur[0])}</p><div class="drill-next"><button class="btn solid" type="button" data-l="next">Next sentence</button></div>`;
+      logListen(.3);return}
+    if(!a)return;const act=a.dataset.l;
+    if(act==="play")speak(cur[0],rate);
+    else if(act==="slow")speak(cur[0],.6);
+    else if(act==="check"&&!done){const v=$("#lIn").value.trim();if(!v){$("#lIn").focus();return}showResult(v)}
+    else if(act==="skip"&&!done)showResult("");
+    else if(act==="next")next();
+  };
+  el.onkeydown=e=>{if(e.key==="Enter"&&e.target.id==="lIn"&&!e.shiftKey){e.preventDefault();const c=el.querySelector('[data-l="check"]');if(!done)c.click();else el.querySelector('[data-l="next"]').click()}};
+  next();
+}
+/* listening log: minutes per day, from practice here and from real French you tick off */
+function logListen(min){const d=store.get("lb-listen",{}),k=dayNum();d[k]=Math.round(((d[k]||0)+min)*10)/10;store.set("lb-listen",d);renderListenLog()}
+function renderListenLog(){
+  const el=$("#listenLog");if(!el)return;const d=store.get("lb-listen",{}),t=dayNum();
+  let week=0;for(let i=0;i<7;i++)week+=d[t-i]||0;
+  let streak=0;while((d[t-streak]||0)>=5)streak++;
+  el.innerHTML=`<b>${Math.round(d[t]||0)}</b> min today · <b>${Math.round(week)}</b> min this week${streak?` · ${streak}-day streak (5+ min)`:""}`;
+}
+
 function openTab(tab){
   document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected",t.dataset.tab===tab));
   const panel=$("#hubPanel");panel.innerHTML="<div></div>";const el=panel.firstChild;
   if(tab==="mix")drill(el,()=>dailyMix(10),{doneText:(s,n)=>s>=8?"Strong session. Come back tomorrow for a new mix.":"Your misses are in <b>Mes erreurs</b>. Clear them before tomorrow's mix."});
   else if(tab==="cards")flashcards(el);
+  else if(tab==="listen")listening(el);
   else if(tab==="err")drill(el,()=>shuffle(mistDue().map(byId).filter(Boolean)),{empty:mistEmpty(),doneText:()=>state.mistakes.size?`${state.mistakes.size} still to fix. Go again or read their stations.`:"Mistakes list cleared. Bravo !"});
   else sprint(el);
 }
 document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>openTab(t.dataset.tab)));
 $("#ansMode").value=ansMode;
+document.querySelectorAll("[data-addmin]").forEach(b=>b.addEventListener("click",()=>{logListen(+b.dataset.addmin);toast(`Logged ${b.dataset.addmin} minutes of real French. Bravo !`)}));
+renderListenLog();
 $("#ansMode").addEventListener("change",e=>{ansMode=e.target.value;store.set("lb-ansmode",ansMode);const cur=document.querySelector('.tab[aria-selected="true"]');if(cur&&["mix","err"].includes(cur.dataset.tab))openTab(cur.dataset.tab);toast(ansMode==="typed"?"You'll type every answer that can be typed.":ansMode==="mc"?"Tap mode: multiple choice everywhere.":"Questions switch to typing after you get them right twice.")});
 
 /* ---------- station numbers and "Next" links follow the STATIONS order ---------- */
