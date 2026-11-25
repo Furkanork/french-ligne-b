@@ -93,6 +93,32 @@ if("IntersectionObserver" in window){
 }
 
 /* ---------- drill engine ---------- */
+/* ---------- typed answers ---------- */
+const itemOK=store.get("lb-itemok",{});                    // "bank:index" -> times answered right
+let ansMode=store.get("lb-ansmode","auto");
+const TYPE_ACCENTS=["é","è","ê","à","â","ç","ù","û","î","ô","ï","œ"];
+const normAns=s=>String(s).normalize("NFC").toLowerCase().replace(/[’`]/g,"'").replace(/\s+([?!:;])/g,"$1").replace(/\s+/g," ").replace(/[.?!\s]+$/,"").trim();
+const noAcc=s=>s.normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+function canType(it){
+  if(it.type==="typed")return true;
+  if(!it.q.includes("___")||/means|which is/i.test(it.q)||["vocabulaire","expressions","expressionsc","frequents","dalf"].includes(it.k))return false;
+  return it.o[0]!=="(nothing)"&&it.o[0].length<=24;
+}
+function useTyped(it){
+  if(it.type==="typed")return true;
+  if(!canType(it)||ansMode==="mc")return false;
+  return ansMode==="typed"||(itemOK[it.k+":"+it.i]||0)>=2;
+}
+function checkTyped(it,val){
+  const answers=it.type==="typed"?it.a:[it.o[0]];
+  const v=normAns(val);
+  if(answers.some(a=>normAns(a)===v))return "right";
+  if(v&&answers.some(a=>noAcc(normAns(a))===noAcc(v)))return "accent";
+  return "wrong";
+}
+
+const MOBILE_Q=matchMedia("(max-width:700px)");
+window.LigneB={checkTyped,normAns};   // used by tests/run.js
 function drill(el,getItems,opts={}){
   let items,idx,score,answered;
   function start(){items=getItems();idx=0;score=0;if(!items.length){el.innerHTML=opts.empty||"<p>Nothing to practise here yet.</p>";return}show()}
@@ -110,27 +136,40 @@ function drill(el,getItems,opts={}){
     el.innerHTML=`<div class="drill-top"><span>Question ${idx+1} of ${items.length}${it.tag?` · ${esc(it.tag)}`:""}</span><span>${score} correct</span></div>
       <div class="bar"><i style="width:${idx/items.length*100}%"></i></div>
       <p class="drill-q" style="margin-top:12px">${qHtml}</p>
-      <div class="opts">${shuffle(it.o.map((o,j)=>({o,j}))).map(x=>`<button class="opt" type="button" data-j="${x.j}">${esc(x.o)}</button>`).join("")}</div>
+      ${useTyped(it)?`<div class="typed"><input type="text" class="typed-in" id="ti-${el.dataset.drill||"hub"}" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Type your answer"><button class="btn solid" type="button" data-act="check">Check</button></div>
+      <div class="accents" data-for="ti-${el.dataset.drill||"hub"}">${TYPE_ACCENTS.map(a=>`<button class="acc" type="button" tabindex="-1">${a}</button>`).join("")}</div>`
+      :`<div class="opts">${shuffle(it.o.map((o,j)=>({o,j}))).map(x=>`<button class="opt" type="button" data-j="${x.j}">${esc(x.o)}</button>`).join("")}</div>`}
       ${it.en?`<button class="btn tr-btn en-only" type="button" data-act="tr">Translate the sentence</button><p class="gloss block" data-tr hidden>${esc(it.en)}</p>`:""}
       <div class="feedback" aria-live="polite"></div>`;
+    const ti=el.querySelector(".typed-in");if(ti&&!MOBILE_Q.matches&&el.dataset.focus)ti.focus({preventScroll:true});
   }
   el.addEventListener("click",e=>{
     if(e.target.closest('[data-act="again"]')){start();return}
     if(e.target.closest('[data-act="next"]')){idx++;show();return}
     if(e.target.closest('[data-act="tr"]')){const p=el.querySelector("[data-tr]");if(p){p.hidden=false;e.target.closest('[data-act="tr"]').remove()}return}
-    const b=e.target.closest(".opt");if(!b||answered)return;
-    answered=true;
-    const it=items[idx],j=+b.dataset.j,ok=j===0;if(ok)score++;
+    const chk=e.target.closest('[data-act="check"]');
+    const b=e.target.closest(".opt");if((!b&&!chk)||answered)return;
+    const it=items[idx];let ok,note="";
+    if(chk){
+      const inp=el.querySelector(".typed-in");if(!inp.value.trim()){inp.focus();return}
+      const r=checkTyped(it,inp.value);ok=r!=="wrong";inp.disabled=true;chk.disabled=true;
+      inp.classList.add(ok?"right":"wrong");
+      const ans=it.type==="typed"?it.a[0]:it.o[0];
+      note=r==="accent"?`<p class="typed-note">Almost: check the accents. The answer is <b>${esc(ans)}</b>${/[.?!]$/.test(ans)?"":"."}</p>`:r==="wrong"?`<p class="typed-note">You typed <s>${esc(inp.value)}</s>. The answer is <b>${esc(ans)}</b>${/[.?!]$/.test(ans)?"":"."}</p>`:"";
+    }else{ok=+b.dataset.j===0}
+    answered=true;if(ok)score++;
     record(it,ok);
-    el.querySelectorAll(".opt").forEach(o=>{o.disabled=true;if(+o.dataset.j===0)o.classList.add("right");else if(o===b)o.classList.add("wrong")});
-    const full=it.say||((it.q.includes("___")&&!/[«→]|I want/.test(it.q))?it.q.replace(/\s*\(.*?\)/g,"").replace("___",it.o[0]==="(nothing)"?"":it.o[0]).replace(/\s{2,}/g," ").replace(/ ([.,])/g,"$1").replace(/' /g,"'"):"");
+    if(ok){itemOK[it.k+":"+it.i]=(itemOK[it.k+":"+it.i]||0)+1;store.set("lb-itemok",itemOK)}
+    if(b)el.querySelectorAll(".opt").forEach(o=>{o.disabled=true;if(+o.dataset.j===0)o.classList.add("right");else if(o===b)o.classList.add("wrong")});
+    const full=it.say||(it.type==="typed"?(/[.?!]$/.test(it.a[0])?it.a[0]:""):"")||((it.type!=="typed"&&it.q.includes("___")&&!/[«→]|I want/.test(it.q))?it.q.replace(/\s*\(.*?\)/g,"").replace("___",it.o[0]==="(nothing)"?"":it.o[0]).replace(/\s{2,}/g," ").replace(/ ([.,])/g,"$1").replace(/' /g,"'"):"");
     const trBtn=el.querySelector('[data-act="tr"]'),trP=el.querySelector("[data-tr]");if(trBtn)trBtn.remove();if(trP)trP.remove();
-    el.querySelector(".feedback").innerHTML=`<span class="verdict ${ok?"y":"n"}">${ok?"Correct":"Not quite"}</span>${esc(it.e)}
+    el.querySelector(".feedback").innerHTML=`${note}<span class="verdict ${ok?"y":"n"}">${ok?"Correct":"Not quite"}</span>${esc(it.e)}
       ${full?`<div style="margin-top:6px">${fr(full)}</div>`:""}
       ${it.en?`<p class="gloss block">${esc(it.en)}</p>`:""}
       <div class="drill-next"><button class="btn solid" type="button" data-act="next">${idx+1<items.length?"Next":"See score"}</button></div>`;
     el.querySelector('[data-act="next"]').focus({preventScroll:true});
   });
+  el.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.classList.contains("typed-in")){e.preventDefault();const c=el.querySelector('[data-act="check"]');if(c&&!c.disabled)c.click();else{const n=el.querySelector('[data-act="next"]');if(n)n.click()}}});
   start();
 }
 function record(it,ok){
@@ -468,6 +507,8 @@ function openTab(tab){
   else sprint(el);
 }
 document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>openTab(t.dataset.tab)));
+$("#ansMode").value=ansMode;
+$("#ansMode").addEventListener("change",e=>{ansMode=e.target.value;store.set("lb-ansmode",ansMode);const cur=document.querySelector('.tab[aria-selected="true"]');if(cur&&["mix","err"].includes(cur.dataset.tab))openTab(cur.dataset.tab);toast(ansMode==="typed"?"You'll type every answer that can be typed.":ansMode==="mc"?"Tap mode: multiple choice everywhere.":"Questions switch to typing after you get them right twice.")});
 
 /* ---------- station numbers and "Next" links follow the STATIONS order ---------- */
 STATIONS.forEach((st,i)=>{

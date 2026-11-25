@@ -475,3 +475,15 @@ footer .backup{max-width:640px;margin:0 auto 18px;text-align:left}
 .fc-g small{font-family:var(--body);font-weight:400;font-size:.78rem;opacity:.8}
 .fc-g.again{border-color:var(--bad)}.fc-g.good{border-color:var(--ok)}
 .today-stats{grid-template-columns:repeat(4,1fr)!important}
+
+/* typed answers */
+.typed{display:flex;gap:8px;flex-wrap:wrap}
+.typed .typed-in{flex:1 1 200px;font-size:1.1rem}
+.typed-in.right{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 12%,transparent)}
+.typed-in.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 10%,transparent)}
+.typed-note{margin:0 0 8px}
+.typed+.accents{margin-top:8px}
+.ans-mode{margin:12px 0 0}
+.ans-mode select{font:inherit;font-size:.9rem;max-width:100%}
+
+@media (max-width:700px){.typed+.accents .acc{min-width:40px;min-height:40px;font-size:1rem;padding:0}.typed+.accents{gap:5px}}

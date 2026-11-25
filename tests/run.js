@@ -52,7 +52,7 @@ function serve() {
     const r = await p.evaluate(() => {
       const probs = [];
       for (const [k, items] of Object.entries(BANKS)) items.forEach((q, i) => {
-        if (!q.q || !Array.isArray(q.o) || q.o.length < 2) probs.push(`${k}#${i + 1}: needs q and at least 2 options`);
+        if (!q.q || (q.type !== "typed" && (!Array.isArray(q.o) || q.o.length < 2))) probs.push(`${k}#${i + 1}: needs q and at least 2 options`);
         if (q.o && new Set(q.o).size !== q.o.length) probs.push(`${k}#${i + 1}: duplicate options`);
         if (q.type === "typed" && !(q.a && q.a.length)) probs.push(`${k}#${i + 1}: typed item without answers`);
       });
