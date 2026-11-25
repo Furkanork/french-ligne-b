@@ -156,6 +156,18 @@ function serve() {
     await ctx.close();
   }
 
+  /* ---------- 5b. every practice tab opens cleanly ---------- */
+  {
+    const { ctx, p } = await page({ ...devices["iPhone 13"] });
+    const tabs = await p.evaluate(() => [...document.querySelectorAll(".hub .tab")].map(t => t.dataset.tab));
+    const empty = [];
+    for (const t of tabs) { await p.click(`.tab[data-tab="${t}"]`); await p.waitForTimeout(150); if (!(await p.textContent("#hubPanel")).trim()) empty.push(t); }
+    await p.click('.tab[data-tab="speak"]'); await p.click('[data-sm="prompt"]'); await p.click('[data-s="go"]'); await p.waitForTimeout(1200);
+    await p.click('.tab[data-tab="mix"]'); await p.waitForTimeout(1200);
+    ok(!empty.length && !p.errs.length, `All ${tabs.length} practice tabs open, and leaving a running timer is safe`, `empty: ${empty.join(",")} errors: ${p.errs.join("; ")}`);
+    await ctx.close();
+  }
+
   /* ---------- 6. backup round trip ---------- */
   {
     const { ctx, p } = await page({ ...devices["iPhone 13"], acceptDownloads: true });

@@ -571,6 +571,86 @@ function listening(el){
   el.onkeydown=e=>{if(e.key==="Enter"&&e.target.id==="lIn"&&!e.shiftKey){e.preventDefault();const c=el.querySelector('[data-l="check"]');if(!done)c.click();else el.querySelector('[data-l="next"]').click()}};
   next();
 }
+/* ---------- speaking: shadowing with recording, timed prompts ---------- */
+const canRecord=()=>!!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia&&window.MediaRecorder);
+let recNow=null;   // {rec, stream, timer}
+function stopRec(){if(recNow){clearTimeout(recNow.timer);try{recNow.rec.state!=="inactive"&&recNow.rec.stop()}catch(e){}}}
+async function startRec(maxSec,onDone){
+  stopRec();
+  const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+  const rec=new MediaRecorder(stream),chunks=[];
+  rec.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};
+  rec.onstop=()=>{stream.getTracks().forEach(t=>t.stop());recNow=null;onDone(URL.createObjectURL(new Blob(chunks,{type:rec.mimeType||"audio/webm"})))};
+  rec.start();recNow={rec,stream,timer:setTimeout(()=>stopRec(),maxSec*1000)};
+}
+const fmt=s=>`${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}`;
+function speaking(el){
+  let mode=store.get("lb-smode","shadow"),cur,mine=null,lv=store.get("lb-slv","B1"),pi=0,clock=null;
+  const recNote=canRecord()?"":`<p class="small listen-warn">This browser can't record audio here. You can still practise: listen, then say it aloud.</p>`;
+  function frame(body){
+    clearInterval(clock);stopRec();
+    el.innerHTML=`<div class="row listen-modes"><button class="chip" type="button" data-sm="shadow" aria-pressed="${mode==="shadow"}">Shadowing</button><button class="chip" type="button" data-sm="prompt" aria-pressed="${mode==="prompt"}">Speaking prompts</button></div>${recNote}${body}`;
+  }
+  function shadow(){
+    cur=LISTEN_POOL[Math.floor(Math.random()*LISTEN_POOL.length)];mine=null;
+    frame(`<p class="drill-q">${fr(cur[0])}</p><p class="gloss block">${esc(cur[1])}</p>
+      <ol class="small steps"><li>Listen to the model, twice if you like.</li><li>Record yourself saying it, copying the rhythm and the linking between words.</li><li>Play both and compare. Repeat until they sound alike.</li></ol>
+      <div class="row"><button class="btn" type="button" data-s="model">▶ Model</button>
+      ${canRecord()?`<button class="btn solid rec-btn" type="button" data-s="rec">● Record</button><button class="btn" type="button" data-s="mine" disabled>▶ Mine</button><button class="btn" type="button" data-s="both" disabled>▶ Model, then mine</button>`:""}</div>
+      <p class="small muted" id="sStatus" style="margin-top:8px"></p>
+      <div class="drill-next"><button class="btn" type="button" data-s="next">Next sentence</button></div>`);
+  }
+  function promptView(){
+    const P=SPEAK_PROMPTS[lv];pi=pi%P.items.length;mine=null;
+    frame(`<div class="row" style="margin-bottom:8px">${Object.keys(SPEAK_PROMPTS).map(k=>`<button class="chip" type="button" data-slv="${k}" aria-pressed="${k===lv}">${k}</button>`).join("")}<button class="btn tr-btn" type="button" data-s="other" style="margin-left:auto">Another topic</button></div>
+      <p class="prompt">${esc(P.items[pi])}</p>
+      <div class="timer" id="sClock">${fmt(P.prep)}</div>
+      <p class="small muted" id="sPhase" style="text-align:center;margin:0 0 10px">Prepare: ${fmt(P.prep)}, then speak: ${fmt(P.talk)}. Practice-length timers; the real exams are longer.</p>
+      <div class="row" style="justify-content:center"><button class="btn solid" type="button" data-s="go">Start preparing</button>${canRecord()?`<label class="small" style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="sRecAns" checked> record my answer</label>`:""}</div>
+      <div id="sPlayback" style="margin-top:10px"></div>
+      <span class="eyebrow" style="margin-top:12px">${lv} checklist: did you…</span>
+      <ul class="checks">${P.check.map(c=>`<li><label style="display:flex;gap:8px;cursor:pointer"><input type="checkbox"> <span>${esc(c)}</span></label></li>`).join("")}</ul>`);
+  }
+  function run(){
+    const P=SPEAK_PROMPTS[lv];let left=P.prep,phase="prep";
+    const tick=()=>{
+      if(!document.body.contains(el)||!$("#sClock")){clearInterval(clock);stopRec();return}
+      $("#sClock").textContent=fmt(left);
+      if(left<=0){
+        if(phase==="prep"){phase="talk";left=P.talk;$("#sPhase").textContent="Speak now. Keep going until the timer ends.";$("#sClock").classList.add("talk");
+          if(canRecord()&&$("#sRecAns")&&$("#sRecAns").checked)startRec(P.talk+2,url=>{$("#sPlayback").innerHTML=`<p class="small">Your answer:</p><audio controls src="${url}" style="width:100%"></audio><p class="small muted">Listen back with the checklist below. Better still, send it to a tutor.</p>`}).catch(()=>toast("Microphone not available."));
+          $("#sClock").textContent=fmt(left);}
+        else{clearInterval(clock);stopRec();$("#sPhase").textContent="Time's up. Go through the checklist.";$("#sClock").classList.remove("talk");logListen(0);return}
+      }
+      left--;
+    };
+    el.querySelector('[data-s="go"]').outerHTML=`<button class="btn" type="button" data-s="stopall">Stop</button>`;
+    tick();clock=setInterval(tick,1000);
+  }
+  el.onclick=async e=>{
+    const m=e.target.closest("[data-sm]");if(m){mode=m.dataset.sm;store.set("lb-smode",mode);mode==="shadow"?shadow():promptView();return}
+    const l=e.target.closest("[data-slv]");if(l){lv=l.dataset.slv;store.set("lb-slv",lv);pi=0;promptView();return}
+    const a=e.target.closest("[data-s]");if(!a)return;const act=a.dataset.s;
+    if(act==="model")speak(cur[0],.85);
+    else if(act==="next")shadow();
+    else if(act==="other"){pi++;promptView()}
+    else if(act==="go")run();
+    else if(act==="stopall"){clearInterval(clock);stopRec();$("#sPhase").textContent="Stopped.";a.remove()}
+    else if(act==="rec"){
+      if(recNow){stopRec();return}
+      try{await startRec(15,url=>{mine=url;a.textContent="● Record again";a.classList.remove("recording");$("#sStatus").textContent="Recorded. Compare with the model.";el.querySelectorAll('[data-s="mine"],[data-s="both"]').forEach(b=>b.disabled=false)});
+        a.textContent="■ Stop";a.classList.add("recording");$("#sStatus").textContent="Recording… tap Stop when you've finished (15 seconds max).";}
+      catch(err){toast("Microphone not available. Check the browser's permission for this site.")}
+    }
+    else if(act==="mine"&&mine)new Audio(mine).play();
+    else if(act==="both"&&mine){
+      try{const s=window.speechSynthesis;const u=new SpeechSynthesisUtterance(cur[0]);u.lang="fr-FR";u.rate=.85;const v=s.getVoices().find(v=>/^fr(-|_|$)/i.test(v.lang));if(v)u.voice=v;
+        u.onend=()=>setTimeout(()=>new Audio(mine).play(),400);s.cancel();s.speak(u)}catch(err){new Audio(mine).play()}
+    }
+  };
+  mode==="shadow"?shadow():promptView();
+}
+
 /* listening log: minutes per day, from practice here and from real French you tick off */
 function logListen(min){const d=store.get("lb-listen",{}),k=dayNum();d[k]=Math.round(((d[k]||0)+min)*10)/10;store.set("lb-listen",d);renderListenLog()}
 function renderListenLog(){
@@ -581,11 +661,15 @@ function renderListenLog(){
 }
 
 function openTab(tab){
+  if(typeof stopRec==="function")stopRec();
+  const am=document.querySelector(".ans-mode");if(am)am.hidden=!["mix","err"].includes(tab);
+  const tb=document.querySelector(`.tab[data-tab="${tab}"]`);if(tb){const row=tb.parentElement;if(tb.offsetLeft<row.scrollLeft||tb.offsetLeft+tb.offsetWidth>row.scrollLeft+row.clientWidth)row.scrollLeft=tb.offsetLeft-14}
   document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected",t.dataset.tab===tab));
   const panel=$("#hubPanel");panel.innerHTML="<div></div>";const el=panel.firstChild;
   if(tab==="mix")drill(el,()=>dailyMix(10),{doneText:(s,n)=>s>=8?"Strong session. Come back tomorrow for a new mix.":"Your misses are in <b>Mes erreurs</b>. Clear them before tomorrow's mix."});
   else if(tab==="cards")flashcards(el);
   else if(tab==="listen")listening(el);
+  else if(tab==="speak")speaking(el);
   else if(tab==="err")drill(el,()=>shuffle(mistDue().map(byId).filter(Boolean)),{empty:mistEmpty(),doneText:()=>state.mistakes.size?`${state.mistakes.size} still to fix. Go again or read their stations.`:"Mistakes list cleared. Bravo !"});
   else sprint(el);
 }

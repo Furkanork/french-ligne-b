@@ -48,3 +48,22 @@ const SYNTH = {
  model:"La semaine de quatre jours suscite un intérêt croissant, mais son efficacité fait débat. Le premier document en souligne les effets positifs : selon une expérimentation britannique, la productivité se maintient tandis que les absences pour maladie reculent ; les salariés y gagnent en qualité de vie et les employeurs en attractivité. Le second document met en revanche en garde contre une généralisation hâtive : dans les secteurs à activité continue, ce rythme imposerait des embauches ou des journées plus longues, et les petites structures manquent souvent de moyens pour s'adapter. Il ressort de ces documents que ce modèle, s'il est prometteur, ne saurait s'appliquer partout de la même manière.",
  checks:["A neutral title that names the topic and the tension","An opening sentence that sets out the debate","Both documents presented and compared (le premier … le second … en revanche)","Ideas reworded, not copied: « les arrêts maladie ont nettement diminué » → « les absences pour maladie reculent »","No « je », no opinion, no outside examples","A closing sentence that draws out what the documents show together (il ressort de …)","Connectors carry the logic: mais, tandis que, en revanche, s'il est …"]
 };
+
+/* Speaking prompts (Speaking tab). Timers are practice-length, shorter than the real exams. */
+const SPEAK_PROMPTS = {
+ B1:{prep:60, talk:120, items:[
+   "Parlez d'un voyage qui vous a marqué : où, quand, avec qui, et pourquoi il compte encore pour vous.",
+   "Préférez-vous vivre en ville ou à la campagne ? Expliquez pourquoi, avec des exemples.",
+   "Racontez une journée typique de votre vie, puis dites ce que vous aimeriez y changer."],
+  check:["An opinion phrase (à mon avis, je trouve que…)","Two reasons, each with an example","A moment told in the past (passé composé + imparfait)","Linking words: d'abord, ensuite, par contre, enfin","A short conclusion"]},
+ B2:{prep:120, talk:180, items:[
+   "« Faut-il interdire les téléphones portables à l'école ? » Présentez le problème, donnez votre avis et défendez-le.",
+   "« Le télétravail : progrès ou isolement ? » Prenez position et nuancez.",
+   "« Les influenceurs ont-ils trop de pouvoir ? » Présentez les arguments pour et contre, puis votre opinion."],
+  check:["Introduce the problem in your own words","Announce your plan (d'abord … ensuite …)","Both sides: certes … cependant / en revanche","Concrete examples","Your position, clearly stated","A conclusion that answers the question"]},
+ C1:{prep:180, talk:300, items:[
+   "Exposé : « La gratuité des transports publics est-elle une bonne politique ? » Formulez une problématique, annoncez un plan en deux ou trois parties, concluez.",
+   "Exposé : « Faut-il réguler l'intelligence artificielle ? » Problématique, arguments illustrés, conclusion ouverte.",
+   "Exposé : « Le tourisme de masse menace-t-il les villes qu'il fait vivre ? » Problématique, plan, nuances, conclusion."],
+  check:["A problématique: the question behind the topic","An announced plan with clear transitions","Precise vocabulary and nominalisations (la hausse, l'enjeu…)","Concession and nuance (il n'en demeure pas moins que…)","Examples that support each point","An open conclusion (dès lors, on peut se demander si…)"]},
+};
