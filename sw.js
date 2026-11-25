@@ -1,5 +1,5 @@
 // Offline support: keep the app shell cached; refresh it in the background when online.
-const CACHE = "ligne-b-v9";
+const CACHE = "ligne-b-v10";
 const SHELL = ["./", "./index.html", "./manifest.json", "./css/style.css", "./js/app.js",
   "./js/data/stations.js", "./js/data/words.js", "./js/data/drills.js", "./js/data/drills-more.js", "./js/data/english.js", "./js/data/writing.js",
   "./icons/icon-192.png", "./icons/icon-512.png"];
