@@ -1,6 +1,6 @@
 # Ligne B · Ligne C — French A2 → C2
 
-A free, offline-capable French course laid out like a métro line: 16 B stations, then 7 C stations.
+A free, offline-capable French course laid out like a métro line: 16 B stations, then 8 C stations, plus daily practice (mixed drills, flashcards, listening, speaking).
 Live site: https://furkanork.github.io/french-ligne-b/
 
 ## Where things live
@@ -11,10 +11,12 @@ Live site: https://furkanork.github.io/french-ligne-b/
 | `css/style.css` | All styling, including the phone layout (`@media (max-width:700px)`) |
 | `js/data/stations.js` | The station list: order, names, levels, colours |
 | `js/data/drills.js` | Drill questions per station. `o[0]` is always the right answer |
+| `js/data/drills-more.js` | Extra questions, including typed rewrite tasks (`type:"typed"`, accepted answers in `a`) |
 | `js/data/english.js` | Translations: station titles, example sentences, drill sentences |
 | `js/data/words.js` | Frequent words, topic vocabulary, idioms |
-| `js/data/writing.js` | Writing-checker tasks, connector lists, sample text |
-| `js/app.js` | All the logic: drills, navigation, conjugator, backup, writing checker |
+| `js/data/writing.js` | Writing tasks, connector lists, level-up rewrites, annotated model texts |
+| `js/data/reading.js` | Lecture texts and questions, DALF synthesis practice, speaking prompts |
+| `js/app.js` | All the logic: drills and typed answers, flashcards (spaced repetition), listening, speaking, navigation, conjugator, backup, writing tools |
 | `sw.js`, `manifest.json`, `icons/` | Install-as-app and offline support |
 | `tests/run.js` | Automated checks |
 
